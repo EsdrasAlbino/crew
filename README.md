@@ -42,7 +42,7 @@ pip install -r requirements.txt
 
 ## Instalando novas Dependências
 
-Sempre que instalar uma nova dependência, atualize o arquivo requirements.txt.
+Sempre que instalar uma nova dependência, atualize o arquivo `requirements.txt`.
 
 ```bash
 pip freeze > requirements.txt
@@ -55,7 +55,7 @@ Arquitetura de pastas do projeto
 ### entities
 
 Classes das entidades do jogo.
-Ex.: player, asteroid, bullet, throttle etc.
+Ex.: `Player`, `Asteroid`, `Bullet`, `Throttle` etc.
 
 ``` text
 entities/
