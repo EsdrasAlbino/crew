@@ -40,10 +40,12 @@ class RaceTrack():
         self.speed = min(self.speed, self.max_speed)
 
         # Update the colliders' position based on speed
+        actual_colliders = []
         for idx, collider in enumerate(self.visible_colliders):
             collider.y += self.speed
-            if not (0 <= collider.y <= self.screen.get_height()):
-                self.visible_colliders.pop(idx)
+            if 0 <= collider.y <= self.screen.get_height():
+                actual_colliders.append(collider)
+        self.visible_colliders = actual_colliders
 
     def get_colliderect(self):
         """Checks a collision between spaceship (Player) and
