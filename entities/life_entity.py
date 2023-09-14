@@ -1,4 +1,5 @@
-from assets.image_render import image_render
+from pygame import *
+from util.images_render import *
 
 IMAGES = image_render.IMAGES
 
