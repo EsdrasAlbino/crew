@@ -48,31 +48,37 @@ pista = pygame.Rect((pista_left, pista_top, pista_right - pista_left, pista_bott
 background = pygame.image.load("crew/assets/Fundo Espacial.jpg")
 background = pygame.transform.scale(background, (screen_width, screen_height))
 
-asteroide = pygame.image.load('crew/assets/Asteroide.png')
+asteroide = pygame.image.load('crew/assets/asteroid.png')
 asteroide_height = (pista_right - pista_left)/10
-asteroide_width = 16*asteroide_height//18
+asteroide_width = asteroide_height
 
 asteroide_left = pista_left - asteroide_width
 asteroide_top = 0
 asteroide = pygame.transform.scale(asteroide, (asteroide_width, asteroide_height))
 
-spacecraft = pygame.image.load('crew/assets/Spacecraft.png')
+spacecraft = pygame.image.load('crew/assets/nave completa.png')
 spacecraft_width = (pista_right - pista_left)/5
-spacecraft_height = 900*spacecraft_width//720
+spacecraft_height = 31*spacecraft_width//45
 spacecraft = pygame.transform.scale(spacecraft,(spacecraft_width, spacecraft_height))
 spacecraft_left = pista_left
 
 propulsor = pygame.image.load('crew/assets/propulsor.png')
 propulsor_height = pista_botton/ 10
-propulsor_width = 17*propulsor_height//45
+propulsor_width = 320*propulsor_height//580
 propulsor = pygame.transform.scale(propulsor,(propulsor_width, propulsor_height))
 propulsor_left = screen_width//2
 
 bullet = pygame.image.load('crew/assets/bullet.png')
-bullet_height = pista_botton/ 15
-bullet_width = 12*propulsor_height//36
+bullet_height = pista_botton/ 20
+bullet_width = 14*bullet_height//26
 bullet = pygame.transform.scale(bullet,(bullet_width, bullet_height))
 bullet_left = screen_width//2 - bullet_width*2
+
+comet = pygame.image.load('crew/assets/comet.png')
+comet_height = pista_botton//10
+comet_width = comet_height
+comet = pygame.transform.scale(comet,(comet_width, comet_height))
+comet_left = screen_width//2 - comet_width*3
 
 #Obs.: Canto superior esquerdo = (0,0)
 
@@ -85,7 +91,7 @@ while run:
     screen.blit(background, (0, 0))
 
     #Pista(Para ter noção de onde vai ser o jogo em si)
-    pygame.draw.rect(screen, (0, 255, 255), pista)
+    # pygame.draw.rect(screen, (0, 255, 255), pista)
 
     # #Asteroides
     while asteroide_top + asteroide_height < screen_height:
@@ -97,6 +103,7 @@ while run:
     screen.blit(spacecraft, (spacecraft_left,pista_botton - spacecraft_height))
     screen.blit(propulsor, (propulsor_left, propulsor_height))
     screen.blit(bullet, (bullet_left, bullet_height))
+    screen.blit(comet, (comet_left, comet_height))
 
     #Quando pressionar tecla
     key = pygame.key.get_pressed()
