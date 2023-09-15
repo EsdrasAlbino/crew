@@ -16,12 +16,11 @@ class Player(pygame.sprite.Sprite):
         self.velocity = velocity
         self.__width = PLAYER_WIDTH
         self.__height = PLAYER_HEIGHT
-        self.__pos_x = 0
-        self.__pos_y = 0
+        self.__position = (0, 0)
 
     def update(self):
-        self.rect.x = self.__pos_x
-        self.rect.y = self.__pos_y
+        self.rect.x = self.__position[0]
+        self.rect.y = self.__position[1]
         self.rect.width = self.__width
         self.rect.height = self.__height
 
@@ -29,24 +28,23 @@ class Player(pygame.sprite.Sprite):
         x_steps = steps[0]
         y_steps = steps[1]
 
-        future_x = self.__pos_x
-        future_y = self.__pos_y
+        future_x = self.__position[0]
+        future_y = self.__position[1]
 
         if x_steps is not None:
-            future_x = self.__pos_x + x_steps * self.velocity
+            future_x = self.__position[0] + x_steps * self.velocity
         if y_steps is not None:
-            future_y = self.__pos_y + y_steps * self.velocity
+            future_y = self.__position[1] + y_steps * self.velocity
 
         return (future_x, future_y)
 
     @property
     def position(self):
-        return (self.__pos_x, self.__pos_y)
+        return self.__position
 
     @position.setter
     def position(self, new_position: Tuple[float, float]):
-        self.__pos_x = new_position[0]
-        self.__pos_y = new_position[1]
+        self.__position = (new_position[0], new_position[1])
         self.update()
 
     @property
