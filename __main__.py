@@ -1,7 +1,6 @@
 import pygame
-import os #Modo 1: Tamanho da tela
-# import sys #Modo 3: 
-from pygame.locals import * #Modo 3:
+import os #Tamanho da tela
+from pygame.locals import * 
 
 
 #Modo 1 (Janela): 
@@ -13,29 +12,7 @@ pygame.init()
 #Modo 1 (janela):
 info = pygame.display.Info() #Tem que ser antes do .set_mode()
 screen_width,screen_height = info.current_w,info.current_h
-# window_width,window_height = screen_width,screen_height-45 #Para borda e titulo (-10,-50)
-# screen = pygame.display.set_mode((window_width,window_height))
 
-#Modo 2 (Tela cheia):
-# Tamanho fixo, até tamanho da tela
-screen = pygame.display.set_mode((screen_width, screen_height), pygame.FULLSCREEN)
-
-#Modo 3:
-#Maximizar e minimizar tela (Não fica proporcional)
-# screen = pygame.display.set_mode((1000, 500), RESIZABLE)
-
-#Proporção da pista pista 1:1 na tela 2:1 
-if screen_height*2 < screen_width:
-    pista_left = screen_width//2 - screen_height//2
-    pista_right = screen_width//2 - screen_height//2
-    pista_top = 0
-    pista_botton = screen_height
-else:
-    pista_left = screen_width//4
-    pista_right = 3*screen_width//4
-    pista_top = 0
-    pista_botton = screen_width//2
-    
 
 #Nome da Janela
 pygame.display.set_caption('Corrida Espacial')
@@ -43,47 +20,69 @@ pygame.display.set_caption('Corrida Espacial')
 #Retangulo (x, y, width, height)
 player = pygame.Rect((100,100,50,50))
 
-pista = pygame.Rect((pista_left, pista_top, pista_right - pista_left, pista_botton - pista_top))
 
-background = pygame.image.load("crew/assets/Fundo Espacial.jpg")
-background = pygame.transform.scale(background, (screen_width, screen_height))
+#Maximizar, minimizar e redimencionar janela
+screen = pygame.display.set_mode((screen_width/2, screen_height/2), RESIZABLE)
+fullscreen = False
 
-asteroide = pygame.image.load('crew/assets/asteroid.png')
-asteroide_height = (pista_right - pista_left)/10
-asteroide_width = asteroide_height
+def change_size_window(screen):
+    window_width, window_height = screen.get_size()
 
-asteroide_left = pista_left - asteroide_width
-asteroide_top = 0
-asteroide = pygame.transform.scale(asteroide, (asteroide_width, asteroide_height))
+    #Proporção da pista pista 1:1 na tela 2:1 
+    if window_height*2 < window_width:
+        pista_left = window_width//2 - window_height//2
+        pista_right = pista_left + window_height
+        pista_top = 0
+        pista_botton = window_height
+    else:
+        pista_left = window_width//4
+        pista_right = 3*window_width//4
+        pista_top = 0
+        pista_botton = window_width//2
+        
+    pista = pygame.Rect((pista_left, pista_top, pista_right - pista_left, pista_botton - pista_top))
 
-spacecraft = pygame.image.load('crew/assets/nave completa.png')
-spacecraft_width = (pista_right - pista_left)/5
-spacecraft_height = 31*spacecraft_width//45
-spacecraft = pygame.transform.scale(spacecraft,(spacecraft_width, spacecraft_height))
-spacecraft_left = pista_left
+    background = pygame.image.load("assets/Fundo Espacial.jpg")
+    background = pygame.transform.scale(background, (window_width, window_height))
 
-propulsor = pygame.image.load('crew/assets/propulsor.png')
-propulsor_height = pista_botton/ 10
-propulsor_width = 320*propulsor_height//580
-propulsor = pygame.transform.scale(propulsor,(propulsor_width, propulsor_height))
-propulsor_left = screen_width//2
+    asteroide = pygame.image.load('assets/asteroid.png')
+    asteroide_height = (pista_right - pista_left)/10
+    asteroide_width = asteroide_height
 
-bullet = pygame.image.load('crew/assets/bullet.png')
-bullet_height = pista_botton/ 20
-bullet_width = 14*bullet_height//26
-bullet = pygame.transform.scale(bullet,(bullet_width, bullet_height))
-bullet_left = screen_width//2 - bullet_width*2
+    asteroide_left = pista_left - asteroide_width
+    asteroide_top = 0
+    asteroide = pygame.transform.scale(asteroide, (asteroide_width, asteroide_height))
 
-comet = pygame.image.load('crew/assets/comet.png')
-comet_height = pista_botton//10
-comet_width = comet_height
-comet = pygame.transform.scale(comet,(comet_width, comet_height))
-comet_left = screen_width//2 - comet_width*3
+    spacecraft = pygame.image.load('assets/nave completa.png')
+    spacecraft_width = (pista_right - pista_left)/5
+    spacecraft_height = 31*spacecraft_width//45
+    spacecraft = pygame.transform.scale(spacecraft,(spacecraft_width, spacecraft_height))
+    spacecraft_left = pista_left
+
+    propulsor = pygame.image.load('assets/propulsor.png')
+    propulsor_height = pista_botton/ 10
+    propulsor_width = 320*propulsor_height//580
+    propulsor = pygame.transform.scale(propulsor,(propulsor_width, propulsor_height))
+    propulsor_left = window_width//2
+
+    bullet = pygame.image.load('assets/bullet.png')
+    bullet_height = pista_botton/ 20
+    bullet_width = 14*bullet_height//26
+    bullet = pygame.transform.scale(bullet,(bullet_width, bullet_height))
+    bullet_left = window_width//2 - bullet_width*2
+
+    comet = pygame.image.load('assets/comet.png')
+    comet_height = pista_botton//10
+    comet_width = comet_height
+    comet = pygame.transform.scale(comet,(comet_width, comet_height))
+    comet_left = window_width//2 - comet_width*3
+    return window_width, window_height, pista_right, pista_left, pista_botton, pista_top, background, asteroide, asteroide_width, asteroide_height, asteroide_left, asteroide_top, spacecraft, spacecraft_width, spacecraft_height, spacecraft_left, propulsor, propulsor_height, propulsor_width, propulsor_left, bullet, bullet_height, bullet_width, bullet_left, comet, comet_height, comet_width, comet_left
 
 #Obs.: Canto superior esquerdo = (0,0)
 
 run = True
 while run:
+    window_width, window_height, pista_right, pista_left, pista_botton, pista_top, background, asteroide, asteroide_width, asteroide_height, asteroide_left, asteroide_top, spacecraft, spacecraft_width, spacecraft_height, spacecraft_left, propulsor, propulsor_height, propulsor_width, propulsor_left, bullet, bullet_height, bullet_width, bullet_left, comet, comet_height, comet_width, comet_left = change_size_window(screen)
 
     #Recarregar papel de parede, não deixabdo rastro
     #Completar((cor))
@@ -117,9 +116,20 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
+    
     #Quando apertar no ESC fechar
     if key[pygame.K_ESCAPE] == True:
         run = False
+
+    if key[pygame.K_f] == True:
+        if not fullscreen:
+            screen = pygame.display.set_mode((screen_width, screen_height), pygame.FULLSCREEN)
+            fullscreen = True
+        else:
+            screen = pygame.display.set_mode((1000, 500), RESIZABLE)
+            fullscreen = False
+
+
     #Atualizar
     pygame.display.update()
 
