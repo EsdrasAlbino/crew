@@ -61,3 +61,6 @@ class Entity(ABC, pygame.sprite.Sprite):
     def height(self, new_height: float):
         self.__height = new_height
         self.update()
+
+    def check_collision(self, other):
+        return self.rect.colliderect(other.rect)
