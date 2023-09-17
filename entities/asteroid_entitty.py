@@ -2,7 +2,7 @@ import pygame
 from pygame import *
 from pygame.sprite import _Group
 
-class Throttle(pygame.sprite.Sprite):
+class  asteorid(pygame.sprite.Sprite):
     def __init__(self, position_x, position_y):
         self.position_x = position_x
         self.position_y = position_y
@@ -14,7 +14,7 @@ class Throttle(pygame.sprite.Sprite):
     @position_x.setter
     def position_x(self, position_x):
         self.position_x = position_x
-
+    
     @property
     def position_y(self):
         return self.position_y
@@ -22,5 +22,3 @@ class Throttle(pygame.sprite.Sprite):
     @position_y.setter
     def position_y(self, position_y):
         self.position_y = position_y
-    
-    
