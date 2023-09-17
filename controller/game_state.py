@@ -2,7 +2,8 @@ from pygame import *
 import sys
 from random import choice
 from entities.text_entity import Text
-from entities.player_entity import Player
+# from entities.player_entity import Player
+from entities.bullet_entity import Bullet
 # from entities.life_entity import Life
 from paths import *
 from util.images_render import *
@@ -31,23 +32,6 @@ class Life(sprite.Sprite):
         game.screen.blit(self.image, self.rect)
 
 
-class Bullet(sprite.Sprite):
-    def __init__(self, xpos, ypos, direction, speed, filename, side):
-        sprite.Sprite.__init__(self)
-        self.image = IMAGES[filename]
-        self.rect = self.image.get_rect(topleft=(xpos, ypos))
-        self.speed = speed
-        self.direction = direction
-        self.side = side
-        self.filename = filename
-
-    def update(self, keys, *args):
-        game.screen.blit(self.image, self.rect)
-        self.rect.y += self.speed * self.direction
-        if self.rect.y < 15 or self.rect.y > 600:
-            self.kill()
-
-
 class Crew(object):
     def __init__(self):
         mixer.pre_init(44100, -16, 1, 4096)
@@ -59,7 +43,6 @@ class Crew(object):
         self.startGame = False
         self.mainScreen = True
         self.gameOver = False
-        # Here can counter for enemy starting position (increased each new round)
 
         self.titleText = Text(FONT, 50, 'CREW', WHITE, 350, 155)
         self.titleText2 = Text(FONT, 25, 'Press any key to continue', WHITE,
@@ -75,14 +58,14 @@ class Crew(object):
         self.livesGroup = sprite.Group(self.life1, self.life2, self.life3)
 
     def reset(self, score):
-        self.player = Player()
-        self.playerGroup = sprite.Group(self.player)
-        self.explosionsGroup = sprite.Group()
+        # self.player = Player()
+        # self.playerGroup = sprite.Group(self.player)
         self.bullets = sprite.Group()
 
         # self.make_enemies()
-        self.allSprites = sprite.Group(self.player,
-                                       self.livesGroup)
+
+        # Call all sprits -> To call more sprits, add here
+        self.allSprites = sprite.Group(self.livesGroup)
         self.keys = key.get_pressed()
 
         self.timer = time.get_ticks()
@@ -137,13 +120,13 @@ class Crew(object):
         self.score += score
         return score
 
-    def create_new_player(self, createPlayer, currentTime):
-        if createPlayer and (currentTime - self.playerTimer > 900):
-            self.player = Player()
-            self.allSprites.add(self.player)
-            self.playerGroup.add(self.player)
-            self.makeNewPlayer = False
-            self.playerAlive = True
+#    def create_new_player(self, createPlayer, currentTime):
+#        if createPlayer and (currentTime - self.playerTimer > 900):
+#            self.player = Player()
+#            self.allSprites.add(self.player)
+#            self.playerGroup.add(self.player)
+#            self.makeNewPlayer = False
+#            self.playerAlive = True
 
     def create_game_over(self, currentTime):
         self.screen.blit(self.background, (0, 0))
@@ -189,9 +172,8 @@ class Crew(object):
                 self.check_input()
                 # self.enemies.update(currentTime)
                 self.allSprites.update(self.keys, currentTime)
-                self.explosionsGroup.update(currentTime)
                 # self.check_collisions()
-                self.create_new_player(self.makeNewPlayer, currentTime)
+                # self.create_new_player(self.makeNewPlayer, currentTime)
                 # self.make_enemies_shoot()
 
             elif self.gameOver:
