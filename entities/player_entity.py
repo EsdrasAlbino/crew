@@ -1,6 +1,13 @@
+from typing import Tuple
 import pygame
 
+from entities.entity import Entity
 
-class Player(pygame.sprite.Sprite):
-    def __init__():
-        pass
+PLAYER_WIDTH = 50
+PLAYER_HEIGHT = 50
+
+
+class Player(Entity):
+    def __init__(self, velocity):
+        pygame.sprite.Sprite.__init__(self)
+        super().__init__(velocity, PLAYER_WIDTH, PLAYER_HEIGHT, (0, 0))
