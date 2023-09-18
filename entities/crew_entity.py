@@ -6,7 +6,6 @@ class Crew(object):
     def __init__(self):
         self.screen = None
         self.clock = None
-        pass
 
     def init(self, screen_size=(800, 600)):
         pygame.init()
