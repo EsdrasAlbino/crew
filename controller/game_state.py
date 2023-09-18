@@ -2,11 +2,8 @@ import pygame
 import sys
 from random import choice
 from entities.text_entity import Text
-# from entities.player_entity import Player
 from entities.bullet_entity import Bullet
-# from entities.life_entity import Life
 from paths import FONT_PATH, IMAGE_PATH
-# from util.images_render import *
 from util.colors import GREEN, WHITE
 
 
