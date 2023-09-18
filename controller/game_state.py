@@ -1,45 +1,43 @@
-from pygame import *
+import pygame
 import sys
 from random import choice
 from entities.text_entity import Text
 # from entities.player_entity import Player
 from entities.bullet_entity import Bullet
 # from entities.life_entity import Life
-from paths import *
-from util.images_render import *
+from paths import FONT_PATH, IMAGE_PATH
+# from util.images_render import *
+from util.colors import GREEN, WHITE
 
 
-# Colors (R, G, B)
-WHITE = (255, 255, 255)
-GREEN = (78, 255, 87)
-YELLOW = (241, 255, 0)
-BLUE = (80, 255, 239)
-PURPLE = (203, 0, 255)
-RED = (237, 28, 36)
-
-SCREEN = display.set_mode((800, 600))
+SCREEN = pygame.display.set_mode((800, 600))
 FONT = FONT_PATH + 'space.ttf'
+IMG_NAMES = ['player',
+             'laser', ]
+
+IMAGES = {name: pygame.image.load(IMAGE_PATH + '{}.png'.format(name)).convert_alpha()
+          for name in IMG_NAMES}
 
 
-class Life(sprite.Sprite):
+class Life(pygame.sprite.Sprite):
     def __init__(self, xpos, ypos):
-        sprite.Sprite.__init__(self)
+        pygame.sprite.Sprite.__init__(self)
         self.image = IMAGES['player']
-        self.image = transform.scale(self.image, (23, 23))
+        self.image = pygame.transform.scale(self.image, (23, 23))
         self.rect = self.image.get_rect(topleft=(xpos, ypos))
 
-    def update(self, *args):
-        game.screen.blit(self.image, self.rect)
+#    def update(self, *args):
+#        pygame.game.screen.blit(self.image, self.rect)
 
 
 class Crew(object):
     def __init__(self):
-        mixer.pre_init(44100, -16, 1, 4096)
-        init()
-        self.clock = time.Clock()
-        self.caption = display.set_caption('CREW')
+        pygame.init()
+        self.clock = pygame.time.Clock()
+        self.caption = pygame.display.set_caption('CREW')
         self.screen = SCREEN
-        self.background = image.load(IMAGE_PATH + 'background.jpg').convert()
+        self.background = pygame.image.load(
+            IMAGE_PATH + 'background.jpg').convert()
         self.startGame = False
         self.mainScreen = True
         self.gameOver = False
@@ -55,22 +53,23 @@ class Crew(object):
         self.life1 = Life(715, 3)
         self.life2 = Life(742, 3)
         self.life3 = Life(769, 3)
-        self.livesGroup = sprite.Group(self.life1, self.life2, self.life3)
+        self.livesGroup = pygame.sprite.Group(
+            self.life1, self.life2, self.life3)
 
     def reset(self, score):
         # self.player = Player()
         # self.playerGroup = sprite.Group(self.player)
-        self.bullets = sprite.Group()
+        self.bullets = pygame.sprite.Group()
 
         # self.make_enemies()
 
         # Call all sprits -> To call more sprits, add here
-        self.allSprites = sprite.Group(self.livesGroup)
-        self.keys = key.get_pressed()
+        self.allSprites = pygame.sprite.Group(self.livesGroup)
+        self.keys = pygame.key.get_pressed()
 
-        self.timer = time.get_ticks()
-        self.noteTimer = time.get_ticks()
-        self.playerTimer = time.get_ticks()
+        self.timer = pygame.time.get_ticks()
+        self.noteTimer = pygame.time.get_ticks()
+        self.playerTimer = pygame.time.get_ticks()
         self.score = score
         self.makeNewPlayer = False
         self.playerAlive = True
@@ -78,15 +77,15 @@ class Crew(object):
     @staticmethod
     def should_exit(evt):
         # type: (pygame.event.EventType) -> bool
-        return evt.type == QUIT or (evt.type == KEYUP and evt.key == K_ESCAPE)
+        return evt.type == pygame.QUIT or (evt.type == pygame.KEYUP and evt.key == pygame.K_ESCAPE)
 
     def check_input(self):
-        self.keys = key.get_pressed()
-        for e in event.get():
+        self.keys = pygame.key.get_pressed()
+        for e in pygame.event.get():
             if self.should_exit(e):
                 sys.exit()
-            if e.type == KEYDOWN:
-                if e.key == K_SPACE:
+            if e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_SPACE:
                     if len(self.bullets) == 0 and self.playerAlive:
                         if self.score < 1000:
                             bullet = Bullet(self.player.rect.x + 23,
@@ -142,7 +141,7 @@ class Crew(object):
         elif passed > 3000:
             self.mainScreen = True
 
-        for e in event.get():
+        for e in pygame.event.get():
             if self.should_exit(e):
                 sys.exit()
 
@@ -152,17 +151,17 @@ class Crew(object):
                 self.screen.blit(self.background, (0, 0))
                 self.titleText.draw(self.screen)
                 self.titleText2.draw(self.screen)
-                for e in event.get():
+                for e in pygame.event.get():
                     if self.should_exit(e):
                         sys.exit()
-                    if e.type == KEYUP:
+                    if e.type == pygame.KEYUP:
                         self.livesGroup.add(self.life1, self.life2, self.life3)
                         self.reset(0)
                         self.startGame = True
                         self.mainScreen = False
 
             elif self.startGame:
-                currentTime = time.get_ticks()
+                currentTime = pygame.time.get_ticks()
                 self.screen.blit(self.background, (0, 0))
                 self.scoreText2 = Text(FONT, 20, str(self.score), GREEN,
                                        85, 5)
@@ -177,9 +176,9 @@ class Crew(object):
                 # self.make_enemies_shoot()
 
             elif self.gameOver:
-                currentTime = time.get_ticks()
+                currentTime = pygame.time.get_ticks()
                 # Reset starting position
                 self.create_game_over(currentTime)
 
-            display.update()
+            pygame.display.update()
             self.clock.tick(60)

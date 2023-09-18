@@ -1,3 +1,7 @@
+from pygame import *
+from util.images_render import *
+
+
 class Bullet(sprite.Sprite):
     def __init__(self, xpos, ypos, direction, speed, filename, side):
         sprite.Sprite.__init__(self)
