@@ -9,7 +9,8 @@ class RaceTrack():
         self.max_speed = max_speed
         self.friction = friction
         self.visible_colliders = []  # Storing colliders as Rect objects
-        self.speed = 2  # Initial speed
+        self.speed = INITIAL_SPEED # Initial speed
+
         self.screen = screen
 
     def get_visible_colliders(self):
