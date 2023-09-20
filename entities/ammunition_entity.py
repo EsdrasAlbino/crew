@@ -1,24 +1,20 @@
 import pygame
-from pygame import *
-from pygame.sprite import _Group
+from pygame.locals import *
+from pygame.sprite import Group
 
-class Ammunition(pygame.sprite.Sprite):
-    def __init__(self, position_x, position_y):
-        self.postion_x = position_x
-        self.position_y = position_y
+class Bullets(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((5, 10))
+        self.image.fill((150, 200, 255))
+        self.rect = self.image.get_rect()
+        self.rect.center = [x, y]
 
-    @property
-    def position_x(self):
-        return self.position_x
-    
-    @position_x.setter
-    def position_x(self, position_x):
-        self.position_x = position_x
+    def update(self):
+        #set movement speed
+        speed = 5
 
-    @property
-    def position_y(self):
-        return self.position_y
-    
-    @position_y.setter
-    def position_y(self, position_y):
-        self.position_y = position_y
+        self.rect.y -= speed
+
+        if self.rect.bottom < 0:
+            self.kill()   
