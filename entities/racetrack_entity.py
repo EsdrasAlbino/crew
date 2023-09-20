@@ -4,7 +4,8 @@ import pygame
 class RaceTrack():
     def __init__(self, acceleration, max_speed, friction, player, screen):
 
-        self.accelaration = accelaration
+        self.acceleration = acceleration
+
         self.spaceship = spaceship
         self.max_speed = max_speed
         self.friction = friction
