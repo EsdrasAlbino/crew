@@ -50,7 +50,8 @@ class RaceTrack():
                 actual_colliders.append(collider)
         self.visible_colliders = actual_colliders
 
-    def get_colliderect(self):
+    def get_collision_rect(self):
+
         """Checks a collision between spaceship (Player) and
         given rect in visible_colliders (pygame.Rect).
         Return the rect if a collision occured. Otherwise - None."""
