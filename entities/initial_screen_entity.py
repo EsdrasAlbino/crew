@@ -27,12 +27,16 @@ class StartScreen(object):
         pygame.display.flip()
     
     def run(self,screen, screen_size, event):
+        pygame.mouse.set_cursor(*pygame.cursors.arrow)
         still_showing = True
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if self.play_button_rect.collidepoint(pygame.mouse.get_pos()):
+        if self.play_button_rect.collidepoint(pygame.mouse.get_pos()):
+            pygame.mouse.set_cursor(*pygame.cursors.diamond)
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 still_showing = False
                 print("Start the game!")
-            elif self.credits_button_rect.collidepoint(pygame.mouse.get_pos()):
+        elif self.credits_button_rect.collidepoint(pygame.mouse.get_pos()):
+            pygame.mouse.set_cursor(*pygame.cursors.diamond)
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 still_showing = False
                 print("Show credits!")
         if still_showing:
