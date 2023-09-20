@@ -2,8 +2,6 @@ import pygame
 from pygame.locals import *
 from pygame.sprite import Group
 import random
-#from entities.throttle_entity import Throttle
-#import entities.throttle_entity
 
 
 clock = pygame.time.Clock()
