@@ -26,8 +26,9 @@ def draw_bg():
 class Spaceship(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((50, 50))
-        self.image.fill((255, 0, 0))
+        #self.image = pygame.Surface((50, 50))
+        #self.image.fill((255, 0, 0))
+        self.image = pygame.image.load('assets/Nave completa.png')
         self.rect = self.image.get_rect()
         self.rect.center = [x, y]
         self.last_shot = pygame.time.get_ticks() #Verify when the bullet was created
@@ -47,7 +48,7 @@ class Spaceship(pygame.sprite.Sprite):
 
         time_now = pygame.time.get_ticks()
 
-        if key[pygame.K_SPACE] and time_now - self.last_shot > self.cooldown:
+        if key[pygame.K_SPACE] and time_now - self.last_shot > self.cooldown and self.alive():
             bullet = Bullets(self.rect.centerx, self.rect.top)
             bullet_group.add(bullet)
             self.last_shot = time_now
@@ -79,8 +80,9 @@ class Bullets(pygame.sprite.Sprite):
 class Asteroid(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((50, 50))
-        self.image.fill((150, 200, 0))
+        #self.image = pygame.Surface((50, 50))
+        #self.image.fill((150, 200, 0))
+        self.image = pygame.image.load('assets/comet-3.png')
         self.rect = self.image.get_rect()
         self.rect.center = [x, y]
 
@@ -93,7 +95,7 @@ class Asteroid(pygame.sprite.Sprite):
         if self.rect.top > screen_height:
             self.kill()
         
-        if pygame.sprite.spritecollide(self, spaceship_group, False):
+        if pygame.sprite.spritecollide(self, spaceship_group, True):
             self.kill()
         if pygame.sprite.spritecollide(self, bullet_group, True):
             self.kill()
@@ -101,8 +103,9 @@ class Asteroid(pygame.sprite.Sprite):
 class Throttle(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((25, 50))
-        self.image.fill((150, 255, 250))
+        #self.image = pygame.Surface((25, 50))
+        #self.image.fill((150, 255, 250))
+        self.image = pygame.image.load('assets/Propulsor-2.png')
         self.rect = self.image.get_rect()
         self.rect.center = [x, y]
 
