@@ -1,6 +1,4 @@
 import pygame
-from pygame.locals import *
-from pygame.sprite import Group
 
 class Bullets(pygame.sprite.Sprite):
     def __init__(self, x, y):
