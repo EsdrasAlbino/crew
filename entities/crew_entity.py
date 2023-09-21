@@ -1,6 +1,7 @@
 import pygame
-from util.change_window_size_util import change_size_window
+from util.change_window_size_util import change_window_size
 
+GAME_TITLE = 'Crew'
 
 class Crew(object):
     def __init__(self):
@@ -11,146 +12,103 @@ class Crew(object):
         pygame.init()
 
         info = pygame.display.Info()  # Tem que ser antes do .set_mode()
-        self.screen_width, self.screen_height = info.current_w, info.current_h
+        self.screen_dimensions = (info.current_w, info.current_h)
 
         self.screen = pygame.display.set_mode(
-            (self.screen_width / 2, self.screen_height / 2), pygame.RESIZABLE
+            (self.screen_dimensions[0] / 2, self.screen_dimensions[1] / 2), pygame.RESIZABLE
         )
-        self.window_width, self.window_height = self.screen.get_size()
-        self.fullscreen = False
+        self.window_dimensions = self.screen.get_size()
+        is_fullscreen = False
 
         self.clock = pygame.time.Clock()
 
-        pygame.display.set_caption("Crew")
+        pygame.display.set_caption(GAME_TITLE)
 
-        if self.window_height * 2 < self.window_width:
-            track_left = self.window_width // 2 - self.window_height // 2
-            track_right = track_left + self.window_height
-            track_top = 0
-            track_botton = self.window_height
+        if self.window_dimensions[1] * 2 < self.window_dimensions[0]:
+            track_left_coord = self.window_dimensions[0] // 2 - self.window_dimensions[1] // 2
+            track_right_coord = track_left_coord + self.window_dimensions[1]
+            track_bottom_coord = self.window_dimensions[1]
         else:
-            track_left = self.window_width // 4
-            track_right = 3 * self.window_width // 4
-            track_top = 0
-            track_botton = self.window_width // 2
+            track_left_coord = self.window_dimensions[0] // 4
+            track_right_coord = 3 * self.window_dimensions[0] // 4
+            track_bottom_coord = self.window_dimensions[0] // 2
+        track_coord = (track_left_coord, 0, track_right_coord, track_bottom_coord)
+        player_left_coord = (track_right_coord - track_left_coord)//2
+        player_top_coord = track_bottom_coord - (track_coord[2] - track_coord[0]) / 5
+        propellant_left_coord = 0
+        propellant_top_coord = 0
+        bullet_left_coord = 0
+        bullet_top_coord = 0
+        comet_left_coord = 0
+        comet_top_coord = 0
 
-        track = pygame.Rect(
-            (track_left, track_top, track_right - track_left, track_botton - track_top)
-        )
-
-        background = pygame.image.load("assets/Fundo Espacial.jpg")
-        background = pygame.transform.scale(
-            background, (self.window_width, self.window_height)
-        )
-
-        asteroid = pygame.image.load("assets/asteroid.png")
-        asteroid_height = (track_right - track_left) / 10
-        asteroid_width = asteroid_height
-
-        asteroid_left = track_left - asteroid_width
-        asteroid_top = 0
-        asteroid = pygame.transform.scale(asteroid, (asteroid_width, asteroid_height))
-
-        spacecraft = pygame.image.load("assets/nave completa.png")
-        spacecraft_width = (track_right - track_left) / 5
-        spacecraft_height = 31 * spacecraft_width // 45
-        spacecraft = pygame.transform.scale(
-            spacecraft, (spacecraft_width, spacecraft_height)
-        )
-        spacecraft_left = track_left
-
-        propellant = pygame.image.load("assets/propulsor.png")
-        propellant_height = track_botton / 10
-        propellant_width = 320 * propellant_height // 580
-        propellant = pygame.transform.scale(
-            propellant, (propellant_width, propellant_height)
-        )
-        propellant_left = self.window_width // 2
-
-        bullet = pygame.image.load("assets/bullet.png")
-        bullet_height = track_botton / 20
-        bullet_width = 14 * bullet_height // 26
-        bullet = pygame.transform.scale(bullet, (bullet_width, bullet_height))
-        bullet_left = self.window_width // 2 - bullet_width * 2
-
-        comet = pygame.image.load("assets/comet.png")
-        comet_height = track_botton // 10
-        comet_width = comet_height
-        comet = pygame.transform.scale(comet, (comet_width, comet_height))
-        comet = pygame.transform.rotozoom(comet, 45, 1)
-        comet_left = self.window_width // 2 - comet_width * 3
-
-        running = True
-        while running:
-            (
-                self.window_width,
-                self.window_height,
-                track_right,
-                track_left,
-                track_botton,
-                track_top,
+        is_running = True
+        while is_running:
+            (   track_coord,
                 background,
                 asteroid,
-                asteroid_width,
-                asteroid_height,
-                asteroid_left,
-                spacecraft,
-                spacecraft_width,
-                spacecraft_height,
-                spacecraft_left,
+                asteroid_dimensions,
+                asteroid_left_coord,
+                player,
+                player_dimensions,
+                player_left_coord,
+                player_top_coord,
                 propellant,
-                propellant_height,
-                propellant_width,
-                propellant_left,
+                propellant_dimensions,
+                propellant_left_coord,
+                propellant_top_coord,
                 bullet,
-                bullet_height,
-                bullet_width,
-                bullet_left,
+                bullet_dimensions,
+                bullet_left_coord,
+                bullet_top_coord,
                 comet,
-                comet_height,
-                comet_width,
-                comet_left,
-                track,
-            ) = change_size_window(
+                comet_dimensions,
+                comet_left_coord,
+                comet_top_coord
+            ) = change_window_size(
                 self.screen,
-                self.window_width,
-                spacecraft_left,
-                propellant_left,
-                bullet_left,
-                comet_left,
+                track_coord,
+                player_left_coord,
+                player_top_coord,
+                propellant_left_coord,
+                propellant_top_coord,
+                bullet_left_coord,
+                bullet_top_coord,
+                comet_left_coord,
+                comet_top_coord
             )
 
             self.screen.blit(background, (0, 0))
 
-            while asteroid_top < self.window_height:
-                self.screen.blit(asteroid, (asteroid_left, asteroid_top))
+            asteroid_top_coord = 0
+            while asteroid_top_coord < self.window_dimensions[1]:
+                self.screen.blit(asteroid, (asteroid_left_coord, asteroid_top_coord))
                 self.screen.blit(
                     asteroid,
                     (
-                        asteroid_left + track_right - track_left + asteroid_height,
-                        asteroid_top,
+                        asteroid_left_coord + track_coord[2] - track_coord[0] + asteroid_dimensions[1],
+                        asteroid_top_coord,
                     ),
                 )
-                asteroid_top = asteroid_top + asteroid_height
-            asteroid_top = 0
+                asteroid_top_coord = asteroid_top_coord + asteroid_dimensions[1]
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    running = False
+                    is_running = False
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_f:
-                    if not self.fullscreen:
+                    if not is_fullscreen:
                         self.screen = pygame.display.set_mode(
-                            (self.screen_width, self.screen_height), pygame.FULLSCREEN
+                            (self.screen_dimensions[0], self.screen_dimensions[1]), pygame.FULLSCREEN
                         )
-                        self.fullscreen = True
+                        is_fullscreen = True
                     else:
                         self.screen = pygame.display.set_mode(
-                            (self.screen_width // 2, self.screen_height // 2),
+                            (self.screen_dimensions[0] // 2, self.screen_dimensions[1] // 2),
                             pygame.RESIZABLE,
                         )
-                        self.fullscreen = False
+                        is_fullscreen = False
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    running = False
+                    is_running = False
 
             pygame.display.update()
         pygame.quit()

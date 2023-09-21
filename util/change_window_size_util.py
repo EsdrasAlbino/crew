@@ -1,58 +1,53 @@
 import pygame
 
-def change_size_window(screen, window_width, spacecraft_left, propellant_left, bullet_left, comet_left):
-    window_width_before = window_width
-    
-    window_width, window_height = screen.get_size()
+def change_window_size(screen, track_coord, player_left_coord, player_top_coord, propellant_left_coord, propellant_top_coord, bullet_left_coord, bullet_top_coord, comet_left_coord, comet_top_coord):
+    window_dimensions = screen.get_size()
+    track_coord_before = track_coord
 
-    proportion = window_width/window_width_before
-
-    #Proporção da pista pista 1:1 na tela 2:1 
-    if window_height*2 < window_width:
-        track_left = window_width//2 - window_height//2
-        track_right = track_left + window_height
-        track_top = 0
-        track_botton = window_height
+    if window_dimensions[1] * 2 < window_dimensions[0]:
+        track_left_coord = window_dimensions[0] // 2 - window_dimensions[1] // 2
+        track_right_coord = track_left_coord + window_dimensions[1]
+        track_bottom_coord = window_dimensions[1]
     else:
-        track_left = window_width//4
-        track_right = 3*window_width//4
-        track_top = 0
-        track_botton = window_width//2
-        
-    track = pygame.Rect((track_left, track_top, track_right - track_left, track_botton - track_top))
+        track_left_coord = window_dimensions[0] // 4
+        track_right_coord = 3 * window_dimensions[0] // 4
+        track_bottom_coord = window_dimensions[0] // 2
+    track_coord = (track_left_coord, 0, track_right_coord, track_bottom_coord)
+    displacement_track = track_coord[0] - track_coord_before[0]
+    proportion_height = (track_bottom_coord)/(track_coord_before[3])
 
-    background = pygame.image.load('assets/Fundo Espacial.jpg')
-    background = pygame.transform.scale(background, (window_width, window_height))
 
-    asteroid = pygame.image.load('assets/asteroid.png')
-    asteroid_height = (track_right - track_left)/10
-    asteroid_width = asteroid_height
-    asteroid_left = track_left - asteroid_width
-    asteroid = pygame.transform.scale(asteroid, (asteroid_width, asteroid_height))
+    background = pygame.image.load("assets/background.jpg")
+    background = pygame.transform.scale(background, window_dimensions)
 
-    spacecraft = pygame.image.load('assets/nave completa.png')
-    spacecraft_width = (track_right - track_left)/5
-    spacecraft_height = 31*spacecraft_width//45
-    spacecraft = pygame.transform.scale(spacecraft,(spacecraft_width, spacecraft_height))
-    spacecraft_left = spacecraft_left*proportion
+    asteroid = pygame.image.load("assets/asteroid.png")
+    asteroid_dimensions = ((track_coord[2] - track_coord[0]) / 10, (track_coord[2] - track_coord[0]) / 10)
+    asteroid_left_coord = track_coord[0] - asteroid_dimensions[0]
+    asteroid = pygame.transform.scale(asteroid, asteroid_dimensions)
 
-    propellant = pygame.image.load('assets/propulsor.png')
-    propellant_height = track_botton/ 10
-    propellant_width = 320*propellant_height//580
-    propellant = pygame.transform.scale(propellant,(propellant_width, propellant_height))
-    propellant_left = propellant_left*proportion
+    player = pygame.image.load("assets/player.png")
+    player_dimensions = ((track_coord[2] - track_coord[0]) / 5, 31 * ((track_coord[2] - track_coord[0]) / 5) // 45)
+    player = pygame.transform.scale(player, player_dimensions)
+    player_left_coord = player_left_coord + displacement_track
+    player_top_coord = player_top_coord* proportion_height
 
-    bullet = pygame.image.load('assets/bullet.png')
-    bullet_height = track_botton/ 20
-    bullet_width = 14*bullet_height//26
-    bullet = pygame.transform.scale(bullet,(bullet_width, bullet_height))
-    bullet_left = bullet_left*proportion
+    propellant = pygame.image.load("assets/propellant.png")
+    propellant_dimensions = (320 * (track_coord[3] / 10) // 580, track_coord[3] / 10)
+    propellant = pygame.transform.scale(propellant, propellant_dimensions)
+    propellant_left_coord = propellant_left_coord +displacement_track
+    propellant_top_coord = propellant_top_coord * proportion_height
 
-    comet = pygame.image.load('assets/comet.png')
-    comet_height = track_botton//10
-    comet_width = comet_height
-    comet = pygame.transform.scale(comet,(comet_width, comet_height))
+    bullet = pygame.image.load("assets/bullet.png")
+    bullet_dimensions = (14 * (track_coord[3] / 20) // 26, track_coord[3] / 20)
+    bullet = pygame.transform.scale(bullet, bullet_dimensions)
+    bullet_left_coord = bullet_left_coord + displacement_track
+    bullet_top_coord = bullet_top_coord * proportion_height
+
+    comet = pygame.image.load("assets/comet.png")
+    comet_dimensions = (track_coord[3] // 10, (track_coord[3] // 10))
+    comet = pygame.transform.scale(comet, comet_dimensions)
     comet = pygame.transform.rotozoom(comet, 45, 1)
-    comet_left = comet_left*proportion
+    comet_left_coord = comet_left_coord + displacement_track
+    comet_top_coord = comet_top_coord * proportion_height
 
-    return window_width, window_height, track_right, track_left, track_botton, track_top, background, asteroid, asteroid_width, asteroid_height, asteroid_left, spacecraft, spacecraft_width, spacecraft_height, spacecraft_left, propellant, propellant_height, propellant_width, propellant_left, bullet, bullet_height, bullet_width, bullet_left, comet, comet_height, comet_width, comet_left, track
+    return track_coord, background, asteroid, asteroid_dimensions, asteroid_left_coord, player, player_dimensions, player_left_coord, player_top_coord, propellant, propellant_dimensions, propellant_left_coord, propellant_top_coord, bullet, bullet_dimensions, bullet_left_coord, bullet_top_coord, comet, comet_dimensions, comet_left_coord, comet_top_coord
