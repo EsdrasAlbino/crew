@@ -75,7 +75,7 @@ class Crew(object):
 
         is_running = True
         while is_running:
-            (
+            (   self.window_dimensions,
                 track_coords,
                 background,
                 asteroid,
@@ -115,6 +115,7 @@ class Crew(object):
             )  # left, top, right, bottom
 
             self.screen.blit(background, (0, 0))
+            self.screen.blit(player, (player_coords[0], player_coords[1]))
 
             asteroid_coords = update_coords(asteroid_coords, (None, 0, None, None))
             while asteroid_coords[1] < self.window_dimensions[1]:
@@ -133,6 +134,7 @@ class Crew(object):
                     asteroid_coords,
                     (None, asteroid_coords[1] + asteroid_dimensions[1], None, None),
                 )
+                
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

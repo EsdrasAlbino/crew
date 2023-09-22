@@ -82,6 +82,7 @@ def change_window_size(
     )  # left, top, right, bottom
 
     return (
+        window_dimensions,
         track_coords,
         background,
         asteroid,
