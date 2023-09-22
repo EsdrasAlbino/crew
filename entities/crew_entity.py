@@ -11,11 +11,14 @@ from entities.throttle_entity import Throttle
 from entities.player_entity import Spaceship
 
 GAME_TITLE = "Crew"
+from entities.initial_screen_entity import StartScreen
 
 class Crew(object):
     def __init__(self):
         self.screen = None
+        self.screen_size = None
         self.clock = None
+        self.current_screen = None
 
     @property
     def spaceship_group(self):
@@ -82,6 +85,8 @@ class Crew(object):
         )
         self.window_dimensions = self.screen.get_size()
         is_fullscreen = False
+
+        self.current_screen = StartScreen(self.window_dimensions)
 
         pygame.display.set_caption(GAME_TITLE)
 
@@ -232,6 +237,4 @@ class Crew(object):
                         is_fullscreen = False
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     is_running = False
-
-            pygame.display.update()
-        pygame.quit()
+                self.current_screen = self.current_screen.run(self.screen, self.window_dimensions, event)
