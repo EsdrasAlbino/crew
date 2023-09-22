@@ -1,14 +1,14 @@
 import pygame
+from util.colors import WHITE
 
 FONT = pygame.font.Font(None, 36)
-ITEM_COLOR = (255, 255, 255)
 
 
 class Item:
     def __init__(self, name, position):
         self.name = name
         self.image = pygame.Surface((30, 30))
-        self.image.fill(ITEM_COLOR)
+        self.image.fill(WHITE)
         self.rect = self.image.get_rect()
         self.position = position
         self.quantity = 1
