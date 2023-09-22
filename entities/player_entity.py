@@ -18,7 +18,7 @@ class Player(Entity):
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y, bullet_group):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('assets/Nave completa.png')
+        self.image = pygame.image.load('assets/player.png')
         self.rect = self.image.get_rect()
         self.rect.center = [x, y]
         self.last_shot = pygame.time.get_ticks()  # Verify when the bullet was created

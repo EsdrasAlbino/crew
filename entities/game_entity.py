@@ -211,7 +211,7 @@ class Game(object):
         draw_bg(screen)
         self.clock.tick(self.fps)
 
-        self.bg = pygame.image.load('assets/Fundo Espacial.jpg')
+        self.bg = pygame.image.load('assets/background.jpg')
         self.screen = pygame.display.set_mode(window_dimensions)
         self.clock = pygame.time.Clock()
         self.fps = 60
