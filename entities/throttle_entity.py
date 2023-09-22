@@ -1,28 +1,32 @@
 import pygame
 
 
-class Throttle(pygame.sprite.Sprite):
+from entities.entity import Entity
 
-    def __init__(self, x, y, spaceship_group, spaceship):
+THROTTLE_WIDTH = 20
+THROTTLE_HEIGHT = 50
+
+
+class Throttle(Entity):
+    def __init__(
+        self, velocity, initial_position, player_group, player, screen_dimensions
+    ):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((20, 50))
+        super().__init__(velocity, THROTTLE_WIDTH, THROTTLE_HEIGHT, initial_position)
         self.image.fill((150, 255, 250))
-        self.rect = self.image.get_rect()
-        self.rect.center = [x, y]
-        self.screen_width = 600
-        self.screen_height = 800
-        self.spaceship_group = spaceship_group
-        self.spaceship = spaceship
+
+        self.center = initial_position
+        self.__player_group = player_group
+        self.__player = player
+        self.screen_dimensions = screen_dimensions
 
     def update(self):
-        # set movement speed
-        speed = 3
-
-        self.rect.y += speed
-
-        if self.rect.top > self.screen_height:
+        future_position = self.get_future_position((0, 1))
+        if future_position[1] > self.screen_dimensions[1]:
             self.kill()
 
-        if pygame.sprite.spritecollide(self, self.spaceship_group, False):
+        self.position = future_position
+
+        if pygame.sprite.spritecollide(self, self.__player_group, False):
             self.kill()
-            self.spaceship.cooldown /= 4
+            self.__player.cooldown /= 4
