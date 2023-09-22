@@ -64,7 +64,7 @@ class Crew(object):
         self.asteroid_group.add(self.asteroid)
 
         #create throttle
-        self.throttle = Throttle(400, 200, self.spaceship_group)
+        self.throttle = Throttle(400, 200, self.spaceship_group, self.spaceship)
         self.throttle_group.add(self.throttle)
 
 
