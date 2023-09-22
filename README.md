@@ -3,7 +3,7 @@
 ## Iniciando o projeto
 
 Crie o virtual environment
-  
+
 ```bash
 python3 -m venv venv
 ```
@@ -23,7 +23,7 @@ pip install -r requirements.txt
 ### No Windows
 
 Crie o virtual environment
-  
+
 ```bash
 python -m venv venv
 ```
