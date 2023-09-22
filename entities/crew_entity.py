@@ -11,9 +11,45 @@ class Crew(object):
         self.screen = None
         self.screen_size = None
         self.clock = None
-        self.current_screen = None
 
-    def init(self):
+    @property
+    def spaceship_group(self):
+        return self.spaceship_group
+
+    @spaceship_group.setter
+    def spaceship_group(self, spaceship_group):
+        self.spaceship_group = spaceship_group
+
+    @property
+    def asteroid_group(self):
+        return self.asteroid_group
+
+    @asteroid_group.setter
+    def asteroid_group(self, asteroid_group):
+        self.asteroid_group = asteroid_group
+
+    @property
+    def bullet_group(self):
+        return self.bullet_group
+
+    @bullet_group.setter
+    def bullet_group(self, bullet_group):
+        self.bullet_group = bullet_group
+
+    @property
+    def throttle_group(self):
+        return self.throttle_groupz
+
+    @throttle_group.setter
+    def throttle_group(self, throttle_group):
+        self.throttle_group = throttle_group
+
+    spaceship_group = pygame.sprite.Group()
+    asteroid_group = pygame.sprite.Group()
+    bullet_group = pygame.sprite.Group()
+    throttle_group = pygame.sprite.Group()
+
+    def init(self, screen_size=(800, 600)):
         pygame.init()
 
         info = pygame.display.Info()  # Tem que ser antes do .set_mode()
