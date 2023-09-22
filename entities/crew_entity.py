@@ -52,7 +52,6 @@ class Crew(object):
         self.clock = pygame.time.Clock()
         self.fps = 60
 
-
         def draw_bg():
            self.screen.blit(self.bg, (0, 0))
 
