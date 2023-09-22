@@ -1,4 +1,3 @@
-from typing import Tuple
 import pygame
 from entities.bullet_entity import Bullets
 '''
