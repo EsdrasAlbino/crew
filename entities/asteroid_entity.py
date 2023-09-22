@@ -7,8 +7,8 @@ class Asteroid(pygame.sprite.Sprite):
         self.image.fill((150, 200, 0))
         self.rect = self.image.get_rect()
         self.rect.center = [x, y]
-        self.screen_width =  600
-        self.screen_height = 800
+        self.screen_width =  800
+        self.screen_height = 600
         self.spaceship_group = spaceship_group
         self.bullet_group = bullet_group
         

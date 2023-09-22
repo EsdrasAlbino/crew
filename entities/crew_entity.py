@@ -47,27 +47,27 @@ class Crew(object):
     def init(self, screen_size=(800, 600)):
         pygame.init()
         pygame.display.set_caption('Crew')
-
+        self.bg = pygame.image.load('assets/Fundo Espacial.jpg')
         self.screen = pygame.display.set_mode(screen_size)
         self.clock = pygame.time.Clock()
         self.fps = 60
 
+
         def draw_bg():
-           self.screen.fill((0, 0, 0))
+           #self.screen.fill((0, 0, 0))
+           self.screen.blit(self.bg, (0, 0))
 
         #create player
         self.spaceship = Spaceship(int(screen_size[0] / 2), screen_size[1] - 100, self.bullet_group)
         self.spaceship_group.add(self.spaceship)
 
         #create asteroid
-        self.asteroid = Asteroid(randint(0, screen_size[0]), 100, self.asteroid_group, self.bullet_group)
+        self.asteroid = Asteroid(randint(0, screen_size[0]), 200, self.asteroid_group, self.bullet_group)
         self.asteroid_group.add(self.asteroid)
 
         #create throttle
         self.throttle = Throttle(400, 200, self.spaceship_group, self.spaceship)
         self.throttle_group.add(self.throttle)
-
-
 
         running = True
         while running:
@@ -95,7 +95,6 @@ class Crew(object):
             self.bullet_group.draw(self.screen)
             self.throttle_group.draw(self.screen)
             
-
             pygame.display.update() 
 
         pygame.quit()
