@@ -57,7 +57,7 @@ class Crew(object):
 
         self.fps = 60
 
-        self.bg = pygame.image.load('assets/Fundo Espacial.jpg')
+        self.bg = pygame.image.load('assets/background.jpg')
 
         self.screen = pygame.display.set_mode(screen_size)
 
