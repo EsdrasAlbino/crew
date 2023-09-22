@@ -1,10 +1,12 @@
 import pygame
 
+def update_window(screen):
+    return screen.get_size()
 
 def change_window_size(
     screen, track_coords, player_coords, propellant_coords, bullet_coords, comet_coords
 ):
-    window_dimensions = screen.get_size()
+    window_dimensions = update_window(screen)
     track_coords_before = track_coords
 
     if window_dimensions[1] * 2 < window_dimensions[0]:
