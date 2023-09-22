@@ -5,7 +5,7 @@ FONT = pygame.font.Font(None, 36)
 
 
 class Item:
-    def __init__(self, name, position):
+    def __init__(self, name, position, image):
         self.name = name
         self.image = pygame.Surface((30, 30))
         self.image.fill(WHITE)
