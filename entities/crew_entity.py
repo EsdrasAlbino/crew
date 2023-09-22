@@ -73,14 +73,33 @@ class Crew(object):
         is_fullscreen = False
 
         self.clock = pygame.time.Clock()
+        self.fps = 60
 
+        def draw_bg():
+            self.screen.fill((0, 0, 0))
+
+        # create player
+        self.spaceship = Player(
+            int(self.screen_dimensions[0] / 2), self.screen_dimensions[1] - 100, self.bullet_group)
+        self.spaceship_group.add(self.spaceship)
+
+        # create asteroid
+        self.asteroid = Asteroid(
+            randint(0, self.screen_dimensions[0]), 100, self.asteroid_group, self.bullet_group)
+        self.asteroid_group.add(self.asteroid)
+
+        # create throttle
+        self.throttle = Throttle(
+            400, 200, self.spaceship_group, self.spaceship)
+        self.throttle_group.add(self.throttle)
         self.current_screen = StartScreen(self.window_dimensions)
 
-        pygame.display.set_caption(GAME_TITLE)
+        running = True
+        while running:
 
-        is_running = True
-        while is_running:
-            self.window_dimensions = update_window(self.screen)
+            draw_bg()
+            self.clock.tick(self.fps)
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     is_running = False
