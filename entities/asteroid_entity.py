@@ -1,10 +1,9 @@
 import pygame
 from pygame import *
-import util.collision
 
 
 class Asteroid(pygame.sprite.Sprite):
-    def __init__(self, x, y):
+    def __init__(self, x, y, spaceship_group, bullet_group):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((50, 50))
         self.image.fill((150, 200, 0))
@@ -12,8 +11,8 @@ class Asteroid(pygame.sprite.Sprite):
         self.rect.center = [x, y]
         self.screen_width = 600
         self.screen_height = 800
-        self.spaceship_group = util.collision.spaceship_group
-        self.bullet_group = util.collision.bullet_group
+        self.spaceship_group = spaceship_group
+        self.bullet_group = bullet_group
 
     def update(self):
         # set movement speed
