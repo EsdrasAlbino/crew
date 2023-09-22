@@ -13,7 +13,7 @@ class Crew(object):
     def __init__(self):
         self.screen = None
         self.clock = None
-    
+
     @property
     def spaceship_group(self):
         return self.spaceship_group
@@ -34,7 +34,7 @@ class Crew(object):
         self.bullet_group = bullet_group
     @property
     def throttle_group(self):
-        return self.throttle_groupz
+        return self.throttle_group
     @throttle_group.setter
     def throttle_group(self, throttle_group):
         self.throttle_group = throttle_group
@@ -54,7 +54,6 @@ class Crew(object):
 
 
         def draw_bg():
-           #self.screen.fill((0, 0, 0))
            self.screen.blit(self.bg, (0, 0))
 
         #create player
