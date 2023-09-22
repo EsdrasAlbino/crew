@@ -18,7 +18,7 @@ class StartScreen(object):
         self._play_button_rect = self._play_button.get_rect(center=(screen_size[0] // 2, screen_size[1] // 2))
         self._credits_button_rect = self._credits_button.get_rect(center=(screen_size[0] // 2, screen_size[1] // 2 + 100))
 
-    def draw(self, screen,screen_size):
+    def draw(self, screen, screen_size):
         screen.fill(BACKGROUND_COLOR)
 
         # Draw text and buttons
@@ -26,7 +26,7 @@ class StartScreen(object):
         screen.blit(self._play_button, self._play_button_rect)
         screen.blit(self._credits_button, self._credits_button_rect)
         pygame.display.flip()
-    
+
     def run(self,screen, screen_size, event):
         pygame.mouse.set_cursor(*pygame.cursors.arrow)
         is_visible = True
@@ -41,5 +41,8 @@ class StartScreen(object):
                 is_visible = False
                 print("Show credits!")
         if is_visible:
+            self._play_button_rect = self._play_button.get_rect(center=(screen_size[0] // 2, screen_size[1] // 2))
+            self._credits_button_rect = self._credits_button.get_rect(center=(screen_size[0] // 2, screen_size[1] // 2 + 100))
+
             self.draw(screen, screen_size)
         return self
