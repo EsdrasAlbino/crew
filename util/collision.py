@@ -1,52 +1,173 @@
 import pygame
-from pygame import *
-import entities
-from entities import *
+from pygame.locals import *
+from pygame.sprite import Group
+import random
+#from entities.throttle_entity import Throttle
+#import entities.throttle_entity
 
-class Colision:
-    def __init__(self, position_x_obj1, position_y_obj1, position_x_obj2, position_y_obj2):
-        self.position_x_obj1 = position_x_obj1
-        self.position_y_obj1 = position_y_obj1
-        self.position_x_obj2 = position_x_obj2
-        self.position_y_obj2 = position_y_obj2
 
-    @property
-    def position_x_obj1(self):
-        return self.position_x_obj1
-    
-    @position_x_obj1.setter
-    def position_x_obj1(self, position_x_obj1):
-        self.position_x_obj1 = position_x_obj1
+clock = pygame.time.Clock()
+fps = 60
 
-    @property
-    def position_y_obj1(self):
-        return self.position_y_obj1
-    
-    @position_y_obj1.setter
-    def position_y_obj1(self, position_y_obj1):
-        self.position_y_obj1 = position_y_obj1
-    
-    @property
-    def position_x_obj2(self):
-        return self.position_x_obj2
-    
-    @position_x_obj2.setter
-    def position_x_obj2(self, position_x_obj2):
-        self.position_x_obj2 = position_x_obj2
+screen_width =  600
+screen_height = 800
 
-    @property
-    def position_y_obj2(self):
-        return self.position_y_obj2    
+screen = pygame.display.set_mode((screen_width, screen_height))
+pygame.display.set_caption('Space Invaders')
+
+#define colours
+red = (255, 0, 0)
+green = (0, 255, 0)
+
+
+def draw_bg():
+    screen.fill((0,0,0))
+
+class Spaceship(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((50, 50))
+        self.image.fill((255, 0, 0))
+        self.rect = self.image.get_rect()
+        self.rect.center = [x, y]
+        self.last_shot = pygame.time.get_ticks() #Verify when the bullet was created
+        self.cooldown = 500 #set cooldown for the bullets
+
+    def update(self):
+        #set movement speed
+        speed = 8
+
+
+        #get key press
+        key = pygame.key.get_pressed()
+        if key[pygame.K_a] and self.rect.left > 0:
+            self.rect.x -= speed
+        if key[pygame.K_d] and self.rect.right < screen_width:
+            self.rect.x += speed
+
+        time_now = pygame.time.get_ticks()
+
+        if key[pygame.K_SPACE] and time_now - self.last_shot > self.cooldown:
+            bullet = Bullets(self.rect.centerx, self.rect.top)
+            bullet_group.add(bullet)
+            self.last_shot = time_now
         
-    @position_y_obj2.setter
-    def position_y_obj2(self, position_y_obj2):
-        self.position_y_obj2 = position_y_obj2
 
 
-    #Check for collision
 
-    def check_for_collision(self):
-        if self.position_x_obj1 == self.position_x_obj2 and self.position_y_obj1 == self.position_y_obj2:
-            return True
-        else:
-            return False
+class Bullets(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((5, 10))
+        self.image.fill((150, 200, 255))
+        self.rect = self.image.get_rect()
+        self.rect.center = [x, y]
+
+    def update(self):
+        #set movement speed
+        speed = 5
+
+        self.rect.y -= speed
+
+        if self.rect.bottom < 0:
+            self.kill()   
+
+        
+        
+
+
+class Asteroid(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((50, 50))
+        self.image.fill((150, 200, 0))
+        self.rect = self.image.get_rect()
+        self.rect.center = [x, y]
+
+    def update(self):
+        #set movement speed
+        speed = 3
+        
+        self.rect.y += speed
+
+        if self.rect.top > screen_height:
+            self.kill()
+        
+        if pygame.sprite.spritecollide(self, spaceship_group, False):
+            self.kill()
+        if pygame.sprite.spritecollide(self, bullet_group, True):
+            self.kill()
+
+class Throttle(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((25, 50))
+        self.image.fill((150, 255, 250))
+        self.rect = self.image.get_rect()
+        self.rect.center = [x, y]
+
+    def update(self):
+        #set movement speed
+        speed = 3
+        
+        self.rect.y += speed
+
+        if self.rect.top > screen_height:
+            self.kill()
+        
+        if pygame.sprite.spritecollide(self, spaceship_group, False):
+            self.kill()
+            spaceship.cooldown /= 4
+
+
+
+
+spaceship_group = pygame.sprite.Group()
+asteroid_group = pygame.sprite.Group()
+bullet_group = pygame.sprite.Group()
+throttle_group = pygame.sprite.Group()
+
+#create player
+spaceship = Spaceship(int(screen_width / 2), screen_height - 100)
+spaceship_group.add(spaceship)
+
+#create asteroid
+
+asteroid = Asteroid(random.randint(0, screen_width), 100)
+asteroid_group.add(asteroid)
+
+#create throttle
+throttle = Throttle(400, 200)
+throttle_group.add(throttle)
+
+
+run = True
+while run:
+    clock.tick(fps)
+    
+
+    draw_bg()
+    
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+
+
+    #update player
+    spaceship.update()
+
+    #update groups
+    asteroid_group.update()
+    bullet_group.update()
+    throttle_group.update()
+
+    #draw sprite groups
+    asteroid_group.draw(screen)
+    spaceship_group.draw(screen)
+    bullet_group.draw(screen)
+    throttle_group.draw(screen)
+    
+
+    pygame.display.update() 
+
+pygame.quit()

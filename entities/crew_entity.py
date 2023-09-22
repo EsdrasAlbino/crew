@@ -1,9 +1,9 @@
+from entities.initial_screen_entity import StartScreen
 import pygame
 
 from util.change_window_size_util import update_window
 
 GAME_TITLE = "Crew"
-from entities.initial_screen_entity import StartScreen
 
 
 class Crew(object):
@@ -40,7 +40,8 @@ class Crew(object):
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_f:
                     if not is_fullscreen:
                         self.screen = pygame.display.set_mode(
-                            (self.screen_dimensions[0], self.screen_dimensions[1]),
+                            (self.screen_dimensions[0],
+                             self.screen_dimensions[1]),
                             pygame.FULLSCREEN,
                         )
                         is_fullscreen = True
@@ -55,4 +56,5 @@ class Crew(object):
                         is_fullscreen = False
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     is_running = False
-                self.current_screen = self.current_screen.run(self.screen, self.window_dimensions, event)
+                self.current_screen = self.current_screen.run(
+                    self.screen, self.window_dimensions, event)

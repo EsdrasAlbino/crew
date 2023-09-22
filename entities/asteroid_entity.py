@@ -1,24 +1,30 @@
 import pygame
 from pygame import *
-from pygame.sprite import _Group
+import util.collision
 
-class  asteroid(pygame.sprite.Sprite):
-    def __init__(self, position_x, position_y):
-        self.position_x = position_x
-        self.position_y = position_y
 
-    @property
-    def position_x(self):
-        return self.position_x
-    
-    @position_x.setter
-    def position_x(self, position_x):
-        self.position_x = position_x
-    
-    @property
-    def position_y(self):
-        return self.position_y
-    
-    @position_y.setter
-    def position_y(self, position_y):
-        self.position_y = position_y
+class Asteroid(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((50, 50))
+        self.image.fill((150, 200, 0))
+        self.rect = self.image.get_rect()
+        self.rect.center = [x, y]
+        self.screen_width = 600
+        self.screen_height = 800
+        self.spaceship_group = util.collision.spaceship_group
+        self.bullet_group = util.collision.bullet_group
+
+    def update(self):
+        # set movement speed
+        speed = 3
+
+        self.rect.y += speed
+
+        if self.rect.top > self.screen_height:
+            self.kill()
+
+        if pygame.sprite.spritecollide(self, self.spaceship_group, False):
+            self.kill()
+        if pygame.sprite.spritecollide(self, self.bullet_group, True):
+            self.kill()
