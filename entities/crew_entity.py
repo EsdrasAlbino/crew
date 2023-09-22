@@ -3,12 +3,15 @@ from util.change_window_size_util import change_window_size
 from util.update_coords import update_coords
 
 GAME_TITLE = "Crew"
+from entities.initial_screen_entity import StartScreen
 
 
 class Crew(object):
     def __init__(self):
         self.screen = None
+        self.screen_size = None
         self.clock = None
+        self.current_screen = None
 
     def init(self):
         pygame.init()
@@ -24,6 +27,7 @@ class Crew(object):
         is_fullscreen = False
 
         self.clock = pygame.time.Clock()
+        self.current_screen = StartScreen(self.window_dimensions)
 
         pygame.display.set_caption(GAME_TITLE)
 
@@ -134,7 +138,7 @@ class Crew(object):
                     asteroid_coords,
                     (None, asteroid_coords[1] + asteroid_dimensions[1], None, None),
                 )
-                
+
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -157,6 +161,4 @@ class Crew(object):
                         is_fullscreen = False
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     is_running = False
-
-            pygame.display.update()
-        pygame.quit()
+                self.current_screen = self.current_screen.run(self.screen, self.window_dimensions, event)
