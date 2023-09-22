@@ -1,6 +1,6 @@
 import pygame
 from util.colors import WHITE
-
+pygame.font.init()
 FONT = pygame.font.Font(None, 36)
 
 
