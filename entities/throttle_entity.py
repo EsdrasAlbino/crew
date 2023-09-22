@@ -5,7 +5,7 @@ class Throttle(pygame.sprite.Sprite):
 
     def __init__(self, x, y, spaceship_group, spaceship):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((25, 50))
+        self.image = pygame.Surface((20, 50))
         self.image.fill((150, 255, 250))
         self.rect = self.image.get_rect()
         self.rect.center = [x, y]
