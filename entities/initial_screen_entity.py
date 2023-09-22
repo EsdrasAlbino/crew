@@ -1,44 +1,45 @@
 import pygame
 
+TEXT_COLOR = (255, 255, 255)
+BACKGROUND_COLOR = (0, 0, 0)
+FONT_SIZE = 48
+
 class StartScreen(object):
     def __init__(self, screen_size):
-        self.TEXT_COLOR = (255, 255, 255)
-        self.BACKGROUND_COLOR = (0, 0, 0)
-        self.FONT_SIZE = 48
 
-        font = pygame.font.Font(None, self.FONT_SIZE)
+        font = pygame.font.Font(None, FONT_SIZE)
 
         # Create text objects
-        self.game_name = font.render("Crew", True, self.TEXT_COLOR)
-        self.play_button = font.render("Play", True, self.TEXT_COLOR)
-        self.credits_button = font.render("Credits", True, self.TEXT_COLOR)
+        self._game_name = font.render("Crew", True, TEXT_COLOR)
+        self._play_button = font.render("Play", True, TEXT_COLOR)
+        self._credits_button = font.render("Credits", True, TEXT_COLOR)
 
         # Rectangles for buttons
-        self.play_button_rect = self.play_button.get_rect(center=(screen_size[0] // 2, screen_size[1] // 2))
-        self.credits_button_rect = self.credits_button.get_rect(center=(screen_size[0] // 2, screen_size[1] // 2 + 100))
+        self._play_button_rect = self._play_button.get_rect(center=(screen_size[0] // 2, screen_size[1] // 2))
+        self._credits_button_rect = self._credits_button.get_rect(center=(screen_size[0] // 2, screen_size[1] // 2 + 100))
 
     def draw(self, screen,screen_size):
-        screen.fill(self.BACKGROUND_COLOR)
+        screen.fill(BACKGROUND_COLOR)
 
         # Draw text and buttons
-        screen.blit(self.game_name, self.game_name.get_rect(center=(screen_size[0] // 2, screen_size[1] // 4)))
-        screen.blit(self.play_button, self.play_button_rect)
-        screen.blit(self.credits_button, self.credits_button_rect)
+        screen.blit(self._game_name, self._game_name.get_rect(center=(screen_size[0] // 2, screen_size[1] // 4)))
+        screen.blit(self._play_button, self._play_button_rect)
+        screen.blit(self._credits_button, self._credits_button_rect)
         pygame.display.flip()
     
     def run(self,screen, screen_size, event):
         pygame.mouse.set_cursor(*pygame.cursors.arrow)
-        still_showing = True
-        if self.play_button_rect.collidepoint(pygame.mouse.get_pos()):
+        is_visible = True
+        if self._play_button_rect.collidepoint(pygame.mouse.get_pos()):
             pygame.mouse.set_cursor(*pygame.cursors.diamond)
             if event.type == pygame.MOUSEBUTTONDOWN:
-                still_showing = False
+                is_visible = False
                 print("Start the game!")
-        elif self.credits_button_rect.collidepoint(pygame.mouse.get_pos()):
+        elif self._credits_button_rect.collidepoint(pygame.mouse.get_pos()):
             pygame.mouse.set_cursor(*pygame.cursors.diamond)
             if event.type == pygame.MOUSEBUTTONDOWN:
-                still_showing = False
+                is_visible = False
                 print("Show credits!")
-        if still_showing:
+        if is_visible:
             self.draw(screen, screen_size)
         return self
