@@ -1,3 +1,5 @@
+import sys
+
 from entities.player_entity import Player
 from entities.throttle_entity import Throttle
 from entities.bullet_entity import Bullets
@@ -208,5 +210,56 @@ class Game(object):
 
         draw_bg(screen)
         self.clock.tick(self.fps)
+
+        self.bg = pygame.image.load('assets/Fundo Espacial.jpg')
+        self.screen = pygame.display.set_mode(window_dimensions)
+        self.clock = pygame.time.Clock()
+        self.fps = 60
+
+        def draw_bg():
+            self.screen.blit(self.bg, (0, 0))
+
+        # create player
+        self.spaceship = Player(
+            int(window_dimensions[0] / 2), window_dimensions[1] - 100, self.bullet_group)
+        self.spaceship_group.add(self.spaceship)
+
+        # create asteroid
+        self.asteroid = Asteroid(
+            randint(0, window_dimensions[0]), 200, self.asteroid_group, self.bullet_group)
+        self.asteroid_group.add(self.asteroid)
+
+        # create throttle
+        self.throttle = Throttle(
+            400, 200, self.spaceship_group, self.spaceship)
+        self.throttle_group.add(self.throttle)
+
+        running = True
+        while running:
+
+            draw_bg()
+            self.clock.tick(self.fps)
+
+            for event in pygame.event.get():
+
+                if event.type == pygame.QUIT:
+                    running = False
+                    sys.exit()
+
+            # update player
+            self.spaceship.update()
+
+            # update groups
+            self.asteroid_group.update()
+            self.bullet_group.update()
+            self.throttle_group.update()
+
+            # draw sprite groups
+            self.asteroid_group.draw(self.screen)
+            self.spaceship_group.draw(self.screen)
+            self.bullet_group.draw(self.screen)
+            self.throttle_group.draw(self.screen)
+
+            pygame.display.update()
 
         return self
