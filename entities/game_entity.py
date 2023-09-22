@@ -155,58 +155,12 @@ class Game(object):
 
         self.asteroid_coords = update_coords(
             self.asteroid_coords, (None, 0, None, None))
-        while self.asteroid_coords[1] < window_dimensions[1]:
-            screen.blit(
-                asteroid, (self.asteroid_coords[0], self.asteroid_coords[1]))
-            screen.blit(
-                asteroid,
-                (
-                    self.asteroid_coords[0]
-                    + self.track_coords[2]
-                    - self.track_coords[0]
-                    + asteroid_dimensions[1],
-                    self.asteroid_coords[1],
-                ),
-            )
-            self.asteroid_coords = update_coords(
-                self.asteroid_coords,
-                (None, self.asteroid_coords[1] +
-                 asteroid_dimensions[1], None, None),
-            )
-
-        if window_dimensions[1] * 2 < window_dimensions[0]:
-            self.track_left_coord = (
-                window_dimensions[0] // 2 - window_dimensions[1] // 2
-            )
-            self.track_right_coord = self.track_left_coord + \
-                window_dimensions[1]
-            self.track_bottom_coord = window_dimensions[1]
-        else:
-            self.track_left_coord = window_dimensions[0] // 4
-            self.track_right_coord = 3 * window_dimensions[0] // 4
-            self.track_bottom_coord = window_dimensions[0] // 2
-        pygame.display.flip()
 
         self.clock = pygame.time.Clock()
         self.fps = 60
 
         def draw_bg(screen):
             screen.fill((0, 0, 0))
-
-        # create player
-        self.spaceship = Player(
-            int(window_dimensions[0] / 2), window_dimensions[1] - 100, self.bullet_group)
-        self.spaceship_group.add(self.spaceship)
-
-        # create asteroid
-        self.asteroid = Asteroid(
-            randint(0, window_dimensions[0]), 200, self.asteroid_group, self.bullet_group)
-        self.asteroid_group.add(self.asteroid)
-
-        # create throttle
-        self.throttle = Throttle(
-            400, 200, self.spaceship_group, self.spaceship)
-        self.throttle_group.add(self.throttle)
 
         draw_bg(screen)
         self.clock.tick(self.fps)
@@ -221,17 +175,17 @@ class Game(object):
 
         # create player
         self.spaceship = Player(
-            int(window_dimensions[0] / 2), window_dimensions[1] - 100, self.bullet_group)
+            10, (window_dimensions[0] // 2, window_dimensions[1] - 100), self.bullet_group)
         self.spaceship_group.add(self.spaceship)
 
         # create asteroid
-        self.asteroid = Asteroid(
-            randint(0, window_dimensions[0]), 200, self.asteroid_group, self.bullet_group)
+        self.asteroid = Asteroid(5,
+                                 (100, 100), self.asteroid_group, self.bullet_group, window_dimensions)
         self.asteroid_group.add(self.asteroid)
 
         # create throttle
-        self.throttle = Throttle(
-            400, 200, self.spaceship_group, self.spaceship)
+        self.throttle = Throttle(3,
+                                 (400, 200), self.spaceship_group, self.spaceship, window_dimensions)
         self.throttle_group.add(self.throttle)
 
         running = True
@@ -259,6 +213,37 @@ class Game(object):
             self.spaceship_group.draw(self.screen)
             self.bullet_group.draw(self.screen)
             self.throttle_group.draw(self.screen)
+
+            while self.asteroid_coords[1] < window_dimensions[1]:
+                screen.blit(
+                    asteroid, (self.asteroid_coords[0], self.asteroid_coords[1]))
+                screen.blit(
+                    asteroid,
+                    (
+                        self.asteroid_coords[0]
+                        + self.track_coords[2]
+                        - self.track_coords[0]
+                        + asteroid_dimensions[1],
+                        self.asteroid_coords[1],
+                    ),
+                )
+                self.asteroid_coords = update_coords(
+                    self.asteroid_coords,
+                    (None, self.asteroid_coords[1] +
+                     asteroid_dimensions[1], None, None),
+                )
+
+            if window_dimensions[1] * 2 < window_dimensions[0]:
+                self.track_left_coord = (
+                    window_dimensions[0] // 2 - window_dimensions[1] // 2
+                )
+                self.track_right_coord = self.track_left_coord + \
+                    window_dimensions[1]
+                self.track_bottom_coord = window_dimensions[1]
+            else:
+                self.track_left_coord = window_dimensions[0] // 4
+                self.track_right_coord = 3 * window_dimensions[0] // 4
+                self.track_bottom_coord = window_dimensions[0] // 2
 
             pygame.display.update()
 
