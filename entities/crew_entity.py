@@ -1,5 +1,5 @@
-from entities.initial_screen_entity import StartScreen
 import pygame
+from entities.initial_screen_entity import StartScreen
 
 from util.change_window_size_util import update_window
 

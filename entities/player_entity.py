@@ -1,4 +1,3 @@
-from typing import Tuple
 import pygame
 from entities.bullet_entity import Bullet
 from entities.entity import Entity
@@ -6,8 +5,12 @@ from entities.entity import Entity
 PLAYER_WIDTH = 50
 PLAYER_HEIGHT = 50
 
+bullet_velocity = 5
+cooldown = 500
 
 class Player(Entity):
+
+
     def __init__(self, velocity, initial_position, bullet_group):
         pygame.sprite.Sprite.__init__(self)
         super().__init__(velocity, PLAYER_WIDTH, PLAYER_HEIGHT, initial_position)
@@ -15,11 +18,7 @@ class Player(Entity):
         self.image = pygame.image.load("assets/player.png")
         self.rect = self.image.get_rect()
         self.rect.center = initial_position
-
         self.last_shot = pygame.time.get_ticks()  # Verify when the bullet was created
-        self.cooldown = 500  # set cooldown for the bullets
-        self.bullet_velocity = 5
-
         self.bullet_group = bullet_group
 
     def shoot(self, current_time):
@@ -41,7 +40,7 @@ class Player(Entity):
                 self.position = future_pos
 
         current_time = pygame.time.get_ticks()
-        is_cooldown_over = current_time - self.last_shot > self.cooldown
+        is_cooldown_over = current_time - self.last_shot > cooldown
 
         if keys[pygame.K_SPACE] and is_cooldown_over and self.alive():
             self.shoot(current_time)
