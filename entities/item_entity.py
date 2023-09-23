@@ -5,19 +5,21 @@ FONT = pygame.font.Font(None, 36)
 
 
 class Item:
-    def __init__(self, name, position, image):
+    def __init__(self, name):
         self.name = name
         self.image = pygame.Surface((30, 30))
         self.image.fill(WHITE)
         self.rect = self.image.get_rect()
-        self.position = position
         self.quantity = 1
         self.quantity_total = 1
 
-    def draw(self, surface):
-        x, y = self.position
+    def draw(self, surface, x, y):
         self.rect.topleft = (x, y)
+        variation_position = 35
+
         surface.blit(self.image, self.rect)
         quantity_text = FONT.render(
             f"{self.quantity}/{self.quantity_total}", True, (255, 255, 255))
-        surface.blit(quantity_text, (x + 35, y+5))
+
+        surface.blit(
+            quantity_text, (x + variation_position, y + variation_position))

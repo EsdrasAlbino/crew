@@ -31,18 +31,15 @@ class Crew(object):
         self.clock = pygame.time.Clock()
         self.current_screen = StartScreen(self.window_dimensions)
         inventory = Inventory()
-        item1 = Item("Item 1", self.window_dimensions)
-        item2 = Item("Item 2", self.window_dimensions)
+        item1 = Item("asteroid")
+        item2 = Item("bullet")
         # Add another "Item 1" to test quantity stacking
-        item3 = Item("Item 1", self.window_dimensions)
-        item3 = Item("Item 3", self.window_dimensions)
-        item4 = Item("Item 4", self.window_dimensions)
-        item5 = Item("Item 5", self.window_dimensions)
-        inventory.add_item(item1)
-        inventory.add_item(item2)
-        inventory.add_item(item3)
-        inventory.add_item(item4)
-        inventory.add_item(item5)
+        item3 = Item("bullet")
+        item3 = Item("comet")
+        item4 = Item("player")
+        item5 = Item("propellant")
+        for item in [item1, item2, item3, item4, item5]:
+            inventory.add_item(item)
 
         pygame.display.set_caption(GAME_TITLE)
 
@@ -75,5 +72,6 @@ class Crew(object):
                     is_running = False
                 self.current_screen = self.current_screen.run(
                     self.screen, self.window_dimensions, event)
+
             inventory.draw(self.screen)
             pygame.display.flip()
