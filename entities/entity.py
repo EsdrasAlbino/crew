@@ -15,7 +15,7 @@ class Entity(ABC, pygame.sprite.Sprite):
         self.__height = height
         self.__position = position
 
-    def update(self):
+    def __entity_update(self):
         self.rect.x = self.__position[0]
         self.rect.y = self.__position[1]
         self.rect.width = self.__width
@@ -42,7 +42,7 @@ class Entity(ABC, pygame.sprite.Sprite):
     @position.setter
     def position(self, new_position: Tuple[float, float]):
         self.__position = (new_position[0], new_position[1])
-        self.update()
+        self.__entity_update()
 
     @property
     def width(self):
@@ -51,7 +51,7 @@ class Entity(ABC, pygame.sprite.Sprite):
     @width.setter
     def width(self, new_width: float):
         self.__width = new_width
-        self.update()
+        self.__entity_update()
 
     @property
     def height(self):
@@ -60,7 +60,15 @@ class Entity(ABC, pygame.sprite.Sprite):
     @height.setter
     def height(self, new_height: float):
         self.__height = new_height
-        self.update()
+        self.__entity_update()
+
+    @property
+    def center(self):
+        return self.rect.center
+
+    @center.setter
+    def center(self, new_center: Tuple[float, float]):
+        self.rect.center = new_center
 
     def check_collision(self, other):
         return self.rect.colliderect(other.rect)
