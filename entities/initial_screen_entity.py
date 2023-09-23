@@ -1,5 +1,7 @@
 import pygame
 
+from entities.game_entity import Game
+
 TEXT_COLOR = (255, 255, 255)
 BACKGROUND_COLOR = (0, 0, 0)
 FONT_SIZE = 48
@@ -34,7 +36,9 @@ class StartScreen(object):
             pygame.mouse.set_cursor(*pygame.cursors.diamond)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 is_visible = False
-                print("Start the game!")
+                game = Game(screen_size)
+                pygame.mouse.set_cursor(*pygame.cursors.arrow)
+                return game
         elif self._credits_button_rect.collidepoint(pygame.mouse.get_pos()):
             pygame.mouse.set_cursor(*pygame.cursors.diamond)
             if event.type == pygame.MOUSEBUTTONDOWN:

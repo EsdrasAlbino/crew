@@ -1,27 +1,34 @@
 import pygame
+from entities.entity import Entity
 
-class Asteroid(pygame.sprite.Sprite):
-    def __init__(self, x, y, spaceship_group, bullet_group):
+ASTEROID_WIDTH = 50
+ASTEROID_HEIGHT = 50
+
+
+class Asteroid(Entity):
+    def __init__(
+        self, velocity, initial_position, player_group, bullet_group, screen_dimensions
+    ):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((50, 50))
-        self.image.fill((150, 200, 0))
-        self.rect = self.image.get_rect()
-        self.rect.center = [x, y]
-        self.screen_width =  800
-        self.screen_height = 600
-        self.spaceship_group = spaceship_group
-        self.bullet_group = bullet_group
-        
-    def update(self):
-        #set movement speed
-        speed = 3
-        
-        self.rect.y += speed
+        super().__init__(velocity, ASTEROID_WIDTH, ASTEROID_HEIGHT, initial_position)
 
-        if self.rect.top > self.screen_height:
+        self.image.fill((150, 200, 0))
+        self.center = initial_position
+
+        self.__player_group = player_group
+        self.__bullet_group = bullet_group
+        self.__screen_dimensions = screen_dimensions
+
+    def update(self):
+        future_position = self.get_future_position((0, 1))
+
+        if future_position[1] > self.__screen_dimensions[1]:
             self.kill()
-        
-        if pygame.sprite.spritecollide(self, self.spaceship_group, False):
+
+        self.position = future_position
+
+        if pygame.sprite.spritecollide(self, self.__player_group, False):
             self.kill()
-        if pygame.sprite.spritecollide(self, self.bullet_group, True):
+        if pygame.sprite.spritecollide(self, self.__bullet_group, True):
             self.kill()
+

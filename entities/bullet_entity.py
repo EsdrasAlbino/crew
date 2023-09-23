@@ -1,18 +1,21 @@
 import pygame
+from entities.entity import Entity
 
-class Bullets(pygame.sprite.Sprite):
-    def __init__(self, x, y):
+BULLET_WIDTH = 5
+BULLET_HEIGHT = 10
+
+
+class Bullet(Entity):
+    def __init__(self, velocity, initial_position):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((5, 10))
+        super().__init__(velocity, BULLET_WIDTH, BULLET_HEIGHT, initial_position)
         self.image.fill((150, 200, 255))
-        self.rect = self.image.get_rect()
-        self.rect.center = [x, y]
+        self.center = initial_position
 
     def update(self):
-        #set movement speed
-        speed = 5
+        future_position = self.get_future_position((0, -1))
 
-        self.rect.y -= speed
-
-        if self.rect.bottom < 0:
-            self.kill()   
+        if future_position[1] < -1:
+            self.kill()
+        else:
+            self.position = future_position
