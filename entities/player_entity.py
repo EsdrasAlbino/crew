@@ -8,8 +8,8 @@ PLAYER_HEIGHT = 50
 bullet_velocity = 5
 cooldown = 500
 
-class Player(Entity):
 
+class Player(Entity):
 
     def __init__(self, velocity, initial_position, bullet_group):
         pygame.sprite.Sprite.__init__(self)
@@ -20,6 +20,8 @@ class Player(Entity):
         self.rect.center = initial_position
         self.last_shot = pygame.time.get_ticks()  # Verify when the bullet was created
         self.bullet_group = bullet_group
+        self.cooldown = 0
+        self.bullet_velocity = 0
 
     def shoot(self, current_time):
         bullet = Bullet(self.bullet_velocity, self.center)

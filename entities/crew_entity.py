@@ -85,4 +85,3 @@ class Crew(object):
                     self.screen, self.window_dimensions, event)
 
             inventory.draw(self.screen)
-            pygame.display.flip()
