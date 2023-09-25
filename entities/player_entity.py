@@ -22,7 +22,7 @@ class Player(Entity):
         self.bullet_group = bullet_group
 
     def shoot(self, current_time):
-        bullet = Bullet(self.bullet_velocity, self.center)
+        bullet = Bullet(bullet_velocity, self.center)
         self.bullet_group.add(bullet)
         self.last_shot = current_time
 
