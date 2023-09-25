@@ -1,5 +1,6 @@
 from entities.initial_screen_entity import StartScreen
 import pygame
+from entities.initial_screen_entity import StartScreen
 
 from util.change_window_size_util import update_window
 from entities.item_entity import Item
@@ -9,14 +10,25 @@ GAME_TITLE = "Crew"
 
 
 class Crew(object):
+
     def __init__(self):
         self.screen = None
         self.screen_size = None
         self.clock = None
-        self.current_screen = None
 
-    def init(self):
+    def init(self, screen_size=(800, 600)):
         pygame.init()
+
+        self.clock = pygame.time.Clock()
+
+        self.fps = 60
+
+        self.bg = pygame.image.load('assets/background.jpg')
+
+        self.screen = pygame.display.set_mode(screen_size)
+
+        def draw_bg():
+            self.screen.blit(self.bg, (0, 0))
 
         info = pygame.display.Info()  # Tem que ser antes do .set_mode()
         self.screen_dimensions = (info.current_w, info.current_h)
@@ -28,7 +40,6 @@ class Crew(object):
         self.window_dimensions = self.screen.get_size()
         is_fullscreen = False
 
-        self.clock = pygame.time.Clock()
         self.current_screen = StartScreen(self.window_dimensions)
         inventory = Inventory()
         item1 = Item("asteroid")
