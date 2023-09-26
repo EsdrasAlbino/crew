@@ -12,16 +12,6 @@ class Player(Entity):
 
 from entities.entity import Entity
 
-<<<<<<< HEAD
-PLAYER_WIDTH = 50
-PLAYER_HEIGHT = 50
-
-
-class Player(Entity):
-    def __init__(self, velocity):
-        pygame.sprite.Sprite.__init__(self)
-        super().__init__(velocity, PLAYER_WIDTH, PLAYER_HEIGHT, (0, 0))
-=======
     def __init__(self, velocity, initial_position, bullet_group):
         pygame.sprite.Sprite.__init__(self)
         super().__init__(velocity, PLAYER_WIDTH, PLAYER_HEIGHT, initial_position)
@@ -55,4 +45,3 @@ class Player(Entity):
 
         if keys[pygame.K_SPACE] and is_cooldown_over and self.alive():
             self.shoot(current_time)
->>>>>>> 1acf6a49a30bbacf72ea83cbaf712b2fc82695ca
