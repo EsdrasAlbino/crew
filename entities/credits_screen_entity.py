@@ -29,6 +29,7 @@ class CreditsScreen(object):
         )
 
     def draw(self, screen, screen_size):
+        self.background = pygame.transform.scale(self.background, screen_size)
         screen.blit(self.background, (0, 0))
 
         # Draw team member names
