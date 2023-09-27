@@ -82,5 +82,5 @@ class Player(Entity):
 
         is_cooldown_over = current_time - self.last_shot > self.cooldown
 
-        if keys[pygame.K_SPACE] and is_cooldown_over and self.alive():
+        if keys[pygame.K_SPACE] and is_cooldown_over and self.alive() and self.bullet_quantity > 0:
             self.shoot(current_time)

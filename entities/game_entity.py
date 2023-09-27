@@ -215,7 +215,7 @@ class Game(object):
 
         if self.ammo_group.__len__() < 1:
             seed = randint(0, 200)
-            if seed == 50:
+            if 25 < seed < 30:
                 ammo = Ammo(
                     3,
                     (
