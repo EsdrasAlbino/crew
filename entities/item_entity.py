@@ -6,16 +6,16 @@ FONT = pygame.font.Font(None, 36)
 
 
 class Item:
-    def __init__(self, name):
+    def __init__(self, name, quantity_item):
         self.name = name
         self.image = pygame.Surface(SIZE_IMAGE_ITEM)
         self.image.fill(WHITE)
         self.rect = self.image.get_rect()
-        self.quantity = 1
-        self.quantity_total = 1
-
-    def update(self, delta):
-        self.quantity += delta
+        self.quantity = quantity_item
+        if (name == 'bullet'):
+            self.quantity_total = 20
+        else:
+            self.quantity_total = 3
 
     def draw(self, surface, position):
         self.rect.topleft = position

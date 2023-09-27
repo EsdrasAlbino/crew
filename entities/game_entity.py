@@ -165,13 +165,11 @@ class Game(object):
         # create inventory
         self.inventory = Inventory()
 
-        item1 = Item("asteroid")
-        item2 = Item("bullet")
+        item1 = Item("asteroid", 1)
+        item2 = Item("bullet", self.player.bullet_quantity)
         # Add another "Item 1" to test quantity stacking
-        item3 = Item("bullet")
-        item3 = Item("comet")
-        item5 = Item("propellant")
-        for item in [item1, item2, item3, item5]:
+        item5 = Item("propellant", 1)
+        for item in [item1, item2, item5]:
             self.inventory.add_item(item)
 
         for event in pygame.event.get():
@@ -242,7 +240,7 @@ class Game(object):
         self.throttle_group.draw(self.screen)
         self.livesGroup.draw(self.screen)
 
-        # self.inventory.draw(self.screen)
+        self.inventory.draw(self.screen)
 
         while self.asteroid_coords[1] < self.window_dimensions[1]:
             self.screen.blit(
