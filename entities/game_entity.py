@@ -194,6 +194,7 @@ class Game(object):
                     self.player_group,
                     self.bullet_group,
                     self.window_dimensions,
+                    self.track_bottom_coord,
                 )
                 self.asteroid_group.add(enemy)
         # self.livesGroup.add(self.life1, self.life2, self.life3)
@@ -210,6 +211,7 @@ class Game(object):
                     self.player_group,
                     self.player,
                     self.window_dimensions,
+                    self.track_bottom_coord,
                 )
                 self.throttle_group.add(throttle)
 
@@ -225,6 +227,7 @@ class Game(object):
                     self.player_group,
                     self.player,
                     self.window_dimensions,
+                    self.track_bottom_coord
                 )
                 self.ammo_group.add(ammo)
 
