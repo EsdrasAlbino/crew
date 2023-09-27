@@ -1,10 +1,7 @@
 import pygame
-<<<<<<< HEAD
 from util.colors import WHITE, BLACK
-=======
 from entities.credits_screen_entity import CreditsScreen
 
->>>>>>> feature/credit_screen
 from entities.game_entity import Game
 
 TEXT_COLOR = WHITE
