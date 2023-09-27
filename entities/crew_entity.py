@@ -14,7 +14,7 @@ class Crew(object):
         self.screen_size = None
         self.clock = None
 
-    def init(self, screen_size=(800, 600)):
+    def init(self, screen_size=(1920, 1080)):
         pygame.init()
 
         self.clock = pygame.time.Clock()
