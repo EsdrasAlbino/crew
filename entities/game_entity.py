@@ -170,11 +170,12 @@ class Game(object):
         # create inventory
         self.inventory = Inventory()
 
-        item1 = Item("asteroid", 1)
-        item2 = Item("bullet", self.player.bullet_quantity)
-        # Add another "Item 1" to test quantity stacking
-        item5 = Item("propellant", 1)
-        for item in [item1, item2, item5]:
+        # item1 = Item("asteroid", 1)
+        item2 = Item("bullet", self.player.bullet_quantity,
+                     "assets/bullet.png")
+        item5 = Item("propellant", self.player.propellant_quantity,
+                     "assets/propellant.png")
+        for item in [item2, item5]:
             self.inventory.add_item(item)
 
         for event in pygame.event.get():

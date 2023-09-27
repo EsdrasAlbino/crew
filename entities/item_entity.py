@@ -6,13 +6,14 @@ FONT = pygame.font.Font(None, 36)
 
 
 class Item:
-    def __init__(self, name, quantity_item):
+    def __init__(self, name, quantity_item, path_image):
         self.name = name
-        self.image = pygame.Surface(SIZE_IMAGE_ITEM)
-        self.image.fill(WHITE)
+        self.image = pygame.image.load(path_image)
+        self.image = pygame.transform.scale(self.image, (SIZE_IMAGE_ITEM))
+        # self.image.fill(WHITE)
         self.rect = self.image.get_rect()
         self.quantity = quantity_item
-        if (name == 'bullet'):
+        if (self.name == 'bullet'):
             self.quantity_total = 20
         else:
             self.quantity_total = 3
@@ -22,8 +23,12 @@ class Item:
         variation_position = VARIATION_POSITION_TEXT_IN_ITEM
 
         surface.blit(self.image, self.rect)
-        quantity_text = FONT.render(
-            f"{self.quantity}/{self.quantity_total}", True, WHITE)
+        if (self.name == 'propellant'):
+            quantity_text = FONT.render(
+                f"{self.quantity}", True, WHITE)
+        else:
+            quantity_text = FONT.render(
+                f"{self.quantity}/{self.quantity_total}", True, WHITE)
 
         surface.blit(
             quantity_text, (position[0] + variation_position, position[1] + variation_position))

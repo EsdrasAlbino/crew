@@ -30,6 +30,7 @@ class Player(Entity):
         self.boost_start = 0
         self.life = INITIAL_LIFE
         self.bullet_quantity = 3
+        self.propellant_quantity = 0
 
     def increment_bullet(self):
         self.bullet_quantity += 3
@@ -47,6 +48,7 @@ class Player(Entity):
         self.boost_duration = BOOST_DURATION
         self.boost_start = pygame.time.get_ticks()
         self.cooldown = MIN_COOLDOWN
+        self.propellant_quantity = 1
 
     def player_damage(self):
         if self.life >= 1:
