@@ -76,17 +76,14 @@ class Game(object):
         )  # left, top, right, bottom
 
         # create life
-        self.life1 = Life((10, 30))
-        self.life2 = Life((50, 30))
-        self.life3 = Life((90, 30))
+        self.lives = [Life((10, 30)), Life((50, 30)), Life((90, 30))]
 
         self.player_group = pygame.sprite.Group()
         self.asteroid_group = pygame.sprite.Group()
         self.bullet_group = pygame.sprite.Group()
         self.ammo_group = pygame.sprite.Group()
         self.throttle_group = pygame.sprite.Group()
-        self.livesGroup = pygame.sprite.Group(
-            self.life1, self.life2, self.life3)
+        self.livesGroup = pygame.sprite.Group()
 
         self.player = Player(
             10,
@@ -108,6 +105,14 @@ class Game(object):
     # def check_collisions(self):
 
     def run(self, screen, __, event):
+        if self.player.life <= 0:
+            return False
+
+        self.livesGroup.empty()
+
+        for i in range(self.player.life):
+            self.livesGroup.add(self.lives[i])
+
         self.screen = screen
         (
             self.window_dimensions,

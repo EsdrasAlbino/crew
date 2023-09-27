@@ -37,6 +37,7 @@ class Asteroid(Entity):
 
         if pygame.sprite.spritecollide(self, self.__player_group, False):
             self.kill()
+            self.__player_group.sprites()[0].player_damage()
 
         if pygame.sprite.spritecollide(self, self.__bullet_group, True):
             self.kill()

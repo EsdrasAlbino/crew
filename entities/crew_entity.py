@@ -14,7 +14,7 @@ class Crew(object):
         self.screen_size = None
         self.clock = None
 
-    def init(self, screen_size=(800, 600)):
+    def init(self, screen_size=(1920, 1080)):
         pygame.init()
 
         self.clock = pygame.time.Clock()
@@ -68,3 +68,5 @@ class Crew(object):
                     is_running = False
             self.current_screen = self.current_screen.run(
                 self.screen, self.window_dimensions, event)
+            if not self.current_screen:
+                self.current_screen = StartScreen(self.window_dimensions)
