@@ -155,7 +155,8 @@ class Game(object):
         self.comet_coords = update_coords(self.comet_coords, comet_new_coords)
 
         self.__update_coords()
-        self.player.boundaries = (self.track_left_coord, self.track_right_coord)
+        self.player.boundaries = (
+            self.track_left_coord, self.track_right_coord - ASTEROID_WIDTH / 1.5)
         self.screen.blit(background, (0, 0))
 
         self.asteroid_coords = update_coords(
