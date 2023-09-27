@@ -23,9 +23,6 @@ class Crew(object):
 
         self.screen = pygame.display.set_mode(screen_size)
 
-        def draw_bg():
-            self.screen.blit(self.bg, (0,0))
-
         info = pygame.display.Info()  # Tem que ser antes do .set_mode()
         self.screen_dimensions = (info.current_w, info.current_h)
 
@@ -65,5 +62,5 @@ class Crew(object):
                         is_fullscreen = False
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     is_running = False
-                self.current_screen = self.current_screen.run(
-                    self.screen, self.window_dimensions, event)
+            self.current_screen = self.current_screen.run(
+                self.screen, self.window_dimensions, event)
