@@ -67,10 +67,17 @@ class Game(object):
             None,
         )  # left, top, right, bottom
 
+        # create life
+        self.life1 = Life((10, 30))
+        self.life2 = Life((50, 30))
+        self.life3 = Life((90, 30))
+
         self.player_group = pygame.sprite.Group()
         self.asteroid_group = pygame.sprite.Group()
         self.bullet_group = pygame.sprite.Group()
         self.throttle_group = pygame.sprite.Group()
+        self.livesGroup = pygame.sprite.Group(
+            self.life1, self.life2, self.life3)
 
         self.player = Player(
             10,
@@ -88,6 +95,8 @@ class Game(object):
 
     def __update_coords(self):
         self.player.position = (self.player.position[0], self.player_coords[1])
+
+    # def check_collisions(self):
 
     def run(self, screen, __, event):
         self.screen = screen
@@ -144,21 +153,17 @@ class Game(object):
         self.clock.tick(self.fps)
         self.screen.blit(background, (0, 0))
 
-        # # create asteroid
-        # self.asteroid = Asteroid(
-        #     5,
-        #     (100, 100),
-        #     self.asteroid_group,
-        #     self.bullet_group,
-        #     self.window_dimensions,
-        # )
-        # self.asteroid_group.add(self.asteroid)
+        # create inventory
+        self.inventory = Inventory()
 
-        # create throttle
-        # self.throttle = Throttle(
-        #     3, (400, 200), self.player_group, self.player, self.window_dimensions
-        # )
-        # self.throttle_group.add(self.throttle)
+        item1 = Item("asteroid")
+        item2 = Item("bullet")
+        # Add another "Item 1" to test quantity stacking
+        item3 = Item("bullet")
+        item3 = Item("comet")
+        item5 = Item("propellant")
+        for item in [item1, item2, item3, item5]:
+            self.inventory.add_item(item)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -178,6 +183,7 @@ class Game(object):
                     self.window_dimensions,
                 )
                 self.asteroid_group.add(enemy)
+        # self.livesGroup.add(self.life1, self.life2, self.life3)
 
         # update player
         self.player.update()
@@ -186,12 +192,16 @@ class Game(object):
         self.asteroid_group.update()
         self.bullet_group.update()
         self.throttle_group.update()
+        self.livesGroup.update(self.screen)
 
         # draw sprite groups
         self.asteroid_group.draw(self.screen)
         self.player_group.draw(self.screen)
         self.bullet_group.draw(self.screen)
         self.throttle_group.draw(self.screen)
+        self.livesGroup.draw(self.screen)
+
+        # self.inventory.draw(self.screen)
 
         while self.asteroid_coords[1] < self.window_dimensions[1]:
             self.screen.blit(
