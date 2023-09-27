@@ -1,4 +1,5 @@
 import sys
+from entities.ammo_entity import Ammo
 
 from entities.player_entity import Player
 from entities.throttle_entity import Throttle
@@ -60,6 +61,13 @@ class Game(object):
             None,
         )  # left, top, right, bottom
 
+        self.ammo_coords = (
+            0,
+            0,
+            None,
+            None,
+        )  # left, top, right, bottom
+
         self.comet_coords = (
             0,
             0,
@@ -75,6 +83,7 @@ class Game(object):
         self.player_group = pygame.sprite.Group()
         self.asteroid_group = pygame.sprite.Group()
         self.bullet_group = pygame.sprite.Group()
+        self.ammo_group = pygame.sprite.Group()
         self.throttle_group = pygame.sprite.Group()
         self.livesGroup = pygame.sprite.Group(
             self.life1, self.life2, self.life3)
@@ -169,8 +178,8 @@ class Game(object):
             if event.type == pygame.QUIT:
                 return self
 
-        if self.asteroid_group.__len__() < 4:
-            seed = randint(0, 100)
+        if self.asteroid_group.__len__() < 2:
+            seed = randint(0, 200)
             if seed > 40 and seed < 45:
                 enemy = Asteroid(
                     5,
@@ -185,12 +194,43 @@ class Game(object):
                 self.asteroid_group.add(enemy)
         # self.livesGroup.add(self.life1, self.life2, self.life3)
 
+        if self.throttle_group.__len__() < 1:
+            seed = randint(0, 200)
+            if seed == 50:
+                throttle = Throttle(
+                    3,
+                    (
+                        randint(self.track_left_coord, self.track_right_coord),
+                        0,
+                    ),
+                    self.player_group,
+                    self.player,
+                    self.window_dimensions,
+                )
+                self.throttle_group.add(throttle)
+
+        if self.ammo_group.__len__() < 1:
+            seed = randint(0, 200)
+            if seed == 50:
+                ammo = Ammo(
+                    3,
+                    (
+                        randint(self.track_left_coord, self.track_right_coord),
+                        0,
+                    ),
+                    self.player_group,
+                    self.player,
+                    self.window_dimensions,
+                )
+                self.ammo_group.add(ammo)
+
         # update player
         self.player.update()
 
         # update groups
         self.asteroid_group.update()
         self.bullet_group.update()
+        self.ammo_group.update()
         self.throttle_group.update()
         self.livesGroup.update(self.screen)
 
@@ -198,6 +238,7 @@ class Game(object):
         self.asteroid_group.draw(self.screen)
         self.player_group.draw(self.screen)
         self.bullet_group.draw(self.screen)
+        self.ammo_group.draw(self.screen)
         self.throttle_group.draw(self.screen)
         self.livesGroup.draw(self.screen)
 

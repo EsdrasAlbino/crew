@@ -6,7 +6,9 @@ PLAYER_WIDTH = 50
 PLAYER_HEIGHT = 50
 
 INITIAL_BULLET_VELOCITY = 5
-INITIAL_COOLDOWN = 200
+INITIAL_COOLDOWN = 600
+MIN_COOLDOWN = 200
+BOOST_DURATION = 1000 * 10 * 60 * 2
 
 
 class Player(Entity):
@@ -22,11 +24,19 @@ class Player(Entity):
         self.cooldown = INITIAL_COOLDOWN
         self.bullet_velocity = INITIAL_BULLET_VELOCITY
         self.boundaries = boundaries
+        self.is_boosted = False
+        self.boost_duration = BOOST_DURATION
+        self.boost_start = 0
 
     def shoot(self, current_time):
         bullet = Bullet(self.bullet_velocity, self.center)
         self.bullet_group.add(bullet)
         self.last_shot = current_time
+
+    def decrease_cooldown(self):
+        self.boost_duration = BOOST_DURATION
+        self.boost_start = pygame.time.get_ticks()
+        self.cooldown = MIN_COOLDOWN
 
     def update(self):
         # get key press
@@ -42,6 +52,10 @@ class Player(Entity):
                 self.position = future_pos
 
         current_time = pygame.time.get_ticks()
+        self.boost_duration -= current_time - self.boost_start
+        if self.boost_duration <= 0:
+            self.cooldown = INITIAL_COOLDOWN
+
         is_cooldown_over = current_time - self.last_shot > self.cooldown
 
         if keys[pygame.K_SPACE] and is_cooldown_over and self.alive():
