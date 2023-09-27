@@ -73,6 +73,7 @@ class Player(Entity):
 
         if self.boost_duration <= 0:
             self.cooldown = INITIAL_COOLDOWN
+            self.propellant_quantity = 0
 
         if self.bullet_quantity <= 0:
             self.bullet_quantity = 0
