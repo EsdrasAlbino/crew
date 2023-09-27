@@ -182,8 +182,8 @@ class Game(object):
             self.bullet_group)
         self.spaceship_group.add(self.spaceship)
 
-        self.livesGroup = pygame.sprite.Group(
-            self.life1, self.life2, self.life3)
+        # self.livesGroup = pygame.sprite.Group(
+        #   self.life1, self.life2, self.life3)
 
         # create asteroid
         self.asteroid = Asteroid(5,
