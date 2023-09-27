@@ -19,7 +19,7 @@ from util.update_coords import update_coords
 
 class Game(object):
     def __init__(self, window_dimensions):
-        pygame.mixer.music.load("./assets/theme.mp3")
+        pygame.mixer.music.load("assets/theme.mp3")
         pygame.mixer.music.play()
         self.window_dimensions = window_dimensions
         if self.window_dimensions[1] * 2 < self.window_dimensions[0]:
