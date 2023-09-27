@@ -16,7 +16,6 @@ class Throttle(Entity):
         self.__player_group = player_group
         self.__player = player
         self.screen_dimensions = screen_dimensions
-        self.new_cooldown = self.__player.cooldown / 4
 
     def update(self):
         future_position = self.get_future_position((0, 1))
@@ -27,4 +26,5 @@ class Throttle(Entity):
 
         if pygame.sprite.spritecollide(self, self.__player_group, False):
             self.kill()
+            self.new_cooldown = self.__player.cooldown / 4
             self.__player.cooldown = self.new_cooldown
