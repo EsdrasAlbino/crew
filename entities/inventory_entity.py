@@ -31,7 +31,7 @@ class Inventory:
             #    item.draw(surface, position)
             # else:  # Other items go to the bottom
             item.draw(surface, position)
-            position[0] -= ITEM_SPACING_INVENTORY_ADD + item_spacing
+            position[1] -= ITEM_SPACING_INVENTORY_ADD + item_spacing
            # position[1] = ITEM_SPACING_INVENTORY_ADD + item_spacing
 
             if position[0] + ITEM_SPACING_INVENTORY_ADD >= screen_width:

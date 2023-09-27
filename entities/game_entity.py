@@ -171,11 +171,13 @@ class Game(object):
         self.inventory = Inventory()
 
         # item1 = Item("asteroid", 1)
-        item2 = Item("bullet", self.player.bullet_quantity,
-                     "assets/bullet.png")
-        item5 = Item("propellant", self.player.propellant_quantity,
-                     "assets/propellant.png")
-        for item in [item2, item5]:
+        bullet_item = Item("bullet", self.player.bullet_quantity,
+                           "assets/bullet.png")
+        propellant_item = Item("propellant", self.player.propellant_condition,
+                               "assets/propellant.png")
+        asteroid_item = Item("asteroid", self.player.asteroid_destroy,
+                             "assets/asteroid.png")
+        for item in [bullet_item, propellant_item, asteroid_item]:
             self.inventory.add_item(item)
 
         for event in pygame.event.get():
@@ -188,7 +190,8 @@ class Game(object):
                 enemy = Asteroid(
                     5,
                     (
-                        randint(self.track_left_coord, self.track_right_coord - int(ASTEROID_WIDTH / 1.5)),
+                        randint(self.track_left_coord,
+                                self.track_right_coord - int(ASTEROID_WIDTH / 1.5)),
                         0,
                     ),
                     self.player_group,
@@ -205,7 +208,8 @@ class Game(object):
                 throttle = Throttle(
                     3,
                     (
-                        randint(self.track_left_coord, self.track_right_coord - int(ASTEROID_WIDTH / 1.5)),
+                        randint(self.track_left_coord,
+                                self.track_right_coord - int(ASTEROID_WIDTH / 1.5)),
                         0,
                     ),
                     self.player_group,
@@ -221,7 +225,8 @@ class Game(object):
                 ammo = Ammo(
                     3,
                     (
-                        randint(self.track_left_coord, self.track_right_coord - int(ASTEROID_WIDTH / 1.5)),
+                        randint(self.track_left_coord,
+                                self.track_right_coord - int(ASTEROID_WIDTH / 1.5)),
                         0,
                     ),
                     self.player_group,

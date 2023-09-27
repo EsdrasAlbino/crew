@@ -29,7 +29,8 @@ class Asteroid(Entity):
         self.track_bottom_coord = track_bottom_coord
 
     def update(self):
-        future_position = self.get_future_position((0, self.track_bottom_coord/1000))
+        future_position = self.get_future_position(
+            (0, self.track_bottom_coord/1000))
 
         if future_position[1] > self.__screen_dimensions[1]:
             self.kill()
@@ -42,3 +43,4 @@ class Asteroid(Entity):
 
         if pygame.sprite.spritecollide(self, self.__bullet_group, True):
             self.kill()
+            self.__player_group.sprites()[0].asteroid_destroy += 1
