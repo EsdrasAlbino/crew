@@ -5,6 +5,9 @@ from entities.throttle_entity import Throttle
 from entities.bullet_entity import Bullet
 from entities.asteroid_entity import Asteroid
 from random import randint
+from entities.item_entity import Item
+from entities.inventory_entity import Inventory
+from entities.life_entity import Life
 
 from pygame.locals import *
 from pygame.sprite import Group
@@ -175,24 +178,49 @@ class Game(object):
 
         # create player
         self.spaceship = Player(
-            10, (window_dimensions[0] // 2, window_dimensions[1] - 100), self.bullet_group)
+            10, (window_dimensions[0] // 2, window_dimensions[1] - 100),
+            self.bullet_group)
         self.spaceship_group.add(self.spaceship)
+
+        self.livesGroup = pygame.sprite.Group(
+            self.life1, self.life2, self.life3)
 
         # create asteroid
         self.asteroid = Asteroid(5,
-                                 (100, 100), self.asteroid_group, self.bullet_group, window_dimensions)
+                                 (100, 100), self.asteroid_group,
+                                 self.bullet_group, window_dimensions)
         self.asteroid_group.add(self.asteroid)
 
         # create throttle
         self.throttle = Throttle(3,
-                                 (400, 200), self.spaceship_group, self.spaceship, window_dimensions)
+                                 (400, 200), self.spaceship_group,
+                                 self.spaceship, window_dimensions)
         self.throttle_group.add(self.throttle)
+
+        # create life
+        self.life1 = Life()
+        self.life2 = Life()
+        self.life3 = Life()
+
+        # create inventory
+        self.inventory = Inventory()
+
+        item1 = Item("asteroid")
+        item2 = Item("bullet")
+        # Add another "Item 1" to test quantity stacking
+        item3 = Item("bullet")
+        item3 = Item("comet")
+        item5 = Item("propellant")
+        for item in [item1, item2, item3, item5]:
+            self.inventory.add_item(item)
 
         running = True
         while running:
 
             draw_bg()
             self.clock.tick(self.fps)
+            self.inventory.draw(self.screen)
+            self.livesGroup.add(self.life1, self.life2, self.life3)
 
             for event in pygame.event.get():
 
@@ -216,7 +244,8 @@ class Game(object):
 
             while self.asteroid_coords[1] < window_dimensions[1]:
                 screen.blit(
-                    asteroid, (self.asteroid_coords[0], self.asteroid_coords[1]))
+                    asteroid, (self.asteroid_coords[0],
+                               self.asteroid_coords[1]))
                 screen.blit(
                     asteroid,
                     (
@@ -232,6 +261,7 @@ class Game(object):
                     (None, self.asteroid_coords[1] +
                      asteroid_dimensions[1], None, None),
                 )
+            self.livesGroup.update(self.screen)
 
             if window_dimensions[1] * 2 < window_dimensions[0]:
                 self.track_left_coord = (

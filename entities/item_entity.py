@@ -14,6 +14,9 @@ class Item:
         self.quantity = 1
         self.quantity_total = 1
 
+    def update(self, delta):
+        self.quantity += delta
+
     def draw(self, surface, position):
         self.rect.topleft = position
         variation_position = VARIATION_POSITION_TEXT_IN_ITEM

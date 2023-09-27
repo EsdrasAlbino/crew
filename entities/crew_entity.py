@@ -1,10 +1,8 @@
 from entities.initial_screen_entity import StartScreen
 import pygame
 from entities.initial_screen_entity import StartScreen
-
 from util.change_window_size_util import update_window
-from entities.item_entity import Item
-from entities.inventory_entity import Inventory
+
 
 GAME_TITLE = "Crew"
 
@@ -41,16 +39,6 @@ class Crew(object):
         is_fullscreen = False
 
         self.current_screen = StartScreen(self.window_dimensions)
-        inventory = Inventory()
-        item1 = Item("asteroid")
-        item2 = Item("bullet")
-        # Add another "Item 1" to test quantity stacking
-        item3 = Item("bullet")
-        item3 = Item("comet")
-        item4 = Item("player")
-        item5 = Item("propellant")
-        for item in [item1, item2, item3, item4, item5]:
-            inventory.add_item(item)
 
         pygame.display.set_caption(GAME_TITLE)
 
@@ -83,5 +71,3 @@ class Crew(object):
                     is_running = False
                 self.current_screen = self.current_screen.run(
                     self.screen, self.window_dimensions, event)
-
-            inventory.draw(self.screen)
