@@ -156,7 +156,9 @@ class Game(object):
 
         self.__update_coords()
         self.player.boundaries = (
-            self.track_left_coord, self.track_right_coord - ASTEROID_WIDTH / 1.5)
+            self.track_left_coord,
+            self.track_right_coord - ASTEROID_WIDTH / 1.5,
+        )
         self.screen.blit(background, (0, 0))
 
         self.asteroid_coords = update_coords(
@@ -171,10 +173,10 @@ class Game(object):
         self.inventory = Inventory()
 
         # item1 = Item("asteroid", 1)
-        item2 = Item("bullet", self.player.bullet_quantity,
-                     "assets/bullet.png")
-        item5 = Item("propellant", self.player.propellant_quantity,
-                     "assets/propellant.png")
+        item2 = Item("bullet", self.player.bullet_quantity, "assets/bullet.png")
+        item5 = Item(
+            "propellant", self.player.propellant_quantity, "assets/propellant.png"
+        )
         for item in [item2, item5]:
             self.inventory.add_item(item)
 
@@ -188,7 +190,10 @@ class Game(object):
                 enemy = Asteroid(
                     5,
                     (
-                        randint(self.track_left_coord, self.track_right_coord - int(ASTEROID_WIDTH / 1.5)),
+                        randint(
+                            self.track_left_coord,
+                            self.track_right_coord - int(ASTEROID_WIDTH / 1.5),
+                        ),
                         0,
                     ),
                     self.player_group,
@@ -205,7 +210,10 @@ class Game(object):
                 throttle = Throttle(
                     3,
                     (
-                        randint(self.track_left_coord, self.track_right_coord - int(ASTEROID_WIDTH / 1.5)),
+                        randint(
+                            self.track_left_coord,
+                            self.track_right_coord - int(ASTEROID_WIDTH / 1.5),
+                        ),
                         0,
                     ),
                     self.player_group,
@@ -221,13 +229,16 @@ class Game(object):
                 ammo = Ammo(
                     3,
                     (
-                        randint(self.track_left_coord, self.track_right_coord - int(ASTEROID_WIDTH / 1.5)),
+                        randint(
+                            self.track_left_coord,
+                            self.track_right_coord - int(ASTEROID_WIDTH / 1.5),
+                        ),
                         0,
                     ),
                     self.player_group,
                     self.player,
                     self.window_dimensions,
-                    self.track_bottom_coord
+                    self.track_bottom_coord,
                 )
                 self.ammo_group.add(ammo)
 
