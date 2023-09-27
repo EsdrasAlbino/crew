@@ -18,17 +18,18 @@ from util.update_coords import update_coords
 
 class Game(object):
     def __init__(self, window_dimensions):
-        if window_dimensions[1] * 2 < window_dimensions[0]:
+        self.window_dimensions = window_dimensions
+        if self.window_dimensions[1] * 2 < self.window_dimensions[0]:
             self.track_left_coord = (
-                window_dimensions[0] // 2 - window_dimensions[1] // 2
+                self.window_dimensions[0] // 2 - self.window_dimensions[1] // 2
             )
             self.track_right_coord = self.track_left_coord + \
-                window_dimensions[1]
-            self.track_bottom_coord = window_dimensions[1]
+                self.window_dimensions[1]
+            self.track_bottom_coord = self.window_dimensions[1]
         else:
-            self.track_left_coord = window_dimensions[0] // 4
-            self.track_right_coord = 3 * window_dimensions[0] // 4
-            self.track_bottom_coord = window_dimensions[0] // 2
+            self.track_left_coord = self.window_dimensions[0] // 4
+            self.track_right_coord = 3 * self.window_dimensions[0] // 4
+            self.track_bottom_coord = self.window_dimensions[0] // 2
 
         self.track_coords = (
             self.track_left_coord,
@@ -39,8 +40,8 @@ class Game(object):
 
         self.player_coords = (
             (self.track_coords[2] - self.track_coords[0]) // 2,
-            self.track_coords[3] -
-            (31 * ((self.track_coords[2] - self.track_coords[0]) / 5) // 45),
+            self.track_coords[3]
+            - (31 * ((self.track_coords[2] - self.track_coords[0]) / 5) // 45),
             None,
             None,
         )  # left, top, right, bottom
@@ -66,77 +67,53 @@ class Game(object):
             None,
         )  # left, top, right, bottom
 
-    @property
-    def spaceship_group(self):
-        return self.spaceship_group
+        self.player_group = pygame.sprite.Group()
+        self.asteroid_group = pygame.sprite.Group()
+        self.bullet_group = pygame.sprite.Group()
+        self.throttle_group = pygame.sprite.Group()
 
-    @spaceship_group.setter
-    def spaceship_group(self, spaceship_group):
-        self.spaceship_group = spaceship_group
+        self.player = Player(
+            10,
+            (
+                self.window_dimensions[0] // 2,
+                self.window_dimensions[1],
+            ),
+            self.bullet_group,
+            (self.track_left_coord, self.track_right_coord),
+        )
+        self.player_group.add(self.player)
 
-    @property
-    def asteroid_group(self):
-        return self.asteroid_group
+        self.clock = pygame.time.Clock()
+        self.fps = 60
 
-    @asteroid_group.setter
-    def asteroid_group(self, asteroid_group):
-        self.asteroid_group = asteroid_group
+    def __update_coords(self):
+        self.player.position = (self.player.position[0], self.player_coords[1])
 
-    @property
-    def bullet_group(self):
-        return self.bullet_group
-
-    @bullet_group.setter
-    def bullet_group(self, bullet_group):
-        self.bullet_group = bullet_group
-
-    @property
-    def throttle_group(self):
-        return self.throttle_groupz
-
-    @throttle_group.setter
-    def throttle_group(self, throttle_group):
-        self.throttle_group = throttle_group
-
-    spaceship_group = pygame.sprite.Group()
-    asteroid_group = pygame.sprite.Group()
-    bullet_group = pygame.sprite.Group()
-    throttle_group = pygame.sprite.Group()
-
-    def run(self, screen, window_dimensions, event):
-        (window_dimensions,
-         self.track_coords,
-         background,
-         asteroid,
-         asteroid_dimensions,
-         asteroid_left_coord,
-         player,
-         player_dimensions,
-         player_new_coords,
-         propellant,
-         propellant_dimensions,
-         propellant_new_coords,
-         bullet,
-         bullet_dimensions,
-         bullet_new_coords,
-         comet,
-         comet_dimensions,
-         comet_new_coords,
-         ) = change_window_size(
-            screen,
+    def run(self, screen, __, event):
+        self.screen = screen
+        (
+            self.window_dimensions,
+            self.track_coords,
+            background,
+            asteroid,
+            asteroid_dimensions,
+            asteroid_left_coord,
+            player_dimensions,
+            player_new_coords,
+            propellant_dimensions,
+            propellant_new_coords,
+            bullet_dimensions,
+            bullet_new_coords,
+            comet_dimensions,
+            comet_new_coords,
+        ) = change_window_size(
+            self.screen,
             self.track_coords,
             self.player_coords,
             self.propellant_coords,
             self.bullet_coords,
             self.comet_coords,
         )
-
-        self.player_coords = (
-            (self.track_coords[2] - self.track_coords[0]) // 2,
-            self.track_coords[3] - player_dimensions[1],
-            None,
-            None,
-        )  # left, top, right, bottom
 
         self.asteroid_coords = (
             asteroid_left_coord,
@@ -148,133 +125,110 @@ class Game(object):
         self.player_coords = update_coords(
             self.player_coords, player_new_coords)
         self.propellant_coords = update_coords(
-            self.propellant_coords, propellant_new_coords)
+            self.propellant_coords, propellant_new_coords
+        )
         self.bullet_coords = update_coords(
             self.bullet_coords, bullet_new_coords)
         self.comet_coords = update_coords(self.comet_coords, comet_new_coords)
 
-        screen.blit(background, (0, 0))
-        screen.blit(player, (self.player_coords[0], self.player_coords[1]))
+        self.__update_coords()
+        self.player.boundaries = (
+            self.track_left_coord, self.track_right_coord)
+        self.screen.blit(background, (0, 0))
 
         self.asteroid_coords = update_coords(
-            self.asteroid_coords, (None, 0, None, None))
+            self.asteroid_coords, (None, 0, None, None)
+        )
 
-        self.clock = pygame.time.Clock()
-        self.fps = 60
-
-        def draw_bg(screen):
-            screen.fill((0, 0, 0))
-
-        draw_bg(screen)
+        self.screen.fill((0, 0, 0))
         self.clock.tick(self.fps)
+        self.screen.blit(background, (0, 0))
 
-        self.bg = pygame.image.load('assets/background.jpg')
-        self.screen = pygame.display.set_mode(window_dimensions)
-        self.clock = pygame.time.Clock()
-        self.fps = 60
-
-        def draw_bg():
-            self.screen.blit(self.bg, (0, 0))
-
-        # create player
-        self.spaceship = Player(
-            10, (window_dimensions[0] // 2, window_dimensions[1] - 100),
-            self.bullet_group)
-        self.spaceship_group.add(self.spaceship)
-
-        # self.livesGroup = pygame.sprite.Group(
-        #   self.life1, self.life2, self.life3)
-
-        # create asteroid
-        self.asteroid = Asteroid(5,
-                                 (100, 100), self.asteroid_group,
-                                 self.bullet_group, window_dimensions)
-        self.asteroid_group.add(self.asteroid)
+        # # create asteroid
+        # self.asteroid = Asteroid(
+        #     5,
+        #     (100, 100),
+        #     self.asteroid_group,
+        #     self.bullet_group,
+        #     self.window_dimensions,
+        # )
+        # self.asteroid_group.add(self.asteroid)
 
         # create throttle
-        self.throttle = Throttle(3,
-                                 (400, 200), self.spaceship_group,
-                                 self.spaceship, window_dimensions)
-        self.throttle_group.add(self.throttle)
+        # self.throttle = Throttle(
+        #     3, (400, 200), self.player_group, self.player, self.window_dimensions
+        # )
+        # self.throttle_group.add(self.throttle)
 
-        # create life
-        self.life1 = Life()
-        self.life2 = Life()
-        self.life3 = Life()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return self
 
-        # create inventory
-        self.inventory = Inventory()
-
-        item1 = Item("asteroid")
-        item2 = Item("bullet")
-        # Add another "Item 1" to test quantity stacking
-        item3 = Item("bullet")
-        item3 = Item("comet")
-        item5 = Item("propellant")
-        for item in [item1, item2, item3, item5]:
-            self.inventory.add_item(item)
-
-        running = True
-        while running:
-
-            draw_bg()
-            self.clock.tick(self.fps)
-            self.inventory.draw(self.screen)
-            self.livesGroup.add(self.life1, self.life2, self.life3)
-
-            for event in pygame.event.get():
-
-                if event.type == pygame.QUIT:
-                    running = False
-                    sys.exit()
-
-            # update player
-            self.spaceship.update()
-
-            # update groups
-            self.asteroid_group.update()
-            self.bullet_group.update()
-            self.throttle_group.update()
-
-            # draw sprite groups
-            self.asteroid_group.draw(self.screen)
-            self.spaceship_group.draw(self.screen)
-            self.bullet_group.draw(self.screen)
-            self.throttle_group.draw(self.screen)
-
-            while self.asteroid_coords[1] < window_dimensions[1]:
-                screen.blit(
-                    asteroid, (self.asteroid_coords[0],
-                               self.asteroid_coords[1]))
-                screen.blit(
-                    asteroid,
+        if self.asteroid_group.__len__() < 4:
+            seed = randint(0, 100)
+            if seed > 40 and seed < 45:
+                enemy = Asteroid(
+                    5,
                     (
-                        self.asteroid_coords[0]
-                        + self.track_coords[2]
-                        - self.track_coords[0]
-                        + asteroid_dimensions[1],
-                        self.asteroid_coords[1],
+                        randint(self.track_left_coord, self.track_right_coord),
+                        0,
                     ),
+                    self.player_group,
+                    self.bullet_group,
+                    self.window_dimensions,
                 )
-                self.asteroid_coords = update_coords(
-                    self.asteroid_coords,
-                    (None, self.asteroid_coords[1] +
-                     asteroid_dimensions[1], None, None),
-                )
-            self.livesGroup.update(self.screen)
+                self.asteroid_group.add(enemy)
 
-            if window_dimensions[1] * 2 < window_dimensions[0]:
-                self.track_left_coord = (
-                    window_dimensions[0] // 2 - window_dimensions[1] // 2
-                )
-                self.track_right_coord = self.track_left_coord + \
-                    window_dimensions[1]
-                self.track_bottom_coord = window_dimensions[1]
-            else:
-                self.track_left_coord = window_dimensions[0] // 4
-                self.track_right_coord = 3 * window_dimensions[0] // 4
-                self.track_bottom_coord = window_dimensions[0] // 2
+        # update player
+        self.player.update()
 
-            pygame.display.update()
+        # update groups
+        self.asteroid_group.update()
+        self.bullet_group.update()
+        self.throttle_group.update()
+
+        # draw sprite groups
+        self.asteroid_group.draw(self.screen)
+        self.player_group.draw(self.screen)
+        self.bullet_group.draw(self.screen)
+        self.throttle_group.draw(self.screen)
+
+        while self.asteroid_coords[1] < self.window_dimensions[1]:
+            self.screen.blit(
+                asteroid, (self.asteroid_coords[0], self.asteroid_coords[1])
+            )
+            self.screen.blit(
+                asteroid,
+                (
+                    self.asteroid_coords[0]
+                    + self.track_coords[2]
+                    - self.track_coords[0]
+                    + asteroid_dimensions[1],
+                    self.asteroid_coords[1],
+                ),
+            )
+            self.asteroid_coords = update_coords(
+                self.asteroid_coords,
+                (
+                    None,
+                    self.asteroid_coords[1] + asteroid_dimensions[1],
+                    None,
+                    None,
+                ),
+            )
+
+        if self.window_dimensions[1] * 2 < self.window_dimensions[0]:
+            self.track_left_coord = (
+                self.window_dimensions[0] // 2 - self.window_dimensions[1] // 2
+            )
+            self.track_right_coord = self.track_left_coord + \
+                self.window_dimensions[1]
+            self.track_bottom_coord = self.window_dimensions[1]
+        else:
+            self.track_left_coord = self.window_dimensions[0] // 4
+            self.track_right_coord = 3 * self.window_dimensions[0] // 4
+            self.track_bottom_coord = self.window_dimensions[0] // 2
+
+        pygame.display.update()
 
         return self
