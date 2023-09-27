@@ -31,4 +31,5 @@ class Ammo(Entity):
 
         if pygame.sprite.spritecollide(self, self.__player_group, False):
             self.kill()
+            self.__player.increment_bullet()
             # self.__player.decrease_cooldown()

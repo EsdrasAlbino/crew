@@ -29,11 +29,19 @@ class Player(Entity):
         self.boost_duration = BOOST_DURATION
         self.boost_start = 0
         self.life = INITIAL_LIFE
+        self.bullet_quantity = 3
+
+    def increment_bullet(self):
+        self.bullet_quantity += 3
+
+    def decrement_bullet(self):
+        self.bullet_quantity -= 1
 
     def shoot(self, current_time):
         bullet = Bullet(self.bullet_velocity, self.center)
         self.bullet_group.add(bullet)
         self.last_shot = current_time
+        self.bullet_quantity -= 1
 
     def decrease_cooldown(self):
         self.boost_duration = BOOST_DURATION
@@ -60,11 +68,17 @@ class Player(Entity):
 
         current_time = pygame.time.get_ticks()
         self.boost_duration -= current_time - self.boost_start
+
         if self.boost_duration <= 0:
             self.cooldown = INITIAL_COOLDOWN
+
+        if self.bullet_quantity <= 0:
+            self.bullet_quantity = 0
+
+        if self.bullet_quantity >= 20:
+            self.bullet_quantity = 20
 
         is_cooldown_over = current_time - self.last_shot > self.cooldown
 
         if keys[pygame.K_SPACE] and is_cooldown_over and self.alive():
             self.shoot(current_time)
-

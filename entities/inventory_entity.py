@@ -24,13 +24,15 @@ class Inventory:
         top_right_y = screen_height - item_spacing - ITEM_SPACING_INVENTORY_ADD
 
         for item in self.items:
-            if item == self.items[0]:  # First item goes to top-right
-                item.draw(surface, (top_right_x, top_right_y))
-            elif item == self.items[1]:  # Second item goes to top-left
-                item.draw(surface, position)
-            else:  # Other items go to the bottom
-                item.draw(surface, position)
+            # if item == self.items[0]:  # First item goes to top-right
+            #    item.draw(surface, (top_right_x, top_right_y))
+            # elif item == self.items[1]:  # Second item goes to top-left
+            #    item.draw(surface, position)
+            # else:  # Other items go to the bottom
+            item.draw(surface, position)
+            position[0] += ITEM_SPACING_INVENTORY_ADD + item_spacing
+            position[1] = ITEM_SPACING_INVENTORY_ADD + item_spacing
+
+            if position[0] + ITEM_SPACING_INVENTORY_ADD >= screen_width:
                 position[0] += ITEM_SPACING_INVENTORY_ADD + item_spacing
-                if position[0] + ITEM_SPACING_INVENTORY_ADD >= screen_width:
-                    position[0] += ITEM_SPACING_INVENTORY_ADD + item_spacing
-                    position[1] += ITEM_SPACING_INVENTORY_ADD + item_spacing
+                position[1] += ITEM_SPACING_INVENTORY_ADD + item_spacing

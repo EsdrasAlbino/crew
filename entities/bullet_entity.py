@@ -12,6 +12,7 @@ class Bullet(Entity):
         super().__init__(velocity, BULLET_WIDTH, BULLET_HEIGHT, initial_position)
         self.image.fill(blue)
         self.center = initial_position
+        self.bullet = 3
 
     def update(self):
         future_position = self.get_future_position((0, -1))
