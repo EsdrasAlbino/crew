@@ -19,13 +19,14 @@ from util.update_coords import update_coords
 
 class Game(object):
     def __init__(self, window_dimensions):
+        pygame.mixer.music.load("./assets/theme.mp3")
+        pygame.mixer.music.play()
         self.window_dimensions = window_dimensions
         if self.window_dimensions[1] * 2 < self.window_dimensions[0]:
             self.track_left_coord = (
                 self.window_dimensions[0] // 2 - self.window_dimensions[1] // 2
             )
-            self.track_right_coord = self.track_left_coord + \
-                self.window_dimensions[1]
+            self.track_right_coord = self.track_left_coord + self.window_dimensions[1]
             self.track_bottom_coord = self.window_dimensions[1]
         else:
             self.track_left_coord = self.window_dimensions[0] // 4
@@ -106,6 +107,7 @@ class Game(object):
 
     def run(self, screen, __, event):
         if self.player.life <= 0:
+            pygame.mixer.music.stop()
             return False
 
         self.livesGroup.empty()
@@ -145,18 +147,18 @@ class Game(object):
             None,
         )  # left, top, right, bottom
 
-        self.player_coords = update_coords(
-            self.player_coords, player_new_coords)
+        self.player_coords = update_coords(self.player_coords, player_new_coords)
         self.propellant_coords = update_coords(
             self.propellant_coords, propellant_new_coords
         )
-        self.bullet_coords = update_coords(
-            self.bullet_coords, bullet_new_coords)
+        self.bullet_coords = update_coords(self.bullet_coords, bullet_new_coords)
         self.comet_coords = update_coords(self.comet_coords, comet_new_coords)
 
         self.__update_coords()
         self.player.boundaries = (
-            self.track_left_coord, self.track_right_coord - ASTEROID_WIDTH / 1.5)
+            self.track_left_coord,
+            self.track_right_coord - ASTEROID_WIDTH / 1.5,
+        )
         self.screen.blit(background, (0, 0))
 
         self.asteroid_coords = update_coords(
@@ -171,13 +173,11 @@ class Game(object):
         self.inventory = Inventory()
 
         # item1 = Item("asteroid", 1)
-        bullet_item = Item("bullet", self.player.bullet_quantity,
-                           "assets/bullet.png")
-        propellant_item = Item("propellant", self.player.propellant_condition,
-                               "assets/propellant.png")
-        asteroid_item = Item("asteroid", self.player.asteroid_destroy,
-                             "assets/asteroid.png")
-        for item in [bullet_item, propellant_item, asteroid_item]:
+        item2 = Item("bullet", self.player.bullet_quantity, "assets/bullet.png")
+        item5 = Item(
+            "propellant", self.player.propellant_condition, "assets/propellant.png"
+        )
+        for item in [item2, item5]:
             self.inventory.add_item(item)
 
         for event in pygame.event.get():
@@ -190,8 +190,10 @@ class Game(object):
                 enemy = Asteroid(
                     5,
                     (
-                        randint(self.track_left_coord,
-                                self.track_right_coord - int(ASTEROID_WIDTH / 1.5)),
+                        randint(
+                            self.track_left_coord,
+                            self.track_right_coord - int(ASTEROID_WIDTH / 1.5),
+                        ),
                         0,
                     ),
                     self.player_group,
@@ -208,8 +210,10 @@ class Game(object):
                 throttle = Throttle(
                     3,
                     (
-                        randint(self.track_left_coord,
-                                self.track_right_coord - int(ASTEROID_WIDTH / 1.5)),
+                        randint(
+                            self.track_left_coord,
+                            self.track_right_coord - int(ASTEROID_WIDTH / 1.5),
+                        ),
                         0,
                     ),
                     self.player_group,
@@ -225,14 +229,16 @@ class Game(object):
                 ammo = Ammo(
                     3,
                     (
-                        randint(self.track_left_coord,
-                                self.track_right_coord - int(ASTEROID_WIDTH / 1.5)),
+                        randint(
+                            self.track_left_coord,
+                            self.track_right_coord - int(ASTEROID_WIDTH / 1.5),
+                        ),
                         0,
                     ),
                     self.player_group,
                     self.player,
                     self.window_dimensions,
-                    self.track_bottom_coord
+                    self.track_bottom_coord,
                 )
                 self.ammo_group.add(ammo)
 
@@ -284,8 +290,7 @@ class Game(object):
             self.track_left_coord = (
                 self.window_dimensions[0] // 2 - self.window_dimensions[1] // 2
             )
-            self.track_right_coord = self.track_left_coord + \
-                self.window_dimensions[1]
+            self.track_right_coord = self.track_left_coord + self.window_dimensions[1]
             self.track_bottom_coord = self.window_dimensions[1]
         else:
             self.track_left_coord = self.window_dimensions[0] // 4
