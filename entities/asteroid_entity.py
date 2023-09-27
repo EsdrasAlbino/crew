@@ -14,7 +14,8 @@ class Asteroid(Entity):
 
         self.image = pygame.transform.rotozoom(
             pygame.transform.scale(
-                pygame.image.load("assets/comet.png"), (ASTEROID_WIDTH, ASTEROID_HEIGHT)
+                pygame.image.load(
+                    "assets/comet.png"), (ASTEROID_WIDTH, ASTEROID_HEIGHT)
             ),
             45,
             1,
