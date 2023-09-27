@@ -7,7 +7,7 @@ ASTEROID_HEIGHT = 50
 
 class Asteroid(Entity):
     def __init__(
-        self, velocity, initial_position, player_group, bullet_group, screen_dimensions
+        self, velocity, initial_position, player_group, bullet_group, screen_dimensions, track_bottom_coord
     ):
         pygame.sprite.Sprite.__init__(self)
         super().__init__(velocity, ASTEROID_WIDTH, ASTEROID_HEIGHT, initial_position)
@@ -26,9 +26,10 @@ class Asteroid(Entity):
         self.__player_group = player_group
         self.__bullet_group = bullet_group
         self.__screen_dimensions = screen_dimensions
+        self.track_bottom_coord = track_bottom_coord
 
     def update(self):
-        future_position = self.get_future_position((0, 1))
+        future_position = self.get_future_position((0, self.track_bottom_coord/1000))
 
         if future_position[1] > self.__screen_dimensions[1]:
             self.kill()

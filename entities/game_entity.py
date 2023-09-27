@@ -4,7 +4,7 @@ from entities.ammo_entity import Ammo
 from entities.player_entity import Player
 from entities.throttle_entity import Throttle
 from entities.bullet_entity import Bullet
-from entities.asteroid_entity import Asteroid
+from entities.asteroid_entity import Asteroid, ASTEROID_WIDTH
 from random import randint
 from entities.item_entity import Item
 from entities.inventory_entity import Inventory
@@ -92,7 +92,7 @@ class Game(object):
                 self.window_dimensions[1],
             ),
             self.bullet_group,
-            (self.track_left_coord, self.track_right_coord),
+            (self.track_left_coord, self.track_right_coord - ASTEROID_WIDTH / 1.5),
         )
         self.player_group.add(self.player)
 
@@ -156,7 +156,7 @@ class Game(object):
 
         self.__update_coords()
         self.player.boundaries = (
-            self.track_left_coord, self.track_right_coord)
+            self.track_left_coord, self.track_right_coord - ASTEROID_WIDTH / 1.5)
         self.screen.blit(background, (0, 0))
 
         self.asteroid_coords = update_coords(
@@ -188,12 +188,13 @@ class Game(object):
                 enemy = Asteroid(
                     5,
                     (
-                        randint(self.track_left_coord, self.track_right_coord),
+                        randint(self.track_left_coord, self.track_right_coord - int(ASTEROID_WIDTH / 1.5)),
                         0,
                     ),
                     self.player_group,
                     self.bullet_group,
                     self.window_dimensions,
+                    self.track_bottom_coord,
                 )
                 self.asteroid_group.add(enemy)
         # self.livesGroup.add(self.life1, self.life2, self.life3)
@@ -204,12 +205,13 @@ class Game(object):
                 throttle = Throttle(
                     3,
                     (
-                        randint(self.track_left_coord, self.track_right_coord),
+                        randint(self.track_left_coord, self.track_right_coord - int(ASTEROID_WIDTH / 1.5)),
                         0,
                     ),
                     self.player_group,
                     self.player,
                     self.window_dimensions,
+                    self.track_bottom_coord,
                 )
                 self.throttle_group.add(throttle)
 
@@ -219,12 +221,13 @@ class Game(object):
                 ammo = Ammo(
                     3,
                     (
-                        randint(self.track_left_coord, self.track_right_coord),
+                        randint(self.track_left_coord, self.track_right_coord - int(ASTEROID_WIDTH / 1.5)),
                         0,
                     ),
                     self.player_group,
                     self.player,
                     self.window_dimensions,
+                    self.track_bottom_coord
                 )
                 self.ammo_group.add(ammo)
 
