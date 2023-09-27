@@ -12,8 +12,16 @@ class Asteroid(Entity):
         pygame.sprite.Sprite.__init__(self)
         super().__init__(velocity, ASTEROID_WIDTH, ASTEROID_HEIGHT, initial_position)
 
-        self.image.fill((150, 200, 0))
-        self.center = initial_position
+        self.image = pygame.transform.rotozoom(
+            pygame.transform.scale(
+                pygame.image.load(
+                    "assets/comet.png"), (ASTEROID_WIDTH, ASTEROID_HEIGHT)
+            ),
+            45,
+            1,
+        )
+        self.rect = self.image.get_rect()
+        self.rect.center = initial_position
 
         self.__player_group = player_group
         self.__bullet_group = bullet_group
@@ -29,6 +37,6 @@ class Asteroid(Entity):
 
         if pygame.sprite.spritecollide(self, self.__player_group, False):
             self.kill()
+
         if pygame.sprite.spritecollide(self, self.__bullet_group, True):
             self.kill()
-
