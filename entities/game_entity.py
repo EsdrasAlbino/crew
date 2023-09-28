@@ -18,10 +18,11 @@ from util.update_coords import update_coords
 
 
 class Game(object):
-    def __init__(self, window_dimensions):
+    def __init__(self, window_dimensions,screen_dimensions):
         pygame.mixer.music.load("assets/theme.mp3")
         pygame.mixer.music.play()
         self.window_dimensions = window_dimensions
+        self.screen_dimensions = screen_dimensions
         if self.window_dimensions[1] * 2 < self.window_dimensions[0]:
             self.track_left_coord = (
                 self.window_dimensions[0] // 2 - self.window_dimensions[1] // 2
@@ -100,6 +101,7 @@ class Game(object):
 
         self.clock = pygame.time.Clock()
         self.fps = 60
+        self.is_fullscreen = False
 
     def __update_coords(self):
         self.player.position = (self.player.position[0], self.player_coords[1])
@@ -190,7 +192,26 @@ class Game(object):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return self
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_f:
+                if not self.is_fullscreen:
+                    self.screen = pygame.display.set_mode(
+                        (self.screen_dimensions[0],
+                            self.screen_dimensions[1]),
+                        pygame.FULLSCREEN,
+                    )
+                    self.is_fullscreen = True
+                else:
+                    self.screen = pygame.display.set_mode(
+                        (
+                            self.screen_dimensions[0] // 2,
+                            self.screen_dimensions[1] // 2,
+                        ),
+                        pygame.RESIZABLE,
+                    )
+                    self.is_fullscreen = False
 
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                return self
         if self.asteroid_group.__len__() < 2:
             seed = randint(0, 200)
             if seed > 40 and seed < 45:
@@ -207,6 +228,8 @@ class Game(object):
                     self.bullet_group,
                     self.window_dimensions,
                     self.track_bottom_coord,
+                    comet_dimensions,
+                    comet_new_coords,
                 )
                 self.asteroid_group.add(enemy)
         # self.livesGroup.add(self.life1, self.life2, self.life3)
@@ -227,6 +250,8 @@ class Game(object):
                     self.player,
                     self.window_dimensions,
                     self.track_bottom_coord,
+                    propellant_dimensions,
+                    propellant_new_coords,
                 )
                 self.throttle_group.add(throttle)
 
@@ -246,6 +271,8 @@ class Game(object):
                     self.player,
                     self.window_dimensions,
                     self.track_bottom_coord,
+                    bullet_dimensions,
+                    bullet_new_coords,
                 )
                 self.ammo_group.add(ammo)
 

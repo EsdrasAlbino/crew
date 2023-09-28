@@ -13,7 +13,8 @@ INITIAL_LIFE = 3
 
 
 class Player(Entity):
-    def __init__(self, velocity, initial_position, bullet_group, boundaries):
+    def __init__(self, velocity, initial_position, bullet_group, boundaries,):
+        
         pygame.sprite.Sprite.__init__(self)
         super().__init__(velocity, PLAYER_WIDTH, PLAYER_HEIGHT, initial_position)
 

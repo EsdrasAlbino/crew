@@ -35,7 +35,7 @@ class Crew(object):
         self.window_dimensions = self.screen.get_size()
         is_fullscreen = False
 
-        self.current_screen = StartScreen(self.window_dimensions)
+        self.current_screen = StartScreen(self.window_dimensions, self.screen_dimensions)
 
         pygame.display.set_caption(GAME_TITLE)
 
