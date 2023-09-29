@@ -26,8 +26,8 @@ class GameOverScreen(object):
             center=(int(screen_size[0] * 0.5), screen_size[1] * 0.4)
         )
         self._player_score = self.font.render(f"Pontuação: {self.player_score}", True, TEXT_COLOR)
-        self._player_score_rect = self._game_over.get_rect(
-            center=(int(screen_size[0] * 0.5), screen_size[1] * 0.5)
+        self._player_score_rect = self._player_score.get_rect(
+            center=((screen_size[0] * 1.5) // 3, screen_size[1] * 0.5)
         )
 
         self._back_button = self.font.render("Voltar", True, TEXT_COLOR)
@@ -35,7 +35,7 @@ class GameOverScreen(object):
             center=(screen_size[0] // 3, screen_size[1] * 0.6)
         )
         self._play_button = self.font.render("Jogar novamente", True, TEXT_COLOR)
-        self._play_button_rect = self._back_button.get_rect(
+        self._play_button_rect = self._play_button.get_rect(
             center=((screen_size[0] * 1.75) // 3, screen_size[1] * 0.6)
         )
 
@@ -59,8 +59,8 @@ class GameOverScreen(object):
         self._play_button_rect = self._back_button.get_rect(
             center=((screen_size[0] * 1.75) // 3, screen_size[1] * 0.6)
         )
-        self._player_score_rect = self._game_over.get_rect(
-            center=(int(screen_size[0] * 0.5), screen_size[1] * 0.5)
+        self._player_score_rect = self._player_score.get_rect(
+            center=((screen_size[0] * 1.5) // 3, screen_size[1] * 0.5)
         )
 
 
