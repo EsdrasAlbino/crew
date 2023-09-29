@@ -8,8 +8,10 @@ AMMO_HEIGHT = 25
 
 class Ammo(Entity):
     def __init__(
-        self, velocity, initial_position, player_group, player, screen_dimensions
+        self, velocity, initial_position, player_group, player, screen_dimensions, track_bottom_coord, bullet_dimensions, bullet_new_coord
     ):
+        AMMO_WIDTH, AMMO_HEIGHT = bullet_dimensions
+
         pygame.sprite.Sprite.__init__(self)
         super().__init__(velocity, AMMO_WIDTH, AMMO_HEIGHT, initial_position)
         self.image = pygame.transform.scale(
@@ -21,9 +23,10 @@ class Ammo(Entity):
         self.__player = player
         self.screen_dimensions = screen_dimensions
         self.new_cooldown = self.__player.cooldown / 4
+        self.track_bottom_coord = track_bottom_coord
 
     def update(self):
-        future_position = self.get_future_position((0, 1))
+        future_position = self.get_future_position((0, self.track_bottom_coord/1000))
         if future_position[1] > self.screen_dimensions[1]:
             self.kill()
 

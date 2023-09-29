@@ -10,11 +10,12 @@ FONT_SIZE = 48
 
 
 class StartScreen(object):
-    def __init__(self, screen_size):
+    def __init__(self, screen_size, screen_dimensions):
         title_font = pygame.font.Font(None, FONT_SIZE * 2)
         font = pygame.font.Font(None, FONT_SIZE)
         self.background = pygame.image.load("assets/background.jpg")
         self.background = pygame.transform.scale(self.background, screen_size)
+        self.screen_dimensions =screen_dimensions
 
         # Create text objects
         self._game_name = title_font.render("CREW", True, TEXT_COLOR)

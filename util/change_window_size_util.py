@@ -66,7 +66,7 @@ def change_window_size(
         None,
     )  # left, top, right, bottom
 
-    comet_dimensions = (track_coords[3] // 10, (track_coords[3] // 10))
+    comet_dimensions = (track_coords[3] // 14, (track_coords[3] // 7))
     comet_new_coords = (
         comet_coords[0] + displacement_track,
         comet_coords[1] * proportion_height,

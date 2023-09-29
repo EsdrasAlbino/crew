@@ -4,7 +4,7 @@ from entities.ammo_entity import Ammo
 from entities.player_entity import Player
 from entities.throttle_entity import Throttle
 from entities.bullet_entity import Bullet
-from entities.asteroid_entity import Asteroid
+from entities.asteroid_entity import Asteroid, ASTEROID_WIDTH
 from random import randint
 from entities.item_entity import Item
 from entities.inventory_entity import Inventory
@@ -19,9 +19,16 @@ from entities.game_over_entity import GameOverScreen
 
 
 class Game(object):
+<<<<<<< HEAD
     def __init__(self, window_dimensions, start_screen):
         self.start_screen = start_screen
+=======
+    def __init__(self, window_dimensions,screen_dimensions):
+        pygame.mixer.music.load("assets/theme.mp3")
+        pygame.mixer.music.play()
+>>>>>>> main
         self.window_dimensions = window_dimensions
+        self.screen_dimensions = screen_dimensions
         if self.window_dimensions[1] * 2 < self.window_dimensions[0]:
             self.track_left_coord = (
                 self.window_dimensions[0] // 2 - self.window_dimensions[1] // 2
@@ -94,12 +101,13 @@ class Game(object):
                 self.window_dimensions[1],
             ),
             self.bullet_group,
-            (self.track_left_coord, self.track_right_coord),
+            (self.track_left_coord, self.track_right_coord - ASTEROID_WIDTH / 1.5),
         )
         self.player_group.add(self.player)
 
         self.clock = pygame.time.Clock()
         self.fps = 60
+        self.is_fullscreen = False
 
     def __reset__(self):
         self.track_coords = (
@@ -174,7 +182,12 @@ class Game(object):
 
     def run(self, screen, screen_size, event):
         if self.player.life <= 0:
+<<<<<<< HEAD
             return GameOverScreen(screen_size, self.start_screen, self)
+=======
+            pygame.mixer.music.stop()
+            return False
+>>>>>>> main
 
         self.livesGroup.empty()
 
@@ -224,7 +237,9 @@ class Game(object):
 
         self.__update_coords()
         self.player.boundaries = (
-            self.track_left_coord, self.track_right_coord)
+            self.track_left_coord,
+            self.track_right_coord - ASTEROID_WIDTH / 1.5,
+        )
         self.screen.blit(background, (0, 0))
 
         self.asteroid_coords = update_coords(
@@ -239,29 +254,58 @@ class Game(object):
         self.inventory = Inventory()
 
         # item1 = Item("asteroid", 1)
-        item2 = Item("bullet", self.player.bullet_quantity,
-                     "assets/bullet.png")
-        item5 = Item("propellant", self.player.propellant_quantity,
-                     "assets/propellant.png")
-        for item in [item2, item5]:
+        bullet_item = Item("bullet", self.player.bullet_quantity,
+                           "assets/bullet.png")
+        propellant_item = Item(
+            "propellant", self.player.propellant_condition, "assets/propellant.png"
+        )
+        asteroid_item = Item(
+            "asteroid", self.player.asteroid_destroy, "assets/asteroid.png"
+        )
+        for item in [bullet_item, propellant_item, asteroid_item]:
             self.inventory.add_item(item)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return self
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_f:
+                if not self.is_fullscreen:
+                    self.screen = pygame.display.set_mode(
+                        (self.screen_dimensions[0],
+                            self.screen_dimensions[1]),
+                        pygame.FULLSCREEN,
+                    )
+                    self.is_fullscreen = True
+                else:
+                    self.screen = pygame.display.set_mode(
+                        (
+                            self.screen_dimensions[0] // 2,
+                            self.screen_dimensions[1] // 2,
+                        ),
+                        pygame.RESIZABLE,
+                    )
+                    self.is_fullscreen = False
 
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                return self
         if self.asteroid_group.__len__() < 2:
             seed = randint(0, 200)
             if seed > 40 and seed < 45:
                 enemy = Asteroid(
                     5,
                     (
-                        randint(self.track_left_coord, self.track_right_coord),
+                        randint(
+                            self.track_left_coord,
+                            self.track_right_coord - int(ASTEROID_WIDTH / 1.5),
+                        ),
                         0,
                     ),
                     self.player_group,
                     self.bullet_group,
                     self.window_dimensions,
+                    self.track_bottom_coord,
+                    comet_dimensions,
+                    comet_new_coords,
                 )
                 self.asteroid_group.add(enemy)
         # self.livesGroup.add(self.life1, self.life2, self.life3)
@@ -272,12 +316,18 @@ class Game(object):
                 throttle = Throttle(
                     3,
                     (
-                        randint(self.track_left_coord, self.track_right_coord),
+                        randint(
+                            self.track_left_coord,
+                            self.track_right_coord - int(ASTEROID_WIDTH / 1.5),
+                        ),
                         0,
                     ),
                     self.player_group,
                     self.player,
                     self.window_dimensions,
+                    self.track_bottom_coord,
+                    propellant_dimensions,
+                    propellant_new_coords,
                 )
                 self.throttle_group.add(throttle)
 
@@ -287,12 +337,18 @@ class Game(object):
                 ammo = Ammo(
                     3,
                     (
-                        randint(self.track_left_coord, self.track_right_coord),
+                        randint(
+                            self.track_left_coord,
+                            self.track_right_coord - int(ASTEROID_WIDTH / 1.5),
+                        ),
                         0,
                     ),
                     self.player_group,
                     self.player,
                     self.window_dimensions,
+                    self.track_bottom_coord,
+                    bullet_dimensions,
+                    bullet_new_coords,
                 )
                 self.ammo_group.add(ammo)
 

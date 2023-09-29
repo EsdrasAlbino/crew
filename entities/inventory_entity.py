@@ -20,7 +20,7 @@ class Inventory:
         # position = [item_spacing, item_spacing]
 
         # Calculate the position for the top-right item
-        top_right_x = screen_width - item_spacing - ITEM_SPACING_INVENTORY_ADD
+        top_right_x = screen_width - item_spacing - ITEM_SPACING_INVENTORY_ADD - 10
         top_right_y = screen_height - item_spacing - ITEM_SPACING_INVENTORY_ADD
         position = [top_right_x, top_right_y]
 
@@ -31,8 +31,8 @@ class Inventory:
             #    item.draw(surface, position)
             # else:  # Other items go to the bottom
             item.draw(surface, position)
-            position[0] -= ITEM_SPACING_INVENTORY_ADD + item_spacing
-            position[1] = ITEM_SPACING_INVENTORY_ADD + item_spacing
+            position[1] -= ITEM_SPACING_INVENTORY_ADD + item_spacing
+           # position[1] = ITEM_SPACING_INVENTORY_ADD + item_spacing
 
             if position[0] + ITEM_SPACING_INVENTORY_ADD >= screen_width:
                 position[0] += ITEM_SPACING_INVENTORY_ADD + item_spacing
