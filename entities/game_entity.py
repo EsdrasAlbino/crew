@@ -272,22 +272,18 @@ class Game(object):
         for _asteroid in self.asteroid_group.sprites():
             _asteroid.width = comet_dimensions[0]
             _asteroid.height = comet_dimensions[1]
-            _asteroid.position = (comet_new_coords[0],comet_new_coords[1])
 
         for _player in self.player_group.sprites():
             _player.width = player_dimensions[0]
             _player.height = player_dimensions[1]
-            _player.position = (player_new_coords[0],player_new_coords[1])
 
         for _ammo in self.ammo_group.sprites():
             _ammo.width = bullet_dimensions[0]
             _ammo.height = bullet_dimensions[1]
-            _ammo.position = (bullet_new_coords[0],bullet_new_coords[1])
 
         for _throttle in self.throttle_group.sprites():
             _throttle.width = propellant_dimensions[0]
             _throttle.height = propellant_dimensions[1]
-            _throttle.position = (propellant_new_coords[0],propellant_new_coords[1])
 
         for _bullet in self.bullet_group.sprites():
             _bullet.width = (self.track_right_coord - self.track_left_coord)/100
