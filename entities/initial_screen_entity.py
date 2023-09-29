@@ -11,7 +11,7 @@ FONT_SIZE = 48
 
 class StartScreen(object):
     def __init__(self, screen_size, screen_dimensions):
-        title_font = pygame.font.Font(None, FONT_SIZE * 2)
+        title_font = pygame.font.Font("assets/font.ttf", FONT_SIZE * 2)
         font = pygame.font.Font(None, FONT_SIZE)
         self.background = pygame.image.load("assets/background.jpg")
         self.background = pygame.transform.scale(self.background, screen_size)

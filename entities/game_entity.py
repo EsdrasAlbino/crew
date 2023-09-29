@@ -311,7 +311,7 @@ class Game(object):
         for _bullet in self.bullet_group.sprites():
             _bullet.width = (self.track_right_coord - self.track_left_coord) / 100
             _bullet.height = (self.track_right_coord - self.track_left_coord) / 50
-        
+
 
 
         if self.throttle_group.__len__() < 2:
@@ -371,7 +371,7 @@ class Game(object):
         for _bullet in self.bullet_group.sprites():
             _bullet.width = (self.track_right_coord - self.track_left_coord)/100
             _bullet.height = (self.track_right_coord - self.track_left_coord)/50
-            
+
 
         # update player
         self.player.update()
