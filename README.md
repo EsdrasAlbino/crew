@@ -127,6 +127,12 @@ assets/
 ├── theme.mp3
 ```
 
+# Desafios e Erros
+
+Enfrentamos alguns desafios durante o projeto, especialmente relacionados ao planejamento e à priorização de tarefas dentro da equipe. Sendo o principal problema a falta de priorização nas tarefas fundamentais, o que nos levou a gastar um tempo considerável reescrevendo parte da base do código, juntamente com as implementações que já tínhamos concluído. Como resultado, enfrentamos diversos problemas de conflito e integração entre diferentes branches.
+
+Todos do time com certeza levaram como maior lição que um bom planejamento com priorizações certas são tão cruciais quanto bons conhecimentos técnicos.
+
 ## Equipe
 
 | <img src="https://avatars.githubusercontent.com/u/80992456?v=4&s=70" alt="Esdras Albino" width="70" height="70"> | <img src="https://avatars.githubusercontent.com/u/125303577?v=4&s=70" alt="Maria Fernanda Amorim" width="70" height="70"> | <img src="https://avatars.githubusercontent.com/u/116684279?v=4&s=70" alt="Matheus Borges" width="70" height="70"> | <img src="https://avatars.githubusercontent.com/u/127243520?v=4&s=70" alt="Tulio Oliveira" width="70" height="70"> | <img src="https://avatars.githubusercontent.com/u/52381662?v=4&s=70" alt="Welton Felix" width="70" height="70"> |
