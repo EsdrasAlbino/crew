@@ -289,11 +289,24 @@ class Game(object):
                     self.bullet_group,
                     self.window_dimensions,
                     self.track_bottom_coord,
-                    comet_dimensions,
-                    comet_new_coords,
                 )
                 self.asteroid_group.add(enemy)
-        # self.livesGroup.add(self.life1, self.life2, self.life3)
+
+        for _asteroid in self.asteroid_group.sprites():
+            _asteroid.width = comet_dimensions[0]
+            _asteroid.height = comet_dimensions[1]
+        for _player in self.player_group.sprites():
+            _player.width = player_dimensions[0]
+            _player.height = player_dimensions[1]
+        for _ammo in self.ammo_group.sprites():
+            _ammo.width = bullet_dimensions[0]
+            _ammo.height = bullet_dimensions[1]
+        for _throttle in self.throttle_group.sprites():
+            _throttle.width = propellant_dimensions[0]
+            _throttle.height = propellant_dimensions[1]
+        for _bullet in self.bullet_group.sprites():
+            _bullet.width = (self.track_right_coord - self.track_left_coord)/100
+            _bullet.height = (self.track_right_coord - self.track_left_coord)/50
 
         if self.throttle_group.__len__() < 1:
             seed = randint(0, 200)
@@ -311,8 +324,6 @@ class Game(object):
                     self.player,
                     self.window_dimensions,
                     self.track_bottom_coord,
-                    propellant_dimensions,
-                    propellant_new_coords,
                 )
                 self.throttle_group.add(throttle)
 
@@ -332,8 +343,6 @@ class Game(object):
                     self.player,
                     self.window_dimensions,
                     self.track_bottom_coord,
-                    bullet_dimensions,
-                    bullet_new_coords,
                 )
                 self.ammo_group.add(ammo)
 

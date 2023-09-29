@@ -40,8 +40,8 @@ def change_window_size(
     asteroid = pygame.transform.scale(asteroid, asteroid_dimensions)
 
     player_dimensions = (
-        (track_coords[2] - track_coords[0]) / 5,
-        31 * ((track_coords[2] - track_coords[0]) / 5) // 45,
+        (track_coords[2] - track_coords[0]) / 10,
+        31 * ((track_coords[2] - track_coords[0]) / 10) // 45,
     )
     player_new_coords = (
         player_coords[0] + displacement_track,
@@ -50,7 +50,7 @@ def change_window_size(
         None,
     )  # left, top, right, bottom
 
-    propellant_dimensions = (320 * (track_coords[3] / 10) // 580, track_coords[3] / 10)
+    propellant_dimensions = (320 * (track_coords[3] / 12) // 580, track_coords[3] / 12)
     propellant_new_coords = (
         propellant_coords[0] + displacement_track,
         propellant_coords[1] * proportion_height,
@@ -58,7 +58,7 @@ def change_window_size(
         None,
     )  # left, top, right, bottom
 
-    bullet_dimensions = (14 * (track_coords[3] / 20) // 26, track_coords[3] / 20)
+    bullet_dimensions = (14 * (track_coords[3] / 24) // 26, track_coords[3] / 24)
     bullet_new_coords = (
         bullet_coords[0] + displacement_track,
         bullet_coords[1] * proportion_height,
