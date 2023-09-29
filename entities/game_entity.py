@@ -150,10 +150,10 @@ class Game(object):
             None,
         )  # left, top, right, bottom
 
-        self.ammo.width = comet_dimensions[0]
-        self.asteroid.height = comet_dimensions[1]
-        self.asteroid.width = comet_dimensions[0]
-        self.asteroid.height = comet_dimensions[1]
+        # self.ammo.width = comet_dimensions[0]
+        # self.asteroid.height = comet_dimensions[1]
+        # self.asteroid.width = comet_dimensions[0]
+        # self.asteroid.height = comet_dimensions[1]
 
         self.player_coords = update_coords(
             self.player_coords, player_new_coords)
@@ -235,10 +235,10 @@ class Game(object):
                     self.track_bottom_coord,
                 )
                 self.asteroid_group.add(enemy)
-        # self.livesGroup.add(self.life1, self.life2, self.life3)
-        for asteroid in self.asteroid_group.sprites():
-            asteroid.width = comet_dimensions[0]
-            asteroid.height = comet_dimensions[1]
+
+        for _asteroid in self.asteroid_group.sprites():
+            _asteroid.width = comet_dimensions[0]
+            _asteroid.height = comet_dimensions[1]
 
         if self.throttle_group.__len__() < 1:
             seed = randint(0, 200)

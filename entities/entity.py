@@ -16,6 +16,11 @@ class Entity(ABC, pygame.sprite.Sprite):
         self.__position = position
 
     def __entity_update(self):
+        if self.__width != self.rect.width or self.__height != self.rect.height:
+            self.image = pygame.transform.scale(
+                self.image, (self.__width, self.__height)
+            )
+
         self.rect.x = self.__position[0]
         self.rect.y = self.__position[1]
         self.rect.width = self.__width
