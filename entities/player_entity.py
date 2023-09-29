@@ -90,6 +90,5 @@ class Player(Entity):
             if self.boost_duration > 0:
                 self.shoot(current_time)
                 self.bullet_quantity += 1
-            else:
-                if self.bullet_quantity > 0:
-                    self.shoot(current_time)
+            elif self.bullet_quantity > 0:
+                self.shoot(current_time)
