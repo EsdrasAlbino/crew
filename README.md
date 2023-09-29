@@ -56,15 +56,21 @@ pygame==2.5.1
 
 ## Divisão de tarefas do projeto
 
-| Time                                                  | Tarefas                                                                           |
-| ----------------------------------------------------- | --------------------------------------------------------------------------------- |
-| [Esdras Albino](https://github.com/EsdrasAlbino/)     | Desenvolveu estados de controle do jogo e lógica envolvendo itens e inventário    |
-| [Maria Fernanda Amorim](https://github.com/MariaFFA/) | Desenvolveu todas as responsividades do jogo                                      |
-| [Tulio Oliveira](https://github.com/tuliooarauj/)     | Desenvolveu colisões entre todas os objetos do projeto                            |
-| [Matheus Borges](https://github.com/MathBorgess/)     | Desenvolveu telas iniciais, créditos e game over                                  |
-| [Welton Felix](https://github.com/weltonfelix/)       | Code review, desenvolvimento da classe base de entidades e movimentação do player |
+| Time                                                  | Tarefas                                                                                |
+| ----------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| [Esdras Albino](https://github.com/EsdrasAlbino/)     | Desenvolveu estados de controle do jogo e lógica envolvendo itens e inventário         |
+| [Maria Fernanda Amorim](https://github.com/MariaFFA/) | Desenvolveu todas as responsividades do jogo                                           |
+| [Tulio Oliveira](https://github.com/tuliooarauj/)     | Desenvolveu colisões entre todas os objetos do projeto                                 |
+| [Matheus Borges](https://github.com/MathBorgess/)     | Desenvolveu telas iniciais, créditos e game over                                       |
+| [Welton Felix](https://github.com/weltonfelix/)       | Principal code review, desenvolveu a classe base de entidades e movimentação do player |
 
-[![Maria Fernanda Amorim](https://avatars.githubusercontent.com/u/125303577?v=4&s=70)](https://github.com/MariaFFA/) | [![Matheus Borges](https://avatars.githubusercontent.com/u/116684279?v=4&s=70)](https://github.com/MathBorgess/) | [![Tulio  Oliveira](https://avatars.githubusercontent.com/u/127243520?v=4&s=70)](https://github.com/tuliooarauj/) | [![Welton Felix](https://avatars.githubusercontent.com/u/52381662?v=4&s=70)](https://github.com/weltonfelix/)
+## Conceitos utilizados
+
+Aplicamos desde os fundamentos como listas e estruturas de repetição, até os tópicos avançados, incluindo os princípios iniciais da Programação Orientada a Objetos (POO).
+
+A utiilização de funções, loops e condicionais foram cruciais para o desenvolvimento do jogo, visto que, contribuem imensamente para a escalabilidade e organização do código.
+
+Além disso Orientação a objetos nos permitiu a estruturação e construção do código em torno da organização em classes e suas funções associadas, a capacidade de gerenciar cada objeto de forma independente simplificou o processo de escrita do código e significativamente aprimorou a sua legibilidade.
 
 ## Estrutura de Pastas
 
@@ -123,9 +129,9 @@ assets/
 
 ## Equipe
 
-| [![Esdras Albino](https://avatars.githubusercontent.com/u/80992456?v=4&s=70)](https://github.com/EsdrasAlbino/) | [![Maria Fernanda Amorim](https://avatars.githubusercontent.com/u/125303577?v=4&s=70)](https://github.com/MariaFFA/) | [![Matheus Borges](https://avatars.githubusercontent.com/u/116684279?v=4&s=70)](https://github.com/MathBorgess/) | [![Tulio  Oliveira](https://avatars.githubusercontent.com/u/127243520?v=4&s=70)](https://github.com/tuliooarauj/) | [![Welton Felix](https://avatars.githubusercontent.com/u/52381662?v=4&s=70)](https://github.com/weltonfelix/) |
-| --------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| [Esdras Albino](mailto:ehas@cin.ufpe.br)                                                                        | [Maria Fernanda Amorim](mailto:mffa@cin.ufpe.br)                                                                     | [Matheus Borges](mailto:mbf3@cin.ufpe.br)                                                                        | [Tulio Araujo](mailto:toa@cin.ufpe.br)                                                                            | [Welton Felix](mailto:wplf@cin.ufpe.br)                                                                       |
+| <img src="https://avatars.githubusercontent.com/u/80992456?v=4&s=70" alt="Esdras Albino" width="70" height="70"> | <img src="https://avatars.githubusercontent.com/u/125303577?v=4&s=70" alt="Maria Fernanda Amorim" width="70" height="70"> | <img src="https://avatars.githubusercontent.com/u/116684279?v=4&s=70" alt="Matheus Borges" width="70" height="70"> | <img src="https://avatars.githubusercontent.com/u/127243520?v=4&s=70" alt="Tulio Oliveira" width="70" height="70"> | <img src="https://avatars.githubusercontent.com/u/52381662?v=4&s=70" alt="Welton Felix" width="70" height="70"> |
+| ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| [Esdras Albino](mailto:ehas@cin.ufpe.br)                                                                         | [Maria Fernanda Amorim](mailto:mffa@cin.ufpe.br)                                                                          | [Matheus Borges](mailto:mbf3@cin.ufpe.br)                                                                          | [Tulio Araujo](mailto:toa@cin.ufpe.br)                                                                             | [Welton Felix](mailto:wplf@cin.ufpe.br)                                                                         |
 
 ## Licença
 
