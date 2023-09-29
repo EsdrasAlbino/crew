@@ -146,7 +146,6 @@ class Game(object):
             None,
             None,
         )  # left, top, right, bottom
-
         # create life
         self.lives = [Life((10, 30)), Life((50, 30)), Life((90, 30))]
 
@@ -304,8 +303,8 @@ class Game(object):
             _throttle.width = propellant_dimensions[0]
             _throttle.height = propellant_dimensions[1]
         for _bullet in self.bullet_group.sprites():
-            _bullet.width = (self.track_right_coord - self.track_left_coord)/100
-            _bullet.height = (self.track_right_coord - self.track_left_coord)/50
+            _bullet.width = (self.track_right_coord - self.track_left_coord) / 100
+            _bullet.height = (self.track_right_coord - self.track_left_coord) / 50
 
         if self.throttle_group.__len__() < 1:
             seed = randint(0, 200)
