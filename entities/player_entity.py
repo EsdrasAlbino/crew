@@ -13,8 +13,13 @@ INITIAL_LIFE = 3
 
 
 class Player(Entity):
-    def __init__(self, velocity, initial_position, bullet_group, boundaries,):
-
+    def __init__(
+        self,
+        velocity,
+        initial_position,
+        bullet_group,
+        boundaries,
+    ):
         pygame.sprite.Sprite.__init__(self)
         super().__init__(velocity, PLAYER_WIDTH, PLAYER_HEIGHT, initial_position)
 
@@ -40,8 +45,8 @@ class Player(Entity):
     def decrement_bullet(self):
         self.bullet_quantity -= 1
 
-    def shoot(self, current_time):
-        bullet = Bullet(self.bullet_velocity, self.center)
+    def shoot(self, current_time, direction=None):
+        bullet = Bullet(self.bullet_velocity, self.center, direction)
         self.bullet_group.add(bullet)
         self.last_shot = current_time
         self.bullet_quantity -= 1
@@ -85,10 +90,18 @@ class Player(Entity):
                 self.bullet_quantity = 20
 
         is_cooldown_over = current_time - self.last_shot > self.cooldown
-
-        if keys[pygame.K_SPACE] and is_cooldown_over and self.alive():
+        mouse_pressed = pygame.mouse.get_pressed()[0]
+        if (
+            (keys[pygame.K_SPACE] or mouse_pressed)
+            and is_cooldown_over
+            and self.alive()
+        ):
             if self.boost_duration > 0:
-                self.shoot(current_time)
+                self.shoot(
+                    current_time, pygame.mouse.get_pos() if mouse_pressed else None
+                )
                 self.bullet_quantity += 1
             elif self.bullet_quantity > 0:
-                self.shoot(current_time)
+                self.shoot(
+                    current_time, pygame.mouse.get_pos() if mouse_pressed else None
+                )
