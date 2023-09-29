@@ -23,6 +23,9 @@ class Item:
         if (self.name == 'bullet'):
             quantity_text = FONT.render(
                 f"{self.quantity}/{self.quantity_total}", True, WHITE)
+        elif (self.name == 'propellant'):
+            quantity_text = FONT.render(
+                f"{self.quantity}s", True, WHITE)
         else:
             quantity_text = FONT.render(
                 f"{self.quantity}", True, WHITE)

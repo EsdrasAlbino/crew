@@ -27,7 +27,7 @@ class Player(Entity):
         self.bullet_velocity = INITIAL_BULLET_VELOCITY
         self.boundaries = boundaries
         self.is_boosted = False
-        self.boost_duration = BOOST_DURATION
+        self.boost_duration = 0
         self.boost_start = 0
         self.life = INITIAL_LIFE
         self.bullet_quantity = 3
@@ -50,7 +50,7 @@ class Player(Entity):
         self.boost_duration = BOOST_DURATION
         self.boost_start = pygame.time.get_ticks()
         self.cooldown = MIN_COOLDOWN
-        self.propellant_condition = 1
+        self.propellant_condition = self.boost_duration
 
     def player_damage(self):
         if self.life >= 1:
@@ -60,6 +60,7 @@ class Player(Entity):
     def update(self):
         # get key press
         keys = pygame.key.get_pressed()
+        self.propellant_condition = round(self.boost_duration/100000)
 
         if keys[pygame.K_a]:
             future_pos = self.get_future_position((-1, 0))
