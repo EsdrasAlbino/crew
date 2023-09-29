@@ -8,9 +8,8 @@ AMMO_HEIGHT = 25
 
 class Ammo(Entity):
     def __init__(
-        self, velocity, initial_position, player_group, player, screen_dimensions, track_bottom_coord, bullet_dimensions, bullet_new_coord
+        self, velocity, initial_position, player_group, player, screen_dimensions, track_bottom_coord
     ):
-        AMMO_WIDTH, AMMO_HEIGHT = bullet_dimensions
 
         pygame.sprite.Sprite.__init__(self)
         super().__init__(velocity, AMMO_WIDTH, AMMO_HEIGHT, initial_position)
