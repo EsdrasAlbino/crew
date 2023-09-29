@@ -146,9 +146,6 @@ class Game(object):
             None,
             None,
         )  # left, top, right, bottom
-
-        pygame.mixer.music.load("assets/theme.mp3")
-        pygame.mixer.music.play()
         # create life
         self.lives = [Life((10, 30)), Life((50, 30)), Life((90, 30))]
 
