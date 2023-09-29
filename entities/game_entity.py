@@ -19,16 +19,11 @@ from entities.game_over_entity import GameOverScreen
 
 
 class Game(object):
-<<<<<<< HEAD
     def __init__(self, window_dimensions, start_screen):
         self.start_screen = start_screen
-=======
-    def __init__(self, window_dimensions,screen_dimensions):
         pygame.mixer.music.load("assets/theme.mp3")
         pygame.mixer.music.play()
->>>>>>> main
         self.window_dimensions = window_dimensions
-        self.screen_dimensions = screen_dimensions
         if self.window_dimensions[1] * 2 < self.window_dimensions[0]:
             self.track_left_coord = (
                 self.window_dimensions[0] // 2 - self.window_dimensions[1] // 2
@@ -182,12 +177,8 @@ class Game(object):
 
     def run(self, screen, screen_size, event):
         if self.player.life <= 0:
-<<<<<<< HEAD
-            return GameOverScreen(screen_size, self.start_screen, self)
-=======
             pygame.mixer.music.stop()
-            return False
->>>>>>> main
+            return GameOverScreen(screen_size, self.start_screen, self)
 
         self.livesGroup.empty()
 
@@ -265,29 +256,27 @@ class Game(object):
         for item in [bullet_item, propellant_item, asteroid_item]:
             self.inventory.add_item(item)
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return self
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_f:
-                if not self.is_fullscreen:
-                    self.screen = pygame.display.set_mode(
-                        (self.screen_dimensions[0],
-                            self.screen_dimensions[1]),
-                        pygame.FULLSCREEN,
-                    )
-                    self.is_fullscreen = True
-                else:
-                    self.screen = pygame.display.set_mode(
-                        (
-                            self.screen_dimensions[0] // 2,
-                            self.screen_dimensions[1] // 2,
-                        ),
-                        pygame.RESIZABLE,
-                    )
-                    self.is_fullscreen = False
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_f:
+            if not self.is_fullscreen:
+                infoObject = pygame.display.Info()
+                self.screen = pygame.display.set_mode(
+                    (infoObject.current_w,
+                        infoObject.current_h),
+                    pygame.FULLSCREEN,
+                )
+                self.is_fullscreen = True
+            else:
+                self.screen = pygame.display.set_mode(
+                    (
+                        self.window_dimensions[0] // 2,
+                        self.window_dimensions[1] // 2,
+                    ),
+                    pygame.RESIZABLE,
+                )
+                self.is_fullscreen = False
 
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                return self
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            return self
         if self.asteroid_group.__len__() < 2:
             seed = randint(0, 200)
             if seed > 40 and seed < 45:
