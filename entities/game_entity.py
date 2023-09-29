@@ -194,6 +194,26 @@ class Game(object):
             _bullet.width = (self.track_right_coord - self.track_left_coord) / 100
             _bullet.height = (self.track_right_coord - self.track_left_coord) / 50
 
+    def asteroid_creation(self):
+        if self.asteroid_group.__len__() < 10:
+            seed = randint(0, int(200 - self.elapsed_time / 1000))
+            if seed > 40 and seed < 45:
+                enemy = Asteroid(
+                    5,
+                    (
+                        randint(
+                            self.track_left_coord,
+                            self.track_right_coord - int(ASTEROID_WIDTH / 1.5),
+                        ),
+                        0,
+                    ),
+                    self.player_group,
+                    self.bullet_group,
+                    self.window_dimensions,
+                    self.track_bottom_coord,
+                )
+                self.asteroid_group.add(enemy)
+
     def run(self, screen, screen_size, event):
         if self.player.life <= 0:
             self.soundtrack.stop()
@@ -272,9 +292,10 @@ class Game(object):
         for item in [bullet_item, propellant_item, asteroid_item]:
             self.inventory.add_item(item)
 
-        elapsed_time = pygame.time.get_ticks() - self.initial_time
+        self.elapsed_time = pygame.time.get_ticks() - self.initial_time
+
         if self.asteroid_group.__len__() < 10:
-            seed = randint(0, int(200 - elapsed_time / 1000))
+            seed = randint(0, int(200 - self.elapsed_time / 1000))
             if seed > 40 and seed < 45:
                 enemy = Asteroid(
                     5,
@@ -291,8 +312,6 @@ class Game(object):
                     self.track_bottom_coord,
                 )
                 self.asteroid_group.add(enemy)
-
-        self.__update_dimensions()
 
         if self.throttle_group.__len__() < 2:
             seed = randint(0, 500)
@@ -314,7 +333,7 @@ class Game(object):
                 self.throttle_group.add(throttle)
 
         if self.ammo_group.__len__() < 5:
-            seed = randint(0, int(800 - elapsed_time / 1000))
+            seed = randint(0, int(800 - self.elapsed_time / 1000))
             if 25 < seed < 30:
                 ammo = Ammo(
                     3,
@@ -332,29 +351,10 @@ class Game(object):
                 )
                 self.ammo_group.add(ammo)
 
-        # for _asteroid in self.asteroid_group.sprites():
-        #     _asteroid.width = self.comet_dimensions[0]
-        #     _asteroid.height = self.comet_dimensions[1]
-
-        # for _player in self.player_group.sprites():
-        #     _player.width = self.player_dimensions[0]
-        #     _player.height = self.player_dimensions[1]
-
-        # for _ammo in self.ammo_group.sprites():
-        #     _ammo.width = self.bullet_dimensions[0]
-        #     _ammo.height = self.bullet_dimensions[1]
-
-        # for _throttle in self.throttle_group.sprites():
-        #     _throttle.width = self.propellant_dimensions[0]
-        #     _throttle.height = self.propellant_dimensions[1]
-
-        # for _bullet in self.bullet_group.sprites():
-        #     _bullet.width = (self.track_right_coord - self.track_left_coord)/100
-        #     _bullet.height = (self.track_right_coord - self.track_left_coord)/50
-
-
         # update player
         self.player.update()
+
+        self.__update_dimensions()
 
         # update groups
         self.asteroid_group.update()
