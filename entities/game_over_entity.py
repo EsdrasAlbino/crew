@@ -9,7 +9,7 @@ GAME_OVER_FONT_SIZE = 80  # Decreased font size for credits
 class GameOverScreen(object):
     def __init__(self, screen_size, start_screen, game_screen):
         for item in game_screen.inventory.items:
-            if item.name == 'asteroid':
+            if item.name == "asteroid":
                 self.player_score = item.quantity
         self.font = pygame.font.Font(None, FONT_SIZE)
         self.font_title = pygame.font.Font(None, GAME_OVER_FONT_SIZE)
@@ -25,7 +25,9 @@ class GameOverScreen(object):
         self._game_over_rect = self._game_over.get_rect(
             center=(int(screen_size[0] * 0.5), screen_size[1] * 0.4)
         )
-        self._player_score = self.font.render(f"Pontuação: {self.player_score}", True, TEXT_COLOR)
+        self._player_score = self.font.render(
+            f"Pontuação: {self.player_score}", True, TEXT_COLOR
+        )
         self._player_score_rect = self._player_score.get_rect(
             center=((screen_size[0] * 1.5) // 3, screen_size[1] * 0.5)
         )
@@ -40,10 +42,10 @@ class GameOverScreen(object):
         )
 
     def draw_borders(s, x, y, w, h, bw, c):
-        pygame.draw.line(s, c, (x-bw//2+1, y), (x+w+bw//2, y), bw)
-        pygame.draw.line(s, c, (x-bw//2+1, y+h), (x+w+bw//2, y+h), bw)
-        pygame.draw.line(s, c, (x, y-bw//2+1), (x, y+h+bw//2), bw)
-        pygame.draw.line(s, c, (x+w, y-bw//2+1), (x+w, y+h+bw//2), bw)
+        pygame.draw.line(s, c, (x - bw // 2 + 1, y), (x + w + bw // 2, y), bw)
+        pygame.draw.line(s, c, (x - bw // 2 + 1, y + h), (x + w + bw // 2, y + h), bw)
+        pygame.draw.line(s, c, (x, y - bw // 2 + 1), (x, y + h + bw // 2), bw)
+        pygame.draw.line(s, c, (x + w, y - bw // 2 + 1), (x + w, y + h + bw // 2), bw)
 
     def draw(self, screen, screen_size):
         self.background = pygame.transform.scale(self.background, screen_size)
@@ -62,7 +64,6 @@ class GameOverScreen(object):
         self._player_score_rect = self._player_score.get_rect(
             center=((screen_size[0] * 1.5) // 3, screen_size[1] * 0.5)
         )
-
 
         screen.blit(self._player_score, self._player_score_rect)
         screen.blit(self._game_over, self._game_over_rect)
