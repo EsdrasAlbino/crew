@@ -32,9 +32,9 @@ class GameOverScreen(object):
             center=((screen_size[0] * 1.5) // 3, screen_size[1] * 0.5)
         )
 
-        self._back_button = self.font.render("Voltar", True, TEXT_COLOR)
+        self._back_button = self.font.render("Voltar ao menu", True, TEXT_COLOR)
         self._back_button_rect = self._back_button.get_rect(
-            center=(screen_size[0] // 3, screen_size[1] * 0.6)
+            center=((screen_size[0] * 1.2) // 3, screen_size[1] * 0.6)
         )
         self._play_button = self.font.render("Jogar novamente", True, TEXT_COLOR)
         self._play_button_rect = self._play_button.get_rect(
@@ -53,7 +53,7 @@ class GameOverScreen(object):
 
         # Draw team member names
         self._back_button_rect = self._back_button.get_rect(
-            center=(screen_size[0] // 3, screen_size[1] * 0.6)
+            center=((screen_size[0] * 1.2) // 3, screen_size[1] * 0.6)
         )
         self._game_over_rect = self._game_over.get_rect(
             center=(screen_size[0] // 2, screen_size[1] * 0.4)
