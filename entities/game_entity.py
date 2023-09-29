@@ -150,11 +150,6 @@ class Game(object):
             None,
         )  # left, top, right, bottom
 
-        # self.ammo.width = comet_dimensions[0]
-        # self.asteroid.height = comet_dimensions[1]
-        # self.asteroid.width = comet_dimensions[0]
-        # self.asteroid.height = comet_dimensions[1]
-
         self.player_coords = update_coords(
             self.player_coords, player_new_coords)
         self.propellant_coords = update_coords(
