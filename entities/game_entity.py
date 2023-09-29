@@ -21,15 +21,14 @@ from entities.game_over_entity import GameOverScreen
 class Game(object):
     def __init__(self, window_dimensions, start_screen):
         self.start_screen = start_screen
-        pygame.mixer.music.load("assets/theme.mp3")
-        pygame.mixer.music.play()
+        self.soundtrack = pygame.mixer.Sound("assets/theme.mp3")
+        self.soundtrack.play(-1, 0, 1000)
         self.window_dimensions = window_dimensions
         if self.window_dimensions[1] * 2 < self.window_dimensions[0]:
             self.track_left_coord = (
                 self.window_dimensions[0] // 2 - self.window_dimensions[1] // 2
             )
-            self.track_right_coord = self.track_left_coord + \
-                self.window_dimensions[1]
+            self.track_right_coord = self.track_left_coord + self.window_dimensions[1]
             self.track_bottom_coord = self.window_dimensions[1]
         else:
             self.track_left_coord = self.window_dimensions[0] // 4
@@ -168,7 +167,7 @@ class Game(object):
             (self.track_left_coord, self.track_right_coord),
         )
         self.player_group.add(self.player)
-
+        self.soundtrack.play(-1, 0, 1000)
 
     def __update_coords(self):
         self.player.position = (self.player.position[0], self.player_coords[1])
@@ -177,7 +176,7 @@ class Game(object):
 
     def run(self, screen, screen_size, event):
         if self.player.life <= 0:
-            pygame.mixer.music.stop()
+            self.soundtrack.stop()
             return GameOverScreen(screen_size, self.start_screen, self)
 
         self.livesGroup.empty()
@@ -217,13 +216,11 @@ class Game(object):
             None,
         )  # left, top, right, bottom
 
-        self.player_coords = update_coords(
-            self.player_coords, player_new_coords)
+        self.player_coords = update_coords(self.player_coords, player_new_coords)
         self.propellant_coords = update_coords(
             self.propellant_coords, propellant_new_coords
         )
-        self.bullet_coords = update_coords(
-            self.bullet_coords, bullet_new_coords)
+        self.bullet_coords = update_coords(self.bullet_coords, bullet_new_coords)
         self.comet_coords = update_coords(self.comet_coords, comet_new_coords)
 
         self.__update_coords()
@@ -245,8 +242,7 @@ class Game(object):
         self.inventory = Inventory()
 
         # item1 = Item("asteroid", 1)
-        bullet_item = Item("bullet", self.player.bullet_quantity,
-                           "assets/bullet.png")
+        bullet_item = Item("bullet", self.player.bullet_quantity, "assets/bullet.png")
         propellant_item = Item(
             "propellant", self.player.propellant_condition, "assets/propellant.png"
         )
@@ -260,8 +256,7 @@ class Game(object):
             if not self.is_fullscreen:
                 infoObject = pygame.display.Info()
                 self.screen = pygame.display.set_mode(
-                    (infoObject.current_w,
-                        infoObject.current_h),
+                    (infoObject.current_w, infoObject.current_h),
                     pygame.FULLSCREEN,
                 )
                 self.is_fullscreen = True
@@ -389,8 +384,7 @@ class Game(object):
             self.track_left_coord = (
                 self.window_dimensions[0] // 2 - self.window_dimensions[1] // 2
             )
-            self.track_right_coord = self.track_left_coord + \
-                self.window_dimensions[1]
+            self.track_right_coord = self.track_left_coord + self.window_dimensions[1]
             self.track_bottom_coord = self.window_dimensions[1]
         else:
             self.track_left_coord = self.window_dimensions[0] // 4
