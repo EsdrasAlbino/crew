@@ -194,7 +194,7 @@ class Game(object):
             _bullet.width = (self.track_right_coord - self.track_left_coord) / 100
             _bullet.height = (self.track_right_coord - self.track_left_coord) / 50
 
-    def asteroid_creation(self):
+    def __asteroid_creation(self):
         if self.asteroid_group.__len__() < 10:
             seed = randint(0, int(200 - self.elapsed_time / 1000))
             if seed > 40 and seed < 45:
@@ -213,6 +213,46 @@ class Game(object):
                     self.track_bottom_coord,
                 )
                 self.asteroid_group.add(enemy)
+
+    def __throttle_creation(self):
+        if self.throttle_group.__len__() < 2:
+            seed = randint(0, 500)
+            if seed == 50:
+                throttle = Throttle(
+                    3,
+                    (
+                        randint(
+                            self.track_left_coord,
+                            self.track_right_coord - int(ASTEROID_WIDTH / 1.5),
+                        ),
+                        0,
+                    ),
+                    self.player_group,
+                    self.player,
+                    self.window_dimensions,
+                    self.track_bottom_coord,
+                )
+                self.throttle_group.add(throttle)
+    
+    def __ammo_creation():
+        if self.ammo_group.__len__() < 5:
+            seed = randint(0, int(800 - self.elapsed_time / 1000))
+            if 25 < seed < 30:
+                ammo = Ammo(
+                    3,
+                    (
+                        randint(
+                            self.track_left_coord,
+                            self.track_right_coord - int(ASTEROID_WIDTH / 1.5),
+                        ),
+                        0,
+                    ),
+                    self.player_group,
+                    self.player,
+                    self.window_dimensions,
+                    self.track_bottom_coord,
+                )
+                self.ammo_group.add(ammo)
 
     def run(self, screen, screen_size, event):
         if self.player.life <= 0:
@@ -294,62 +334,10 @@ class Game(object):
 
         self.elapsed_time = pygame.time.get_ticks() - self.initial_time
 
-        if self.asteroid_group.__len__() < 10:
-            seed = randint(0, int(200 - self.elapsed_time / 1000))
-            if seed > 40 and seed < 45:
-                enemy = Asteroid(
-                    5,
-                    (
-                        randint(
-                            self.track_left_coord,
-                            self.track_right_coord - int(ASTEROID_WIDTH / 1.5),
-                        ),
-                        0,
-                    ),
-                    self.player_group,
-                    self.bullet_group,
-                    self.window_dimensions,
-                    self.track_bottom_coord,
-                )
-                self.asteroid_group.add(enemy)
-
-        if self.throttle_group.__len__() < 2:
-            seed = randint(0, 500)
-            if seed == 50:
-                throttle = Throttle(
-                    3,
-                    (
-                        randint(
-                            self.track_left_coord,
-                            self.track_right_coord - int(ASTEROID_WIDTH / 1.5),
-                        ),
-                        0,
-                    ),
-                    self.player_group,
-                    self.player,
-                    self.window_dimensions,
-                    self.track_bottom_coord,
-                )
-                self.throttle_group.add(throttle)
-
-        if self.ammo_group.__len__() < 5:
-            seed = randint(0, int(800 - self.elapsed_time / 1000))
-            if 25 < seed < 30:
-                ammo = Ammo(
-                    3,
-                    (
-                        randint(
-                            self.track_left_coord,
-                            self.track_right_coord - int(ASTEROID_WIDTH / 1.5),
-                        ),
-                        0,
-                    ),
-                    self.player_group,
-                    self.player,
-                    self.window_dimensions,
-                    self.track_bottom_coord,
-                )
-                self.ammo_group.add(ammo)
+        #Create sprites
+        self.__asteroid_creation()
+        self.__throttle_creation()
+        self.__ammo_creation()
 
         # update player
         self.player.update()
