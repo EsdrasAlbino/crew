@@ -225,7 +225,7 @@ class Game(object):
         self.__update_coords()
         self.player.boundaries = (
             self.track_left_coord,
-            self.track_right_coord - ASTEROID_WIDTH / 1.5,
+            self.track_right_coord - asteroid_dimensions[0],
         )
         self.screen.blit(background, (0, 0))
 
