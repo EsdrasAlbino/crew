@@ -40,8 +40,8 @@ def change_window_size(
     asteroid = pygame.transform.scale(asteroid, asteroid_dimensions)
 
     player_dimensions = (
-        (track_coords[2] - track_coords[0]) / 5,
-        31 * ((track_coords[2] - track_coords[0]) / 5) // 45,
+        (track_coords[2] - track_coords[0]) / 10,
+        31 * ((track_coords[2] - track_coords[0]) / 10) // 45,
     )
     player_new_coords = (
         player_coords[0] + displacement_track,
