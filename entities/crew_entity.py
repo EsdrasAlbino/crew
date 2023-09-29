@@ -69,4 +69,4 @@ class Crew(object):
             self.current_screen = self.current_screen.run(
                 self.screen, self.window_dimensions, event)
             if not self.current_screen:
-                self.current_screen = StartScreen(self.window_dimensions)
+                self.current_screen = StartScreen(self.window_dimensions, self.screen_dimensions)
