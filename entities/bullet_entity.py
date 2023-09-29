@@ -13,6 +13,8 @@ class Bullet(Entity):
         self.image.fill(blue)
         self.center = initial_position
         self.bullet = 3
+        shot_sound = pygame.mixer.Sound("assets/shot.mp3")
+        shot_sound.play()
 
     def update(self):
         future_position = self.get_future_position((0, -1))

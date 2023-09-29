@@ -21,8 +21,8 @@ from entities.game_over_entity import GameOverScreen
 class Game(object):
     def __init__(self, window_dimensions, start_screen):
         self.start_screen = start_screen
-        pygame.mixer.music.load("assets/theme.mp3")
-        pygame.mixer.music.play()
+        self.soundtrack = pygame.mixer.Sound("assets/theme.mp3")
+        self.soundtrack.play(-1, 0, 1000)
         self.window_dimensions = window_dimensions
         if self.window_dimensions[1] * 2 < self.window_dimensions[0]:
             self.track_left_coord = (
@@ -169,6 +169,7 @@ class Game(object):
             (self.track_left_coord, self.track_right_coord),
         )
         self.player_group.add(self.player)
+        self.soundtrack.play(-1, 0, 1000)
 
     def __update_coords(self):
         self.player.position = (self.player.position[0], self.player_coords[1])
@@ -177,7 +178,7 @@ class Game(object):
 
     def run(self, screen, screen_size, event):
         if self.player.life <= 0:
-            pygame.mixer.music.stop()
+            self.soundtrack.stop()
             return GameOverScreen(screen_size, self.start_screen, self)
 
         self.livesGroup.empty()
@@ -305,8 +306,8 @@ class Game(object):
             _throttle.width = propellant_dimensions[0]
             _throttle.height = propellant_dimensions[1]
         for _bullet in self.bullet_group.sprites():
-            _bullet.width = (self.track_right_coord - self.track_left_coord)/100
-            _bullet.height = (self.track_right_coord - self.track_left_coord)/50
+            _bullet.width = (self.track_right_coord - self.track_left_coord) / 100
+            _bullet.height = (self.track_right_coord - self.track_left_coord) / 50
 
         if self.throttle_group.__len__() < 1:
             seed = randint(0, 200)
