@@ -21,8 +21,8 @@ from entities.game_over_entity import GameOverScreen
 class Game(object):
     def __init__(self, window_dimensions, start_screen):
         self.start_screen = start_screen
-        pygame.mixer.music.load("assets/theme.mp3")
-        pygame.mixer.music.play()
+        self.soundtrack = pygame.mixer.Sound("assets/theme.mp3")
+        self.soundtrack.play(-1, 0, 1000)
         self.window_dimensions = window_dimensions
         if self.window_dimensions[1] * 2 < self.window_dimensions[0]:
             self.track_left_coord = (
@@ -168,6 +168,8 @@ class Game(object):
             (self.track_left_coord, self.track_right_coord),
         )
         self.player_group.add(self.player)
+
+        self.soundtrack.play(-1, 0, 1000)
         self.initial_time = pygame.time.get_ticks()
 
     def __update_coords(self):
@@ -177,7 +179,7 @@ class Game(object):
 
     def run(self, screen, screen_size, event):
         if self.player.life <= 0:
-            pygame.mixer.music.stop()
+            self.soundtrack.stop()
             return GameOverScreen(screen_size, self.start_screen, self)
 
         self.livesGroup.empty()
