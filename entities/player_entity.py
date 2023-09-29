@@ -8,13 +8,13 @@ PLAYER_HEIGHT = 50
 INITIAL_BULLET_VELOCITY = 5
 INITIAL_COOLDOWN = 600
 MIN_COOLDOWN = 200
-BOOST_DURATION = 1000 * 10 * 60 * 2
+BOOST_DURATION = 1000 * 10 * 60
 INITIAL_LIFE = 3
 
 
 class Player(Entity):
     def __init__(self, velocity, initial_position, bullet_group, boundaries,):
-        
+
         pygame.sprite.Sprite.__init__(self)
         super().__init__(velocity, PLAYER_WIDTH, PLAYER_HEIGHT, initial_position)
 
@@ -46,7 +46,7 @@ class Player(Entity):
         self.last_shot = current_time
         self.bullet_quantity -= 1
 
-    def decrease_cooldown(self):
+    def infinite_ammo(self):
         self.boost_duration = BOOST_DURATION
         self.boost_start = pygame.time.get_ticks()
         self.cooldown = MIN_COOLDOWN
@@ -80,10 +80,14 @@ class Player(Entity):
         if self.bullet_quantity <= 0:
             self.bullet_quantity = 0
 
-        if self.bullet_quantity >= 20:
-            self.bullet_quantity = 20
+        else:
+            if self.bullet_quantity >= 20:
+                self.bullet_quantity = 20
 
         is_cooldown_over = current_time - self.last_shot > self.cooldown
 
-        if keys[pygame.K_SPACE] and is_cooldown_over and self.alive() and self.bullet_quantity > 0:
+        if not self.boost_duration > 0 and keys[pygame.K_SPACE] and is_cooldown_over and self.alive() and self.bullet_quantity > 0:
+                self.shoot(current_time)
+        elif keys[pygame.K_SPACE] and is_cooldown_over and self.alive():
             self.shoot(current_time)
+            self.bullet_quantity += 1

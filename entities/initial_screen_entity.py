@@ -50,7 +50,7 @@ class StartScreen(object):
             pygame.mouse.set_cursor(*pygame.cursors.diamond)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 is_visible = False
-                game = Game(screen_size, self.screen_dimensions)
+                game = Game(screen_size, self)
                 pygame.mouse.set_cursor(*pygame.cursors.arrow)
                 return game
         elif self._credits_button_rect.collidepoint(pygame.mouse.get_pos()):
