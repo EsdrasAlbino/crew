@@ -8,8 +8,10 @@ THROTTLE_HEIGHT = 50
 
 class Throttle(Entity):
     def __init__(
-        self, velocity, initial_position, player_group, player, screen_dimensions, track_bottom_coord
+        self, velocity, initial_position, player_group, player, screen_dimensions, track_bottom_coord, propellant_dimensions, propellant_new_coord
     ):
+        THROTTLE_WIDTH, THROTTLE_HEIGHT = propellant_dimensions
+
         pygame.sprite.Sprite.__init__(self)
         super().__init__(velocity, THROTTLE_WIDTH, THROTTLE_HEIGHT, initial_position)
         self.image = pygame.transform.scale(
