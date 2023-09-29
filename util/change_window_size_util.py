@@ -50,7 +50,7 @@ def change_window_size(
         None,
     )  # left, top, right, bottom
 
-    propellant_dimensions = (320 * (track_coords[3] / 10) // 580, track_coords[3] / 10)
+    propellant_dimensions = (320 * (track_coords[3] / 12) // 580, track_coords[3] / 12)
     propellant_new_coords = (
         propellant_coords[0] + displacement_track,
         propellant_coords[1] * proportion_height,
@@ -58,7 +58,7 @@ def change_window_size(
         None,
     )  # left, top, right, bottom
 
-    bullet_dimensions = (14 * (track_coords[3] / 20) // 26, track_coords[3] / 20)
+    bullet_dimensions = (14 * (track_coords[3] / 24) // 26, track_coords[3] / 24)
     bullet_new_coords = (
         bullet_coords[0] + displacement_track,
         bullet_coords[1] * proportion_height,
