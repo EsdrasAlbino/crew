@@ -15,10 +15,12 @@ from pygame.sprite import Group
 import pygame
 from util.change_window_size_util import change_window_size
 from util.update_coords import update_coords
+from entities.game_over_entity import GameOverScreen
 
 
 class Game(object):
-    def __init__(self, window_dimensions):
+    def __init__(self, window_dimensions, start_screen):
+        self.start_screen = start_screen
         pygame.mixer.music.load("assets/theme.mp3")
         pygame.mixer.music.play()
         self.window_dimensions = window_dimensions
@@ -100,16 +102,83 @@ class Game(object):
 
         self.clock = pygame.time.Clock()
         self.fps = 60
+        self.is_fullscreen = False
+
+    def __reset__(self):
+        self.track_coords = (
+            self.track_left_coord,
+            0,
+            self.track_right_coord,
+            self.track_bottom_coord,
+        )  # left, top, right, bottom
+
+        self.player_coords = (
+            (self.track_coords[2] - self.track_coords[0]) // 2,
+            self.track_coords[3]
+            - (31 * ((self.track_coords[2] - self.track_coords[0]) / 5) // 45),
+            None,
+            None,
+        )  # left, top, right, bottom
+
+        self.propellant_coords = (
+            0,
+            0,
+            None,
+            None,
+        )  # left, top, right, bottom
+
+        self.bullet_coords = (
+            0,
+            0,
+            None,
+            None,
+        )  # left, top, right, bottom
+
+        self.ammo_coords = (
+            0,
+            0,
+            None,
+            None,
+        )  # left, top, right, bottom
+
+        self.comet_coords = (
+            0,
+            0,
+            None,
+            None,
+        )  # left, top, right, bottom
+
+        # create life
+        self.lives = [Life((10, 30)), Life((50, 30)), Life((90, 30))]
+
+        self.player_group = pygame.sprite.Group()
+        self.asteroid_group = pygame.sprite.Group()
+        self.bullet_group = pygame.sprite.Group()
+        self.ammo_group = pygame.sprite.Group()
+        self.throttle_group = pygame.sprite.Group()
+        self.livesGroup = pygame.sprite.Group()
+
+        self.player = Player(
+            10,
+            (
+                self.window_dimensions[0] // 2,
+                self.window_dimensions[1],
+            ),
+            self.bullet_group,
+            (self.track_left_coord, self.track_right_coord),
+        )
+        self.player_group.add(self.player)
+
 
     def __update_coords(self):
         self.player.position = (self.player.position[0], self.player_coords[1])
 
     # def check_collisions(self):
 
-    def run(self, screen, __, event):
+    def run(self, screen, screen_size, event):
         if self.player.life <= 0:
             pygame.mixer.music.stop()
-            return False
+            return GameOverScreen(screen_size, self.start_screen, self)
 
         self.livesGroup.empty()
 
@@ -187,10 +256,27 @@ class Game(object):
         for item in [bullet_item, propellant_item, asteroid_item]:
             self.inventory.add_item(item)
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return self
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_f:
+            if not self.is_fullscreen:
+                infoObject = pygame.display.Info()
+                self.screen = pygame.display.set_mode(
+                    (infoObject.current_w,
+                        infoObject.current_h),
+                    pygame.FULLSCREEN,
+                )
+                self.is_fullscreen = True
+            else:
+                self.screen = pygame.display.set_mode(
+                    (
+                        self.window_dimensions[0] // 2,
+                        self.window_dimensions[1] // 2,
+                    ),
+                    pygame.RESIZABLE,
+                )
+                self.is_fullscreen = False
 
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            return self
         if self.asteroid_group.__len__() < 2:
             seed = randint(0, 200)
             if seed > 40 and seed < 45:
@@ -207,6 +293,8 @@ class Game(object):
                     self.bullet_group,
                     self.window_dimensions,
                     self.track_bottom_coord,
+                    comet_dimensions,
+                    comet_new_coords,
                 )
                 self.asteroid_group.add(enemy)
         # self.livesGroup.add(self.life1, self.life2, self.life3)
@@ -227,6 +315,8 @@ class Game(object):
                     self.player,
                     self.window_dimensions,
                     self.track_bottom_coord,
+                    propellant_dimensions,
+                    propellant_new_coords,
                 )
                 self.throttle_group.add(throttle)
 
@@ -246,6 +336,8 @@ class Game(object):
                     self.player,
                     self.window_dimensions,
                     self.track_bottom_coord,
+                    bullet_dimensions,
+                    bullet_new_coords,
                 )
                 self.ammo_group.add(ammo)
 

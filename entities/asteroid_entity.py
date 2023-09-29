@@ -7,19 +7,18 @@ ASTEROID_HEIGHT = 50
 
 class Asteroid(Entity):
     def __init__(
-        self, velocity, initial_position, player_group, bullet_group, screen_dimensions, track_bottom_coord
+        self, velocity, initial_position, player_group, bullet_group, screen_dimensions, track_bottom_coord, comet_dimensions, comet_new_coord
     ):
+        ASTEROID_WIDTH, ASTEROID_HEIGHT = comet_dimensions
+        
         pygame.sprite.Sprite.__init__(self)
         super().__init__(velocity, ASTEROID_WIDTH, ASTEROID_HEIGHT, initial_position)
 
-        self.image = pygame.transform.rotozoom(
-            pygame.transform.scale(
+        self.image = pygame.transform.scale(
                 pygame.image.load(
                     "assets/comet.png"), (ASTEROID_WIDTH, ASTEROID_HEIGHT)
-            ),
-            45,
-            1,
-        )
+                )
+            
         self.rect = self.image.get_rect()
         self.rect.center = initial_position
 

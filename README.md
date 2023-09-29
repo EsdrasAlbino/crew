@@ -48,6 +48,24 @@ Sempre que instalar uma nova dependência, atualize o arquivo `requirements.txt`
 pip freeze > requirements.txt
 ```
 
+## Bibliotecas utilizadas
+
+```bash
+pygame==2.5.1
+```
+
+## Divisão de tarefas do projeto
+
+| Time                                                  | Tarefas                                                                           |
+| ----------------------------------------------------- | --------------------------------------------------------------------------------- |
+| [Esdras Albino](https://github.com/EsdrasAlbino/)     | Desenvolveu estados de controle do jogo e lógica envolvendo itens e inventário    |
+| [Maria Fernanda Amorim](https://github.com/MariaFFA/) | Desenvolveu todas as responsividades do jogo                                      |
+| [Tulio Oliveira](https://github.com/tuliooarauj/)     | Desenvolveu colisões entre todas os objetos do projeto                            |
+| [Matheus Borges](https://github.com/MathBorgess/)     | Desenvolveu telas iniciais, créditos e game over                                  |
+| [Welton Felix](https://github.com/weltonfelix/)       | Code review, desenvolvimento da classe base de entidades e movimentação do player |
+
+[![Maria Fernanda Amorim](https://avatars.githubusercontent.com/u/125303577?v=4&s=70)](https://github.com/MariaFFA/) | [![Matheus Borges](https://avatars.githubusercontent.com/u/116684279?v=4&s=70)](https://github.com/MathBorgess/) | [![Tulio  Oliveira](https://avatars.githubusercontent.com/u/127243520?v=4&s=70)](https://github.com/tuliooarauj/) | [![Welton Felix](https://avatars.githubusercontent.com/u/52381662?v=4&s=70)](https://github.com/weltonfelix/)
+
 ## Estrutura de Pastas
 
 Arquitetura de pastas do projeto
@@ -57,38 +75,50 @@ Arquitetura de pastas do projeto
 Classes das entidades do jogo.
 Ex.: `Player`, `Asteroid`, `Bullet`, `Throttle` etc.
 
-``` text
+```text
 entities/
+├── ammo_entity.py
 ├── asteroid_entity.py
 ├── bullet_entity.py
+├── credits_screen_entity.py
+├── crew_entity.py
+├── entity.py
+├── game_entity.py
+├── initial_screen_entity.py
+├── inventory_entity.py
+├── item_entity.py
+├── life_entity.py
 ├── player_entity.py
+├── racetrack_entity.py
+├── throttle_entity.py
 ```
 
 ### util
 
 Arquivos de utilidades do jogo. Funções que podem ser usadas em qualquer lugar do projeto.
 
-``` text
+```text
 util/
-├── collision.py
-├── constants.py
+├── change_window_size_util.py
+├── colors.py
+├── image_render.py
+├── update_coords..py
 ```
 
 ### assets
 
 Arquivos de assets do jogo. Imagens, sons, etc.
 
-``` text
+```text
 assets/
-├── sprites/
-│   ├── asteroid.png
-│   ├── bullet.png
-│   ├── player.png
-│   └── space.png
-└── sounds/
-    ├── explosion.wav
-    ├── laser.wav
-    └── music.wav
+
+├── asteroid.png
+├── bullet.png
+├── player.png
+├── background.png
+├── commet.png
+├── propellant.png
+├── theme.mp3
 ```
 
 ## Equipe
@@ -102,4 +132,5 @@ assets/
 Este projeto está licenciado sob a licença MIT - consulte o arquivo [LICENSE](LICENSE) para obter detalhes.
 
 ---
+
 Projeto desenvolvido para a disciplina Introdução à Programação ([IF669](https://cin.ufpe.br/~if669)) do curso de Ciência da Computação do CIn - UFPE ![cin-logo](https://portal.cin.ufpe.br/wp-content/uploads/2020/06/cropped-iconecin-32x32.png).
