@@ -28,8 +28,7 @@ class Game(object):
             self.track_left_coord = (
                 self.window_dimensions[0] // 2 - self.window_dimensions[1] // 2
             )
-            self.track_right_coord = self.track_left_coord + \
-                self.window_dimensions[1]
+            self.track_right_coord = self.track_left_coord + self.window_dimensions[1]
             self.track_bottom_coord = self.window_dimensions[1]
         else:
             self.track_left_coord = self.window_dimensions[0] // 4
@@ -101,6 +100,7 @@ class Game(object):
         self.player_group.add(self.player)
 
         self.clock = pygame.time.Clock()
+        self.initial_time = pygame.time.get_ticks()
         self.fps = 60
         self.is_fullscreen = False
 
@@ -168,7 +168,7 @@ class Game(object):
             (self.track_left_coord, self.track_right_coord),
         )
         self.player_group.add(self.player)
-
+        self.initial_time = pygame.time.get_ticks()
 
     def __update_coords(self):
         self.player.position = (self.player.position[0], self.player_coords[1])
@@ -217,13 +217,11 @@ class Game(object):
             None,
         )  # left, top, right, bottom
 
-        self.player_coords = update_coords(
-            self.player_coords, player_new_coords)
+        self.player_coords = update_coords(self.player_coords, player_new_coords)
         self.propellant_coords = update_coords(
             self.propellant_coords, propellant_new_coords
         )
-        self.bullet_coords = update_coords(
-            self.bullet_coords, bullet_new_coords)
+        self.bullet_coords = update_coords(self.bullet_coords, bullet_new_coords)
         self.comet_coords = update_coords(self.comet_coords, comet_new_coords)
 
         self.__update_coords()
@@ -245,8 +243,7 @@ class Game(object):
         self.inventory = Inventory()
 
         # item1 = Item("asteroid", 1)
-        bullet_item = Item("bullet", self.player.bullet_quantity,
-                           "assets/bullet.png")
+        bullet_item = Item("bullet", self.player.bullet_quantity, "assets/bullet.png")
         propellant_item = Item(
             "propellant", self.player.propellant_condition, "assets/propellant.png"
         )
@@ -260,8 +257,7 @@ class Game(object):
             if not self.is_fullscreen:
                 infoObject = pygame.display.Info()
                 self.screen = pygame.display.set_mode(
-                    (infoObject.current_w,
-                        infoObject.current_h),
+                    (infoObject.current_w, infoObject.current_h),
                     pygame.FULLSCREEN,
                 )
                 self.is_fullscreen = True
@@ -277,8 +273,10 @@ class Game(object):
 
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             return self
-        if self.asteroid_group.__len__() < 2:
-            seed = randint(0, 200)
+
+        elapsed_time = pygame.time.get_ticks() - self.initial_time
+        if self.asteroid_group.__len__() < 10:
+            seed = randint(0, int(200 - elapsed_time / 1000))
             if seed > 40 and seed < 45:
                 enemy = Asteroid(
                     5,
@@ -312,8 +310,8 @@ class Game(object):
             _bullet.width = (self.track_right_coord - self.track_left_coord)/100
             _bullet.height = (self.track_right_coord - self.track_left_coord)/50
 
-        if self.throttle_group.__len__() < 1:
-            seed = randint(0, 200)
+        if self.throttle_group.__len__() < 2:
+            seed = randint(0, 500)
             if seed == 50:
                 throttle = Throttle(
                     3,
@@ -331,8 +329,8 @@ class Game(object):
                 )
                 self.throttle_group.add(throttle)
 
-        if self.ammo_group.__len__() < 1:
-            seed = randint(0, 200)
+        if self.ammo_group.__len__() < 5:
+            seed = randint(0, int(800 - elapsed_time / 1000))
             if 25 < seed < 30:
                 ammo = Ammo(
                     3,
@@ -398,8 +396,7 @@ class Game(object):
             self.track_left_coord = (
                 self.window_dimensions[0] // 2 - self.window_dimensions[1] // 2
             )
-            self.track_right_coord = self.track_left_coord + \
-                self.window_dimensions[1]
+            self.track_right_coord = self.track_left_coord + self.window_dimensions[1]
             self.track_bottom_coord = self.window_dimensions[1]
         else:
             self.track_left_coord = self.window_dimensions[0] // 4
