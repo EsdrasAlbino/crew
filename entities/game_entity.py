@@ -199,6 +199,7 @@ class Game(object):
             bullet_new_coords,
             comet_dimensions,
             comet_new_coords,
+            proportion_height,
         ) = change_window_size(
             self.screen,
             self.track_coords,
@@ -290,24 +291,6 @@ class Game(object):
                 )
                 self.asteroid_group.add(enemy)
 
-        for _asteroid in self.asteroid_group.sprites():
-            _asteroid.width = comet_dimensions[0]
-            _asteroid.height = comet_dimensions[1]
-        for _player in self.player_group.sprites():
-            _player.width = player_dimensions[0]
-            _player.height = player_dimensions[1]
-            _player.velocity = (self.track_right_coord - self.track_left_coord)/75
-        for _ammo in self.ammo_group.sprites():
-            _ammo.width = bullet_dimensions[0]
-            _ammo.height = bullet_dimensions[1]
-        for _throttle in self.throttle_group.sprites():
-            _throttle.width = propellant_dimensions[0]
-            _throttle.height = propellant_dimensions[1]
-        for _bullet in self.bullet_group.sprites():
-            _bullet.width = (self.track_right_coord - self.track_left_coord) / 100
-            _bullet.height = (self.track_right_coord - self.track_left_coord) / 50
-        
-
 
         if self.throttle_group.__len__() < 1:
             seed = randint(0, 200)
@@ -354,6 +337,8 @@ class Game(object):
         for _player in self.player_group.sprites():
             _player.width = player_dimensions[0]
             _player.height = player_dimensions[1]
+            _player.velocity = (self.track_coord[2] - self.track_coord[0])/75
+            _player.position = (_player.position[0] +(self.track_coord[2] - self.track_coord[0]), _player.position[1] * proportion_height)       
 
         for _ammo in self.ammo_group.sprites():
             _ammo.width = bullet_dimensions[0]
