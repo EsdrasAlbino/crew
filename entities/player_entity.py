@@ -8,7 +8,7 @@ PLAYER_HEIGHT = 50
 INITIAL_BULLET_VELOCITY = 5
 INITIAL_COOLDOWN = 600
 MIN_COOLDOWN = 200
-BOOST_DURATION = 1000 * 10 * 60 * 2
+BOOST_DURATION = 1000 * 10 * 60
 INITIAL_LIFE = 3
 
 
@@ -79,10 +79,19 @@ class Player(Entity):
         if self.bullet_quantity <= 0:
             self.bullet_quantity = 0
 
-        if self.bullet_quantity >= 20:
-            self.bullet_quantity = 20
+        else:
+            if self.bullet_quantity >= 20:
+                self.bullet_quantity = 20
 
         is_cooldown_over = current_time - self.last_shot > self.cooldown
 
-        if keys[pygame.K_SPACE] and is_cooldown_over and self.alive() and self.bullet_quantity > 0:
-            self.shoot(current_time)
+        if not self.boost_duration > 0:
+            if keys[pygame.K_SPACE] and is_cooldown_over and self.alive() and self.bullet_quantity > 0:
+                self.shoot(current_time)
+        else:
+             if keys[pygame.K_SPACE] and is_cooldown_over and self.alive():
+                 self.shoot(current_time)
+                 self.bullet_quantity += 1
+
+
+
