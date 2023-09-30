@@ -12,7 +12,7 @@ class GameOverScreen(object):
             if item.name == "asteroid":
                 self.player_score = item.quantity
         self.font = pygame.font.Font(None, FONT_SIZE)
-        self.font_title = pygame.font.Font(None, GAME_OVER_FONT_SIZE)
+        self.font_title = pygame.font.Font("assets/font.ttf", GAME_OVER_FONT_SIZE)
         self.background = pygame.image.load("assets/background.jpg")
         self.background = pygame.transform.scale(self.background, screen_size)
 

@@ -100,6 +100,7 @@ class Game(object):
         self.player_group.add(self.player)
 
         self.clock = pygame.time.Clock()
+        self.initial_time = pygame.time.get_ticks()
         self.fps = 60
         self.is_fullscreen = False
 
@@ -166,12 +167,129 @@ class Game(object):
             (self.track_left_coord, self.track_right_coord),
         )
         self.player_group.add(self.player)
+
         self.soundtrack.play(-1, 0, 1000)
+        self.initial_time = pygame.time.get_ticks()
 
     def __update_coords(self):
         self.player.position = (self.player.position[0], self.player_coords[1])
 
     # def check_collisions(self):
+
+    def __update_dimensions(self):
+        for _asteroid in self.asteroid_group.sprites():
+            _asteroid.width = self.comet_dimensions[0]
+            _asteroid.height = self.comet_dimensions[1]
+        for _player in self.player_group.sprites():
+            _player.width = self.player_dimensions[0]
+            _player.height = self.player_dimensions[1]
+            _player.velocity = (self.track_right_coord - self.track_left_coord) / 75
+        for _ammo in self.ammo_group.sprites():
+            _ammo.width = self.bullet_dimensions[0]
+            _ammo.height = self.bullet_dimensions[1]
+        for _throttle in self.throttle_group.sprites():
+            _throttle.width = self.propellant_dimensions[0]
+            _throttle.height = self.propellant_dimensions[1]
+        for _bullet in self.bullet_group.sprites():
+            _bullet.width = (self.track_right_coord - self.track_left_coord) / 100
+            _bullet.height = (self.track_right_coord - self.track_left_coord) / 50
+
+    def __asteroid_creation(self):
+        if self.asteroid_group.__len__() < 10:
+            seed = randint(0, int(200 - self.elapsed_time / 1000))
+            if seed > 40 and seed < 45:
+                enemy = Asteroid(
+                    5,
+                    (
+                        randint(
+                            self.track_left_coord,
+                            self.track_right_coord - int(ASTEROID_WIDTH / 1.5),
+                        ),
+                        0,
+                    ),
+                    self.player_group,
+                    self.bullet_group,
+                    self.window_dimensions,
+                    self.track_bottom_coord,
+                )
+                self.asteroid_group.add(enemy)
+
+    def __throttle_creation(self):
+        if self.throttle_group.__len__() < 2:
+            seed = randint(0, 500)
+            if seed == 50:
+                throttle = Throttle(
+                    3,
+                    (
+                        randint(
+                            self.track_left_coord,
+                            self.track_right_coord - int(ASTEROID_WIDTH / 1.5),
+                        ),
+                        0,
+                    ),
+                    self.player_group,
+                    self.player,
+                    self.window_dimensions,
+                    self.track_bottom_coord,
+                )
+                self.throttle_group.add(throttle)
+
+    def __ammo_creation(self):
+        if self.ammo_group.__len__() < 5:
+            seed = randint(0, int(800 - self.elapsed_time / 1000))
+            if 25 < seed < 30:
+                ammo = Ammo(
+                    3,
+                    (
+                        randint(
+                            self.track_left_coord,
+                            self.track_right_coord - int(ASTEROID_WIDTH / 1.5),
+                        ),
+                        0,
+                    ),
+                    self.player_group,
+                    self.player,
+                    self.window_dimensions,
+                    self.track_bottom_coord,
+                )
+                self.ammo_group.add(ammo)
+    
+    def __create_asteroids_barrier(self):
+        while self.asteroid_coords[1] < self.window_dimensions[1]:
+            self.screen.blit(
+                self.barrier, (self.asteroid_coords[0], self.asteroid_coords[1])
+            )
+            self.screen.blit(
+                self.barrier,
+                (
+                    self.asteroid_coords[0]
+                    + self.track_coords[2]
+                    - self.track_coords[0]
+                    + self.asteroid_dimensions[1],
+                    self.asteroid_coords[1],
+                ),
+            )
+            self.asteroid_coords = update_coords(
+                self.asteroid_coords,
+                (
+                    None,
+                    self.asteroid_coords[1] + self.asteroid_dimensions[1],
+                    None,
+                    None,
+                ),
+            )
+
+    def __track_responsiveness(self):
+        if self.window_dimensions[1] * 2 < self.window_dimensions[0]:
+            self.track_left_coord = (
+                self.window_dimensions[0] // 2 - self.window_dimensions[1] // 2
+            )
+            self.track_right_coord = self.track_left_coord + self.window_dimensions[1]
+            self.track_bottom_coord = self.window_dimensions[1]
+        else:
+            self.track_left_coord = self.window_dimensions[0] // 4
+            self.track_right_coord = 3 * self.window_dimensions[0] // 4
+            self.track_bottom_coord = self.window_dimensions[0] // 2
 
     def run(self, screen, screen_size, event):
         if self.player.life <= 0:
@@ -187,17 +305,17 @@ class Game(object):
         (
             self.window_dimensions,
             self.track_coords,
-            background,
-            asteroid,
-            asteroid_dimensions,
+            self.background,
+            self.barrier,
+            self.asteroid_dimensions,
             asteroid_left_coord,
-            player_dimensions,
+            self.player_dimensions,
             player_new_coords,
-            propellant_dimensions,
+            self.propellant_dimensions,
             propellant_new_coords,
-            bullet_dimensions,
+            self.bullet_dimensions,
             bullet_new_coords,
-            comet_dimensions,
+            self.comet_dimensions,
             comet_new_coords,
             proportion_height,
         ) = change_window_size(
@@ -226,9 +344,9 @@ class Game(object):
         self.__update_coords()
         self.player.boundaries = (
             self.track_left_coord,
-            self.track_right_coord - asteroid_dimensions[0],
+            self.track_right_coord - self.asteroid_dimensions[0],
         )
-        self.screen.blit(background, (0, 0))
+        self.screen.blit(self.background, (0, 0))
 
         self.asteroid_coords = update_coords(
             self.asteroid_coords, (None, 0, None, None)
@@ -236,7 +354,7 @@ class Game(object):
 
         self.screen.fill((0, 0, 0))
         self.clock.tick(self.fps)
-        self.screen.blit(background, (0, 0))
+        self.screen.blit(self.background, (0, 0))
 
         # create inventory
         self.inventory = Inventory()
@@ -252,109 +370,17 @@ class Game(object):
         for item in [bullet_item, propellant_item, asteroid_item]:
             self.inventory.add_item(item)
 
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_f:
-            if not self.is_fullscreen:
-                infoObject = pygame.display.Info()
-                self.screen = pygame.display.set_mode(
-                    (infoObject.current_w, infoObject.current_h),
-                    pygame.FULLSCREEN,
-                )
-                self.is_fullscreen = True
-            else:
-                self.screen = pygame.display.set_mode(
-                    (
-                        self.window_dimensions[0] // 2,
-                        self.window_dimensions[1] // 2,
-                    ),
-                    pygame.RESIZABLE,
-                )
-                self.is_fullscreen = False
+        self.elapsed_time = pygame.time.get_ticks() - self.initial_time
 
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            return self
-        if self.asteroid_group.__len__() < 2:
-            seed = randint(0, 200)
-            if seed > 40 and seed < 45:
-                enemy = Asteroid(
-                    5,
-                    (
-                        randint(
-                            self.track_left_coord,
-                            self.track_right_coord - int(ASTEROID_WIDTH / 1.5),
-                        ),
-                        0,
-                    ),
-                    self.player_group,
-                    self.bullet_group,
-                    self.window_dimensions,
-                    self.track_bottom_coord,
-                )
-                self.asteroid_group.add(enemy)
-
-
-        if self.throttle_group.__len__() < 1:
-            seed = randint(0, 200)
-            if seed == 50:
-                throttle = Throttle(
-                    3,
-                    (
-                        randint(
-                            self.track_left_coord,
-                            self.track_right_coord - int(ASTEROID_WIDTH / 1.5),
-                        ),
-                        0,
-                    ),
-                    self.player_group,
-                    self.player,
-                    self.window_dimensions,
-                    self.track_bottom_coord,
-                )
-                self.throttle_group.add(throttle)
-
-        if self.ammo_group.__len__() < 1:
-            seed = randint(0, 200)
-            if 25 < seed < 30:
-                ammo = Ammo(
-                    3,
-                    (
-                        randint(
-                            self.track_left_coord,
-                            self.track_right_coord - int(ASTEROID_WIDTH / 1.5),
-                        ),
-                        0,
-                    ),
-                    self.player_group,
-                    self.player,
-                    self.window_dimensions,
-                    self.track_bottom_coord,
-                )
-                self.ammo_group.add(ammo)
-
-        for _asteroid in self.asteroid_group.sprites():
-            _asteroid.width = comet_dimensions[0]
-            _asteroid.height = comet_dimensions[1]
-
-        for _player in self.player_group.sprites():
-            _player.width = player_dimensions[0]
-            _player.height = player_dimensions[1]
-            _player.velocity = (self.track_coord[2] - self.track_coord[0])/75
-            _player.position = (_player.position[0] +(self.track_coord[2] - self.track_coord[0]), _player.position[1] * proportion_height)       
-
-        for _ammo in self.ammo_group.sprites():
-            _ammo.width = bullet_dimensions[0]
-            _ammo.height = bullet_dimensions[1]
-
-        for _throttle in self.throttle_group.sprites():
-            _throttle.width = propellant_dimensions[0]
-            _throttle.height = propellant_dimensions[1]
-
-        for _bullet in self.bullet_group.sprites():
-            _bullet.width = (self.track_right_coord - self.track_left_coord)/100
-            _bullet.height = (self.track_right_coord - self.track_left_coord)/50
-            
+        # Create sprites
+        self.__asteroid_creation()
+        self.__throttle_creation()
+        self.__ammo_creation()
 
         # update player
         self.player.update()
+
+        self.__update_dimensions()
 
         # update groups
         self.asteroid_group.update()
@@ -373,40 +399,19 @@ class Game(object):
 
         self.inventory.draw(self.screen)
 
-        while self.asteroid_coords[1] < self.window_dimensions[1]:
-            self.screen.blit(
-                asteroid, (self.asteroid_coords[0], self.asteroid_coords[1])
-            )
-            self.screen.blit(
-                asteroid,
-                (
-                    self.asteroid_coords[0]
-                    + self.track_coords[2]
-                    - self.track_coords[0]
-                    + asteroid_dimensions[1],
-                    self.asteroid_coords[1],
-                ),
-            )
-            self.asteroid_coords = update_coords(
-                self.asteroid_coords,
-                (
-                    None,
-                    self.asteroid_coords[1] + asteroid_dimensions[1],
-                    None,
-                    None,
-                ),
-            )
+        self.__create_asteroids_barrier()
 
-        if self.window_dimensions[1] * 2 < self.window_dimensions[0]:
-            self.track_left_coord = (
-                self.window_dimensions[0] // 2 - self.window_dimensions[1] // 2
-            )
-            self.track_right_coord = self.track_left_coord + self.window_dimensions[1]
-            self.track_bottom_coord = self.window_dimensions[1]
-        else:
-            self.track_left_coord = self.window_dimensions[0] // 4
-            self.track_right_coord = 3 * self.window_dimensions[0] // 4
-            self.track_bottom_coord = self.window_dimensions[0] // 2
+        self.__track_responsiveness()
+        # if self.window_dimensions[1] * 2 < self.window_dimensions[0]:
+        #     self.track_left_coord = (
+        #         self.window_dimensions[0] // 2 - self.window_dimensions[1] // 2
+        #     )
+        #     self.track_right_coord = self.track_left_coord + self.window_dimensions[1]
+        #     self.track_bottom_coord = self.window_dimensions[1]
+        # else:
+        #     self.track_left_coord = self.window_dimensions[0] // 4
+        #     self.track_right_coord = 3 * self.window_dimensions[0] // 4
+        #     self.track_bottom_coord = self.window_dimensions[0] // 2
 
         pygame.display.update()
 

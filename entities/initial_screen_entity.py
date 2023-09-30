@@ -11,11 +11,11 @@ FONT_SIZE = 48
 
 class StartScreen(object):
     def __init__(self, screen_size, screen_dimensions):
-        title_font = pygame.font.Font(None, FONT_SIZE * 2)
+        title_font = pygame.font.Font("assets/font.ttf", FONT_SIZE * 2)
         font = pygame.font.Font(None, FONT_SIZE)
         self.background = pygame.image.load("assets/background.jpg")
         self.background = pygame.transform.scale(self.background, screen_size)
-        self.screen_dimensions =screen_dimensions
+        self.screen_dimensions = screen_dimensions
 
         # Create text objects
         self._game_name = title_font.render("CREW", True, TEXT_COLOR)
@@ -29,6 +29,9 @@ class StartScreen(object):
         self._credits_button_rect = self._credits_button.get_rect(
             center=(screen_size[0] // 2, screen_size[1] // 2 + 100)
         )
+
+        self.soundtrack = pygame.mixer.Sound("assets/menu.mp3")
+        self.soundtrack.play(-1, 20000, 1000)
 
     def draw(self, screen, screen_size):
         screen.fill(BACKGROUND_COLOR)
@@ -45,6 +48,8 @@ class StartScreen(object):
         pygame.display.flip()
 
     def run(self, screen, screen_size, event):
+        if not pygame.mixer.get_busy():
+            self.soundtrack.play(-1, 20000, 1000)
         is_visible = True
         if self._play_button_rect.collidepoint(pygame.mouse.get_pos()):
             pygame.mouse.set_cursor(*pygame.cursors.diamond)
@@ -52,6 +57,7 @@ class StartScreen(object):
                 is_visible = False
                 game = Game(screen_size, self)
                 pygame.mouse.set_cursor(*pygame.cursors.arrow)
+                self.soundtrack.stop()
                 return game
         elif self._credits_button_rect.collidepoint(pygame.mouse.get_pos()):
             pygame.mouse.set_cursor(*pygame.cursors.diamond)
