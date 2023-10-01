@@ -183,7 +183,9 @@ class Game(object):
         for _player in self.player_group.sprites():
             _player.width = self.player_dimensions[0]
             _player.height = self.player_dimensions[1]
-            _player.velocity = round((self.track_right_coord - self.track_left_coord) / 200)
+            _player.velocity = round(
+                (self.track_right_coord - self.track_left_coord) / 200
+            )
         for _ammo in self.ammo_group.sprites():
             _ammo.width = self.bullet_dimensions[0]
             _ammo.height = self.bullet_dimensions[1]
@@ -196,7 +198,12 @@ class Game(object):
 
     def __asteroid_creation(self):
         if self.asteroid_group.__len__() < 10:
-            seed = randint(0, int(200 - self.elapsed_time / 1000))
+            min_asteroids_likelihood = self.elapsed_time // 5000
+            max_asteroids_likelihood = int(200 - self.elapsed_time / 5000)
+            seed = randint(
+                min_asteroids_likelihood if min_asteroids_likelihood < 40 else 40,
+                max_asteroids_likelihood if max_asteroids_likelihood > 45 else 45,
+            )
             if seed > 40 and seed < 45:
                 enemy = Asteroid(
                     5,
@@ -253,7 +260,7 @@ class Game(object):
                     self.track_bottom_coord,
                 )
                 self.ammo_group.add(ammo)
-    
+
     def __create_asteroids_barrier(self):
         while self.asteroid_coords[1] < self.window_dimensions[1]:
             self.screen.blit(
@@ -360,12 +367,23 @@ class Game(object):
         self.inventory = Inventory()
 
         # item1 = Item("asteroid", 1)
-        bullet_item = Item("bullet", self.player.bullet_quantity, "assets/bullet.png", (self.bullet_dimensions[0]*2, self.bullet_dimensions[1]*2 ))
+        bullet_item = Item(
+            "bullet",
+            self.player.bullet_quantity,
+            "assets/bullet.png",
+            (self.bullet_dimensions[0] * 2, self.bullet_dimensions[1] * 2),
+        )
         propellant_item = Item(
-            "propellant", self.player.propellant_condition, "assets/propellant.png", self.propellant_dimensions
+            "propellant",
+            self.player.propellant_condition,
+            "assets/propellant.png",
+            self.propellant_dimensions,
         )
         asteroid_item = Item(
-            "asteroid", self.player.asteroid_destroy, "assets/asteroid.png", self.asteroid_dimensions
+            "asteroid",
+            self.player.asteroid_destroy,
+            "assets/asteroid.png",
+            self.asteroid_dimensions,
         )
         for item in [bullet_item, propellant_item, asteroid_item]:
             self.inventory.add_item(item)
