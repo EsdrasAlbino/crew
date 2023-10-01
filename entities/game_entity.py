@@ -397,7 +397,8 @@ class Game(object):
         self.throttle_group.draw(self.screen)
         self.livesGroup.draw(self.screen)
 
-        self.inventory.draw(self.screen)
+        self.inventory.draw(self.screen, self.track_coords)
+        print(self.track_coords[2], self.asteroid_dimensions)
 
         self.__create_asteroids_barrier()
 

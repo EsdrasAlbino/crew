@@ -1,6 +1,6 @@
 import pygame
 from util.colors import WHITE
-from util.values_global import SIZE_IMAGE_ITEM, VARIATION_POSITION_TEXT_IN_ITEM
+from util.values_global import VARIATION_POSITION_TEXT_IN_ITEM
 
 pygame.font.init()
 FONT = pygame.font.Font(None, 36)
@@ -9,8 +9,9 @@ FONT = pygame.font.Font(None, 36)
 class Item:
     def __init__(self, name, quantity_item, path_image, item_dimensions):
         self.name = name
+        self.item_dimensions = item_dimensions
         self.image = pygame.image.load(path_image)
-        self.image = pygame.transform.scale(self.image, (item_dimensions))
+        self.image = pygame.transform.scale(self.image, (self.item_dimensions))
         # self.image.fill(WHITE)
         self.rect = self.image.get_rect()
         self.quantity = quantity_item
@@ -32,5 +33,5 @@ class Item:
 
         surface.blit(
             quantity_text,
-            (position[0] + variation_position, position[1] + variation_position),
+            (position[0] + self.item_dimensions[0]*3/2, position[1] + self.item_dimensions[1]/2),
         )
