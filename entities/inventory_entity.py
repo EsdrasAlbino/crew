@@ -1,5 +1,3 @@
-from util.values_global import ITEM_SPACING_INVENTORY_X_Y, ITEM_SPACING_INVENTORY_ADD
-
 
 class Inventory:
     def __init__(self):

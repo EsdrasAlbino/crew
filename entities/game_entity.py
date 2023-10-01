@@ -398,7 +398,6 @@ class Game(object):
         self.livesGroup.draw(self.screen)
 
         self.inventory.draw(self.screen, self.track_coords)
-        print(self.track_coords[2], self.asteroid_dimensions)
 
         self.__create_asteroids_barrier()
 
