@@ -7,10 +7,10 @@ FONT = pygame.font.Font(None, 36)
 
 
 class Item:
-    def __init__(self, name, quantity_item, path_image):
+    def __init__(self, name, quantity_item, path_image, item_dimensions):
         self.name = name
         self.image = pygame.image.load(path_image)
-        self.image = pygame.transform.scale(self.image, (SIZE_IMAGE_ITEM))
+        self.image = pygame.transform.scale(self.image, (item_dimensions))
         # self.image.fill(WHITE)
         self.rect = self.image.get_rect()
         self.quantity = quantity_item

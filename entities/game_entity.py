@@ -360,12 +360,12 @@ class Game(object):
         self.inventory = Inventory()
 
         # item1 = Item("asteroid", 1)
-        bullet_item = Item("bullet", self.player.bullet_quantity, "assets/bullet.png")
+        bullet_item = Item("bullet", self.player.bullet_quantity, "assets/bullet.png", (self.bullet_dimensions[0]*2, self.bullet_dimensions[1]*2 ))
         propellant_item = Item(
-            "propellant", self.player.propellant_condition, "assets/propellant.png"
+            "propellant", self.player.propellant_condition, "assets/propellant.png", self.propellant_dimensions
         )
         asteroid_item = Item(
-            "asteroid", self.player.asteroid_destroy, "assets/asteroid.png"
+            "asteroid", self.player.asteroid_destroy, "assets/asteroid.png", self.asteroid_dimensions
         )
         for item in [bullet_item, propellant_item, asteroid_item]:
             self.inventory.add_item(item)
@@ -402,16 +402,6 @@ class Game(object):
         self.__create_asteroids_barrier()
 
         self.__track_responsiveness()
-        # if self.window_dimensions[1] * 2 < self.window_dimensions[0]:
-        #     self.track_left_coord = (
-        #         self.window_dimensions[0] // 2 - self.window_dimensions[1] // 2
-        #     )
-        #     self.track_right_coord = self.track_left_coord + self.window_dimensions[1]
-        #     self.track_bottom_coord = self.window_dimensions[1]
-        # else:
-        #     self.track_left_coord = self.window_dimensions[0] // 4
-        #     self.track_right_coord = 3 * self.window_dimensions[0] // 4
-        #     self.track_bottom_coord = self.window_dimensions[0] // 2
 
         pygame.display.update()
 
