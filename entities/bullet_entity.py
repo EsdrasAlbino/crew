@@ -16,9 +16,9 @@ class Bullet(Entity):
         shot_sound = pygame.mixer.Sound("assets/shot.mp3")
         shot_sound.play()
         self.direction = (
-            (direction[0] - initial_position[0], direction[1] - initial_position[1])
+            ((direction[0] - initial_position[0], direction[1] - initial_position[1])*self.velocity)
             if direction
-            else (0, -1)
+            else (0, -1*self.velocity)
         )
         self.direction = [
             direct / ((self.direction[0] ** 2 + self.direction[1] ** 2) ** 0.5)

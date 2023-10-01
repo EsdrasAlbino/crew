@@ -174,8 +174,6 @@ class Game(object):
     def __update_coords(self):
         self.player.position = (self.player.position[0], self.player_coords[1])
 
-    # def check_collisions(self):
-
     def __update_dimensions(self):
         for _asteroid in self.asteroid_group.sprites():
             _asteroid.width = self.comet_dimensions[0]
@@ -184,7 +182,7 @@ class Game(object):
             _player.width = self.player_dimensions[0]
             _player.height = self.player_dimensions[1]
             _player.velocity = round(
-                (self.track_right_coord - self.track_left_coord) / 200
+                (self.track_right_coord - self.track_left_coord) / 150
             )
         for _ammo in self.ammo_group.sprites():
             _ammo.width = self.bullet_dimensions[0]
@@ -195,6 +193,9 @@ class Game(object):
         for _bullet in self.bullet_group.sprites():
             _bullet.width = (self.track_right_coord - self.track_left_coord) / 100
             _bullet.height = (self.track_right_coord - self.track_left_coord) / 50
+            _bullet.velocity = round(
+                (self.track_right_coord - self.track_left_coord) / 50
+            )
 
     def __asteroid_creation(self):
         if self.asteroid_group.__len__() < 10:
