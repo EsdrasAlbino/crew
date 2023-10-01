@@ -1,6 +1,5 @@
 import pygame
 from util.colors import WHITE
-from util.values_global import VARIATION_POSITION_TEXT_IN_ITEM
 
 pygame.font.init()
 FONT = pygame.font.Font(None, 36)
@@ -19,8 +18,7 @@ class Item:
 
     def draw(self, surface, position):
         self.rect.topleft = position
-        variation_position = VARIATION_POSITION_TEXT_IN_ITEM
-
+        FONT = pygame.font.Font(None, int(self.item_dimensions[1]))
         surface.blit(self.image, self.rect)
         if self.name == "bullet":
             quantity_text = FONT.render(
@@ -33,5 +31,5 @@ class Item:
 
         surface.blit(
             quantity_text,
-            (position[0] + self.item_dimensions[0]*3/2, position[1] + self.item_dimensions[1]/2),
+            (position[0] + self.item_dimensions[0]*3/2, position[1] + self.item_dimensions[1]/3),
         )
