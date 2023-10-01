@@ -89,4 +89,5 @@ def change_window_size(
         bullet_new_coords,
         comet_dimensions,
         comet_new_coords,
+        proportion_height,
     )

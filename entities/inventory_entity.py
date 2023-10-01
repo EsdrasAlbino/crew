@@ -1,5 +1,3 @@
-from util.values_global import ITEM_SPACING_INVENTORY_X_Y, ITEM_SPACING_INVENTORY_ADD
-
 
 class Inventory:
     def __init__(self):
@@ -13,15 +11,17 @@ class Inventory:
                 return
         self.items.append(item)
 
-    def draw(self, surface):
+    def draw(self, surface, track_coord):
         screen_width = surface.get_width()
         screen_height = surface.get_height()
-        item_spacing = ITEM_SPACING_INVENTORY_X_Y
+        ITEM_SPACING_INVENTORY_X_Y = (track_coord[2] - track_coord[0])/20
+        ITEM_SPACING_INVENTORY_ADD = ITEM_SPACING_INVENTORY_X_Y
+        item_spacing = ITEM_SPACING_INVENTORY_X_Y*2
         # position = [item_spacing, item_spacing]
 
         # Calculate the position for the top-right item
-        top_right_x = screen_width - item_spacing - ITEM_SPACING_INVENTORY_ADD - 10
-        top_right_y = screen_height - item_spacing - ITEM_SPACING_INVENTORY_ADD
+        top_right_x = (track_coord[2]-track_coord[0])//7 + track_coord[2]
+        top_right_y = track_coord[3]*8/9
         position = [top_right_x, top_right_y]
 
         for item in self.items:
