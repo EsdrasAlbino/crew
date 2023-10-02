@@ -182,7 +182,7 @@ class Game(object):
             _player.width = self.player_dimensions[0]
             _player.height = self.player_dimensions[1]
             _player.velocity = round(
-                (self.track_right_coord - self.track_left_coord) / 150
+                (self.track_right_coord - self.track_left_coord) / 100
             )
         for _ammo in self.ammo_group.sprites():
             _ammo.width = self.bullet_dimensions[0]

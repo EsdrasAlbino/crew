@@ -68,11 +68,11 @@ class Player(Entity):
         self.propellant_condition = round(self.boost_duration/100000)
 
         if keys[pygame.K_a]:
-            future_pos = self.get_future_position((-1*self.velocity, 0))
+            future_pos = self.get_future_position((-1, 0))
             if future_pos[0] > self.boundaries[0]:
                 self.position = future_pos
         if keys[pygame.K_d]:
-            future_pos = self.get_future_position((self.velocity, 0))
+            future_pos = self.get_future_position((1, 0))
             if future_pos[0] < self.boundaries[1]:
                 self.position = future_pos
 
