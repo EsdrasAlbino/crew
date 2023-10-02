@@ -112,8 +112,8 @@ assets/
 ```
 
 ## Capturas de tela
-| ![start_screen](./screenshots/start_screen.png "Start Screen") | ![game_screen](./screenshots/game.jpg "Game Screen") | ![game_screen_2](./screenshots/game_over.jpg "Game Over Screen") |
-|:---:|:---:|:---:|
+| <img src="./screenshots/start_screen.png" width="2000px"> | <img src="./screenshots/game.jpg" width="2000px"> |  <img src="./screenshots/creditos.png" width="2000px"> | <img src="./screenshots/game_over.jpg" width="2000px"> |
+|:---:|:---:|:---:|:---:|
 
 ## Bibliotecas utilizadas
 
